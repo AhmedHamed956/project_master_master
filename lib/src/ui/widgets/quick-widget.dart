@@ -70,6 +70,11 @@ class _QuickWidgetState extends State<QuickWidget> {
                         quickProductId: widget.model?.shopId.toString(),
                       )));
         }
+
+        if (state is ReadyQuickPostOrderSuccessStates) {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const QuickTraking()));
+        }
       },
       builder: (context, state) {
         return FractionallySizedBox(
@@ -389,10 +394,11 @@ class _QuickWidgetState extends State<QuickWidget> {
                               productID: widget.model?.productId,
                               quantity: counter);
                         } else {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const QuickTraking()));
+                          if (widget.model?.isAvailable == 0) {
+                            HomeCubit.get(context).postnonReadyQuickOrder(
+                                productID: widget.model?.productId,
+                                quantity: counter);
+                          }
                         }
                       },
                       text: S.current.quick_order,

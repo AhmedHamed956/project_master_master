@@ -82,6 +82,19 @@ class PostOrderErrorStates extends HomeAppState {
   PostOrderErrorStates(this.error);
 }
 
+class ReadyQuickPostOrderSuccessStates extends HomeAppState {
+  // final LoginModel loginModel;
+
+  ReadyQuickPostOrderSuccessStates();
+}
+
+class ReadyQuickPostOrderLoadingState extends HomeAppState {}
+
+class ReadyQuickPostOrderErrorStates extends HomeAppState {
+  final String error;
+  ReadyQuickPostOrderErrorStates(this.error);
+}
+
 class PostCartSuccessStates extends HomeAppState {
   // final LoginModel loginModel;
 
@@ -158,6 +171,19 @@ class GetCartLoadingState extends HomeAppState {}
 class GetCartErrorStates extends HomeAppState {
   final String error;
   GetCartErrorStates(this.error);
+}
+
+class GetNonReadyQuickSuccessStates extends HomeAppState {
+  // final LoginModel loginModel;
+
+  GetNonReadyQuickSuccessStates();
+}
+
+class GetNonReadyQuickLoadingState extends HomeAppState {}
+
+class GetNonReadyQuickErrorStates extends HomeAppState {
+  final String error;
+  GetNonReadyQuickErrorStates(this.error);
 }
 
 class GetPerformaceSuccessStates extends HomeAppState {

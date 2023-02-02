@@ -20,6 +20,7 @@ import 'package:project/src/ui/Shared/constant.dart';
 import 'package:http_parser/http_parser.dart';
 import '../../../Models/GetCartData_Model.dart';
 import '../../../Models/GetDigitalData_model.dart';
+import '../../../Models/getNonReadyQuick.dart';
 import '../../../Models/getProfile_Model.dart';
 import '../../../Models/get_QuickProduct_model.dart';
 import '../../../Models/performance_Model.dart';
@@ -135,6 +136,39 @@ class HomeCubit extends Cubit<HomeAppState> {
       //   ));
     }).catchError((error) {
       emit(PostOrderErrorStates(error.toString()));
+    });
+  }
+
+  Future<void> postnonReadyQuickOrder({
+    @required productID,
+    @required quantity,
+  }) async {
+    FormData formData = FormData.fromMap({
+      "product_id": productID,
+      "quantity": quantity,
+    });
+    emit(ReadyQuickPostOrderLoadingState());
+
+    DioHelper.postdata(url: readyQuick, data: formData, token: token)
+        .then((value) {
+      print(value.data);
+
+      emit(ReadyQuickPostOrderSuccessStates());
+    }).catchError((error) {
+      emit(ReadyQuickPostOrderErrorStates(error.toString()));
+    });
+  }
+
+  GetnonReadyQuickModel? getnonReadyQuickModel;
+  Future<void> getNonReadyQuickData() async {
+    emit(GetNonReadyQuickLoadingState());
+    DioHelper.getdata(url: readyQuick, token: token).then((value) {
+      getnonReadyQuickModel = GetnonReadyQuickModel.fromJson(value.data);
+      print(value.data);
+      emit(GetNonReadyQuickSuccessStates());
+    }).catchError((error) {
+      print(error.toString());
+      emit(GetNonReadyQuickErrorStates(error.toString()));
     });
   }
 

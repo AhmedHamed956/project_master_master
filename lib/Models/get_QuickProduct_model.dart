@@ -41,7 +41,7 @@ class GetQuickData {
   int? isQuick;
   int? isShow;
   int? isAvailable;
-  List<String>? suggestIds;
+  // List<String>? suggestIds;
   String? createdAt;
   String? updatedAt;
   String? name;
@@ -63,7 +63,7 @@ class GetQuickData {
       this.isQuick,
       this.isShow,
       this.isAvailable,
-      this.suggestIds,
+      // this.suggestIds,
       this.createdAt,
       this.updatedAt,
       this.name,
@@ -85,7 +85,7 @@ class GetQuickData {
     isQuick = json['is_quick'];
     isShow = json['is_show'];
     isAvailable = json['is_available'];
-    suggestIds = json['suggest_Ids'].cast<String>();
+    // suggestIds = json['suggest_Ids'].cast<String>();
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     name = json['name'];
@@ -116,7 +116,7 @@ class GetQuickData {
     data['is_quick'] = this.isQuick;
     data['is_show'] = this.isShow;
     data['is_available'] = this.isAvailable;
-    data['suggest_Ids'] = this.suggestIds;
+    // data['suggest_Ids'] = this.suggestIds;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     data['name'] = this.name;

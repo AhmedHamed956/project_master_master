@@ -1,3 +1,6 @@
+import 'model/shop_model.dart';
+import 'model/translations_model.dart';
+
 class DigitalOrderModel {
   String? status;
   String? message;
@@ -92,63 +95,6 @@ class DigitalOrderData {
   }
 }
 
-class ShopData {
-  int? id;
-  String? name;
-  int? userId;
-  int? govId;
-  int? cityId;
-  int? activityId;
-  int? active;
-  String? createdAt;
-  String? updatedAt;
-  ActivityData? activityData;
-
-  ShopData(
-      {this.id,
-      this.name,
-      this.userId,
-      this.govId,
-      this.cityId,
-      this.activityId,
-      this.active,
-      this.createdAt,
-      this.updatedAt,
-      this.activityData});
-
-  ShopData.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    userId = json['user_id'];
-    govId = json['gov_id'];
-    cityId = json['city_id'];
-    activityId = json['activity_id'];
-    active = json['active'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-    activityData = json['activity_data'] != null
-        ? new ActivityData.fromJson(json['activity_data'])
-        : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['user_id'] = this.userId;
-    data['gov_id'] = this.govId;
-    data['city_id'] = this.cityId;
-    data['activity_id'] = this.activityId;
-    data['active'] = this.active;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    if (this.activityData != null) {
-      data['activity_data'] = this.activityData!.toJson();
-    }
-    return data;
-  }
-}
-
 class ActivityData {
   int? id;
   String? name;
@@ -170,35 +116,6 @@ class ActivityData {
     data['name'] = this.name;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
-    return data;
-  }
-}
-
-class Translations {
-  int? id;
-  int? digitalProductId;
-  String? locale;
-  String? name;
-  String? dis;
-
-  Translations(
-      {this.id, this.digitalProductId, this.locale, this.name, this.dis});
-
-  Translations.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    digitalProductId = json['digital_product_id'];
-    locale = json['locale'];
-    name = json['name'];
-    dis = json['dis'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['digital_product_id'] = this.digitalProductId;
-    data['locale'] = this.locale;
-    data['name'] = this.name;
-    data['dis'] = this.dis;
     return data;
   }
 }

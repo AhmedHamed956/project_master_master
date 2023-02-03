@@ -1193,7 +1193,7 @@ class S {
   /// `enter_Location`
   String get enter_Location {
     return Intl.message(
-      'Enter Location',
+      'enter_Location',
       name: 'enter_Location',
       desc: '',
       args: [],
@@ -1380,7 +1380,7 @@ class S {
     );
   }
 
-  /// `allow location`
+  /// `Allow while using app`
   String get allow_location {
     return Intl.message(
       'Allow while using app',
@@ -1520,10 +1520,31 @@ class S {
     );
   }
 
+  /// `Dont have data of`
   String get no_data {
     return Intl.message(
       'Dont have data of',
       name: 'no_data',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `no similar results found`
+  String get no_similar_results_found {
+    return Intl.message(
+      'no similar results found',
+      name: 'no_similar_results_found',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please choose the address first`
+  String get please_choose_the_address_first {
+    return Intl.message(
+      'Please choose the address first',
+      name: 'please_choose_the_address_first',
       desc: '',
       args: [],
     );

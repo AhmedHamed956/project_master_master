@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
-import 'package:project/Models/User_Model.dart';
+import 'package:project/Models/User_response.dart';
 import 'package:project/src/ui/Auth/Cubit/states.dart';
 
 import '../../../../Models/check_is_represtative_Model.dart';
@@ -40,7 +40,7 @@ class LoginScreenCubit extends Cubit<LoginAppStates> {
     });
   }
 
-  UserModel? userModel;
+  UserResponse? userModel;
   // UserModel userModel;
   Future<void> checkotp({@required code, context}) async {
     FormData formData = FormData.fromMap({
@@ -53,7 +53,7 @@ class LoginScreenCubit extends Cubit<LoginAppStates> {
     DioHelper.postdata(url: check_otp, data: formData).then((value) {
       print(value.data);
 
-      userModel = UserModel.fromJson(value.data);
+      userModel = UserResponse.fromJson(value.data);
 
       emit(CheckOtpSuccessStates(userModel!));
       CacheHelper.saveData(key: 'token', value: userModel?.token)

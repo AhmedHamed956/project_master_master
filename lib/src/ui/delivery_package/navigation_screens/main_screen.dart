@@ -258,7 +258,10 @@ class _DeliveryMainScreenState extends State<DeliveryMainScreen> {
 
   void _observeLocation() {
     LocationSettings locationSettings = const LocationSettings(
-        accuracy: LocationAccuracy.high, distanceFilter: 0);
+        accuracy: LocationAccuracy.high,
+        // distanceFilter: 50,
+        // timeLimit: Duration(seconds: 30),
+    );
     Geolocator.getPositionStream(locationSettings: locationSettings)
         .listen((Position position) {
       _currentLocation = LatLng(position.latitude, position.longitude);

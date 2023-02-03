@@ -1,4 +1,4 @@
-import 'package:project/Models/User_Model.dart';
+import 'package:project/Models/User_response.dart';
 
 abstract class LoginAppStates {}
 
@@ -18,7 +18,7 @@ class ShopLoginErrorStates extends LoginAppStates {
 }
 
 class CheckOtpSuccessStates extends LoginAppStates {
-  final UserModel userModel;
+  final UserResponse userModel;
 
   CheckOtpSuccessStates(this.userModel);
 }

@@ -1,25 +1,4 @@
 class UserModel {
-  User? user;
-  String? token;
-
-  UserModel({this.user, this.token});
-
-  UserModel.fromJson(Map<String, dynamic> json) {
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
-    token = json['token'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.user != null) {
-      data['user'] = this.user!.toJson();
-    }
-    data['token'] = this.token;
-    return data;
-  }
-}
-
-class User {
   int? id;
   String? name;
   String? email;
@@ -38,26 +17,26 @@ class User {
   String? updatedAt;
   String? lastActivity;
 
-  User(
+  UserModel(
       {this.id,
-      this.name,
-      this.email,
-      this.userName,
-      this.phone,
-      this.emailVerifiedAt,
-      this.twoFactorSecret,
-      this.twoFactorRecoveryCodes,
-      this.isAdmin,
-      this.isInvestor,
-      this.isRepresentative,
-      this.isClient,
-      this.isOnline,
-      this.avatar,
-      this.createdAt,
-      this.updatedAt,
-      this.lastActivity});
+        this.name,
+        this.email,
+        this.userName,
+        this.phone,
+        this.emailVerifiedAt,
+        this.twoFactorSecret,
+        this.twoFactorRecoveryCodes,
+        this.isAdmin,
+        this.isInvestor,
+        this.isRepresentative,
+        this.isClient,
+        this.isOnline,
+        this.avatar,
+        this.createdAt,
+        this.updatedAt,
+        this.lastActivity});
 
-  User.fromJson(Map<String, dynamic> json) {
+  UserModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     email = json['email'];

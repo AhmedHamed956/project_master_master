@@ -17,10 +17,11 @@ import 'package:project/src/ui/components/appar.dart';
 import 'package:project/src/ui/components/component.dart';
 import 'package:project/src/ui/location/mappingSet.dart';
 
+import '../../../../../Models/model/user_model.dart';
 import '../../../../../generated/l10n.dart';
 
 class EditProfile extends StatefulWidget {
-  ProfileData? model;
+  UserModel? model;
   final String? country;
   final String? city;
   final String? street;

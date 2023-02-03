@@ -88,10 +88,9 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Do you have promo or voucher discount code?"),
         "edit_profile": MessageLookupByLibrary.simpleMessage("Edit Profile"),
         "email_address": MessageLookupByLibrary.simpleMessage("E-mail address"),
-        "enter_Adresss":
-            MessageLookupByLibrary.simpleMessage("Enter Adresss №"),
+        "enter_Adresss": MessageLookupByLibrary.simpleMessage("enter Adresss"),
         "enter_Location":
-            MessageLookupByLibrary.simpleMessage("Enter Location"),
+            MessageLookupByLibrary.simpleMessage("enter_Location"),
         "enter_code": MessageLookupByLibrary.simpleMessage("enter_code"),
         "error___": MessageLookupByLibrary.simpleMessage("------"),
         "expiry": MessageLookupByLibrary.simpleMessage("Expiry"),
@@ -128,8 +127,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("national ID number"),
         "nav_cycle": MessageLookupByLibrary.simpleMessage(
             "----------------------------------------------"),
-        "now": MessageLookupByLibrary.simpleMessage("Now"),
         "no_data": MessageLookupByLibrary.simpleMessage("Dont have data of"),
+        "no_similar_results_found":
+            MessageLookupByLibrary.simpleMessage("no similar results found"),
+        "now": MessageLookupByLibrary.simpleMessage("Now"),
         "number_of_orders":
             MessageLookupByLibrary.simpleMessage("number of orders"),
         "offer": MessageLookupByLibrary.simpleMessage("offer"),
@@ -153,6 +154,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "performance_details":
             MessageLookupByLibrary.simpleMessage("performance details"),
         "phone_number": MessageLookupByLibrary.simpleMessage("Phone number"),
+        "please_choose_the_address_first": MessageLookupByLibrary.simpleMessage(
+            "Please choose the address first"),
         "please_enter_the_otp_code":
             MessageLookupByLibrary.simpleMessage("Please enter the OTP code"),
         "previous": MessageLookupByLibrary.simpleMessage("Previous"),

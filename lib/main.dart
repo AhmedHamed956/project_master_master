@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:get/get_navigation/get_navigation.dart';
 import 'package:project/src/blocs/global_bloc/global_bloc.dart';
 import 'package:project/src/common/global.dart';
 import 'package:project/src/common/routes.dart';
@@ -9,17 +8,16 @@ import 'package:project/src/network/local/cache-helper.dart';
 import 'package:project/src/network/remote/Dio_helper.dart';
 import 'package:project/src/ui/Auth/Cubit/cubit.dart';
 import 'package:project/src/ui/Auth/Login_Screen.dart';
-import 'package:project/src/ui/Auth/otp_Screen.dart';
 import 'package:project/src/ui/Home/Cubit.dart';
-import 'package:project/src/ui/Shared/constant.dart';
 import 'package:project/src/ui/Home/Home.dart';
+import 'package:project/src/ui/Shared/constant.dart';
 import 'package:project/src/ui/delivery_package/navigation_screens/delivery_cycle_screen.dart';
-import 'package:project/src/ui/delivery_package/navigation_screens/nav_screen.dart';
-import 'package:project/src/ui/location/locationPerrmision.dart';
 import 'package:project/src/ui/location/mappingSet.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:project/src/ui/navigation_screen/main-screens/quick-screen.dart';
 
 import 'generated/l10n.dart';
+
+final gloScaffMessKey = GlobalKey<ScaffoldMessengerState>();
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,9 +29,9 @@ Future<void> main() async {
   // CacheHelper.getData(key: 'deliveryApp') == true
   //     ? deliveryApp = true
   //     : deliveryApp = false;
-  print('DeliveryApp ${deliveryApp}');
+  print('DeliveryApp $deliveryApp');
   // token = '9|HBj6WP4WVflVkoK7Wf7CJjvRkR7pS9Fca5uWVqda';
-  // // token = '27|O8ubJ3Dgpp7yQaRoSrH9ItJIYuLZw37TUfTjCmPn';
+  // token = '27|O8ubJ3Dgpp7yQaRoSrH9ItJIYuLZw37TUfTjCmPn';
 
   token = CacheHelper.getData(key: 'token');
   mylocation = CacheHelper.getData(key: 'mylocation');
@@ -51,11 +49,7 @@ Future<void> main() async {
       providers: [
         BlocProvider(create: (BuildContext context) => LoginScreenCubit()),
         BlocProvider(create: (context) => HomeCubit()..ordersScreen()),
-        BlocProvider(
-            create: (context) => HomeCubit()
-              ..getHomeProduct()
-              ..getAdsData()
-              ..getCountries()),
+        BlocProvider(create: (context) => HomeCubit()),
         BlocProvider(
             create: (context) => GlobalBloc()
               ..add(StartAppEvent())
@@ -148,6 +142,7 @@ class _MyAppState extends State<MyApp> {
                     fillColor: MaterialStateColor.resolveWith(
                         (states) => button1color)),
                 fontFamily: 'Tajawal'),
+            scaffoldMessengerKey: gloScaffMessKey,
             localizationsDelegates: const [
               S.delegate,
               GlobalMaterialLocalizations.delegate,
@@ -157,6 +152,8 @@ class _MyAppState extends State<MyApp> {
             supportedLocales: S.delegate.supportedLocales,
             // home: const HomeScreen(),
             home: widget.startwidget,
+            // home: QuickScreen(),
+            // home: MappingSet(mappingset: 'startlocation'),
             // home: DeliveryCycleScreen(),
             onGenerateRoute: RouteGenerator.generateRoute));
   }

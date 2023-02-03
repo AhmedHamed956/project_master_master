@@ -27,9 +27,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "add_new_card":
             MessageLookupByLibrary.simpleMessage("إضافة بطاقة جديدة"),
         "add_to_basket": MessageLookupByLibrary.simpleMessage("اضف الى السلة"),
-        "allow_once": MessageLookupByLibrary.simpleMessage("السماح مرة واحدة"),
         "allow_location": MessageLookupByLibrary.simpleMessage(
             "السماح أثناء استخدام التطبيق"),
+        "allow_once": MessageLookupByLibrary.simpleMessage("السماح مرة واحدة"),
         "allow_the_app_to_use_your_location":
             MessageLookupByLibrary.simpleMessage(
                 "هل تسمح لـ \"APP\" باستخدام موقعك؟"),
@@ -59,8 +59,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "delete_profile":
             MessageLookupByLibrary.simpleMessage("حذف الملف الشخصي"),
         "deliver_here": MessageLookupByLibrary.simpleMessage("تسليم هنا"),
-        "delivery_mode":
-            MessageLookupByLibrary.simpleMessage("تسجيل دخول كامندوب"),
         "delivery_date":
             MessageLookupByLibrary.simpleMessage("تاريخ التسليم او الوصول"),
         "delivery_details_can_be_specified_in_this_field":
@@ -68,6 +66,8 @@ class MessageLookup extends MessageLookupByLibrary {
                 "يمكن تحديد تفاصيل التسليم في هذا المجال"),
         "delivery_man_information":
             MessageLookupByLibrary.simpleMessage("معلومات رجل التوصيل: "),
+        "delivery_mode":
+            MessageLookupByLibrary.simpleMessage("تسجيل دخول كامندوب"),
         "delivery_price": MessageLookupByLibrary.simpleMessage("رسوم التوصيل"),
         "digital_gifts":
             MessageLookupByLibrary.simpleMessage("الهدايا الرقمية"),
@@ -113,8 +113,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "name_surname": MessageLookupByLibrary.simpleMessage("اسم اللقب"),
         "nav_cycle": MessageLookupByLibrary.simpleMessage(
             "----------------------------------------------"),
-        "now": MessageLookupByLibrary.simpleMessage("الآن"),
         "no_data": MessageLookupByLibrary.simpleMessage("لا يوجد"),
+        "no_similar_results_found":
+            MessageLookupByLibrary.simpleMessage("لا توجد نتائج مماثلة"),
+        "now": MessageLookupByLibrary.simpleMessage("الآن"),
         "offer": MessageLookupByLibrary.simpleMessage("عروض"),
         "offers": MessageLookupByLibrary.simpleMessage("العروض"),
         "on_the_way_to_delivery":
@@ -133,6 +135,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "payment_method":
             MessageLookupByLibrary.simpleMessage("طريقة الدفع او السداد"),
         "phone_number": MessageLookupByLibrary.simpleMessage("رقم هاتف"),
+        "please_choose_the_address_first":
+            MessageLookupByLibrary.simpleMessage("الرجاء اختيار العنوان أولا"),
         "please_enter_the_otp_code":
             MessageLookupByLibrary.simpleMessage("الرجاء إدخال رمز OTP"),
         "previous": MessageLookupByLibrary.simpleMessage("سابق"),
@@ -141,9 +145,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "product_tracking": MessageLookupByLibrary.simpleMessage("تتبع المنتج"),
         "profile_cycle": MessageLookupByLibrary.simpleMessage(
             "----------------------------------------------"),
+        "quick": MessageLookupByLibrary.simpleMessage("الكويك"),
         "quick_order": MessageLookupByLibrary.simpleMessage("طلب كويك"),
         "quick_orders": MessageLookupByLibrary.simpleMessage("منتجات الكويك"),
-        "quick": MessageLookupByLibrary.simpleMessage("الكويك"),
         "rate_order": MessageLookupByLibrary.simpleMessage("تقييم"),
         "receiver_name": MessageLookupByLibrary.simpleMessage("اسم المتلقي"),
         "reject_all_suggestions":

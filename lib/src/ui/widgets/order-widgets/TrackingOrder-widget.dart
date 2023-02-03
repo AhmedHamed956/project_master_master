@@ -7,7 +7,7 @@ import 'package:project/src/ui/Home/Cubit.dart';
 import 'package:project/src/ui/Home/states.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../../Models/orders_Model.dart';
+import '../../../../Models/orders_response.dart';
 import '../../../../generated/l10n.dart';
 import '../../Shared/constant.dart';
 

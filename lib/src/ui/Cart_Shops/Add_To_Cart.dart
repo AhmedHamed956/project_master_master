@@ -1,19 +1,15 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project/Models/GetCartData_Model.dart';
 import 'package:project/src/ui/Home/Cubit.dart';
 import 'package:project/src/ui/Home/states.dart';
 
+import '../../../Models/model/cart_data.dart';
 import '../../../generated/l10n.dart';
+import '../Shared/constant.dart';
 import '../components/appar.dart';
 import '../widgets/card-widget.dart';
-
-import '../Shared/constant.dart';
-import '../components/component.dart';
-import 'order-details.dart';
 
 class AddToCart extends StatefulWidget {
   final id;
@@ -31,24 +27,6 @@ class _AddToCartState extends State<AddToCart> {
     print(idd);
     super.initState();
   }
-  // int counter = 1;
-
-  // void _increment() {
-  //   setState(() {
-  //     counter++;
-  //     print('1');
-  //     // _counterCallback(counter);
-  //   });
-  // }
-
-  // void _dicrement() {
-  //   setState(() {
-  //     if (counter > 1) {
-  //       counter--;
-  //       // _counterCallback(_currentCount);
-  //     }
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {

@@ -1,3 +1,5 @@
+import 'model/translations_model.dart';
+
 class OffersModel {
   String? status;
   String? message;
@@ -103,43 +105,3 @@ class OffersData {
   }
 }
 
-class Translations {
-  int? id;
-  int? offerId;
-  String? locale;
-  String? name;
-  String? dis;
-  Null? createdAt;
-  Null? updatedAt;
-
-  Translations(
-      {this.id,
-      this.offerId,
-      this.locale,
-      this.name,
-      this.dis,
-      this.createdAt,
-      this.updatedAt});
-
-  Translations.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    offerId = json['offer_id'];
-    locale = json['locale'];
-    name = json['name'];
-    dis = json['dis'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['offer_id'] = this.offerId;
-    data['locale'] = this.locale;
-    data['name'] = this.name;
-    data['dis'] = this.dis;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    return data;
-  }
-}

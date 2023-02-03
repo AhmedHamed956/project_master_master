@@ -1,24 +1,40 @@
-import 'package:project/Models/User_Model.dart';
+import 'package:project/Models/User_response.dart';
+import 'package:project/Models/model/location_model.dart';
+
+import '../../../Models/model/shop_model.dart';
 
 abstract class HomeAppState {}
 
 class HomecubitIntialStates extends HomeAppState {}
 
 class HomeSuccessStates extends HomeAppState {
-  // final LoginModel loginModel;
+  List<ShopData>? items;
 
-  HomeSuccessStates();
+  HomeSuccessStates({this.items});
+}
+
+class HomeShopFilterSuccessStates extends HomeAppState {
+  List<ShopData>? items;
+
+  HomeShopFilterSuccessStates({this.items});
+}
+
+class GetSavedLocationSuccessStates extends HomeAppState {
+  LocationModel? model;
+
+  GetSavedLocationSuccessStates({this.model});
 }
 
 class HomeLoadingState extends HomeAppState {}
 
 class HomeErrorStates extends HomeAppState {
   final String error;
+
   HomeErrorStates(this.error);
 }
 
 class CheckOtpSuccessStates extends HomeAppState {
-  final UserModel userModel;
+  final UserResponse userModel;
 
   CheckOtpSuccessStates(this.userModel);
 }
@@ -27,6 +43,7 @@ class CheckOtpLoadingState extends HomeAppState {}
 
 class CheckOtpErrorStates extends HomeAppState {
   final String error;
+
   CheckOtpErrorStates(this.error);
 }
 
@@ -40,19 +57,28 @@ class ShopDetailsLoadingState extends HomeAppState {}
 
 class ShopDetailsErrorStates extends HomeAppState {
   final String error;
+
   ShopDetailsErrorStates(this.error);
 }
 
 class GetCountresSuccessStates extends HomeAppState {
   // final LoginModel loginModel;
+  List<LocationModel> ?items;
 
-  GetCountresSuccessStates();
+  GetCountresSuccessStates({required this.items});
+}
+
+class GetLocationsSuccessStates extends HomeAppState {
+  List<LocationModel> items;
+
+  GetLocationsSuccessStates(this.items);
 }
 
 class GetCountresLoadingState extends HomeAppState {}
 
 class GetCountresErrorStates extends HomeAppState {
   final String error;
+
   GetCountresErrorStates(this.error);
 }
 
@@ -66,6 +92,7 @@ class OrderScreenLoadingState extends HomeAppState {}
 
 class OrderScreenErrorStates extends HomeAppState {
   final String error;
+
   OrderScreenErrorStates(this.error);
 }
 
@@ -79,6 +106,7 @@ class PostOrderLoadingState extends HomeAppState {}
 
 class PostOrderErrorStates extends HomeAppState {
   final String error;
+
   PostOrderErrorStates(this.error);
 }
 
@@ -105,6 +133,7 @@ class PostCartLoadingState extends HomeAppState {}
 
 class PostCartErrorStates extends HomeAppState {
   final String error;
+
   PostCartErrorStates(this.error);
 }
 
@@ -118,6 +147,7 @@ class PostDigitalOrderLoadingState extends HomeAppState {}
 
 class PostDigitalOrderErrorStates extends HomeAppState {
   final String error;
+
   PostDigitalOrderErrorStates(this.error);
 }
 
@@ -131,6 +161,7 @@ class PostGiftOrderLoadingState extends HomeAppState {}
 
 class PostGiftOrderErrorStates extends HomeAppState {
   final String error;
+
   PostGiftOrderErrorStates(this.error);
 }
 
@@ -144,6 +175,7 @@ class PostEditProfileLoadingState extends HomeAppState {}
 
 class PostEditProfileErrorStates extends HomeAppState {
   final String error;
+
   PostEditProfileErrorStates(this.error);
 }
 
@@ -157,6 +189,7 @@ class TabDetailsLoadingState extends HomeAppState {}
 
 class TabDetailsErrorStates extends HomeAppState {
   final String error;
+
   TabDetailsErrorStates(this.error);
 }
 
@@ -170,6 +203,7 @@ class GetCartLoadingState extends HomeAppState {}
 
 class GetCartErrorStates extends HomeAppState {
   final String error;
+
   GetCartErrorStates(this.error);
 }
 
@@ -196,6 +230,7 @@ class GetPerformaceLoadingState extends HomeAppState {}
 
 class GetPerformaceErrorStates extends HomeAppState {
   final String error;
+
   GetPerformaceErrorStates(this.error);
 }
 
@@ -209,6 +244,7 @@ class GetClientTrackingLoadingState extends HomeAppState {}
 
 class GetClientTrackingErrorStates extends HomeAppState {
   final String error;
+
   GetClientTrackingErrorStates(this.error);
 }
 
@@ -222,6 +258,7 @@ class AdsCartLoadingState extends HomeAppState {}
 
 class AdsErrorStates extends HomeAppState {
   final String error;
+
   AdsErrorStates(this.error);
 }
 
@@ -235,6 +272,7 @@ class GetDigitalOrderLoadingState extends HomeAppState {}
 
 class GetDigitalOrderErrorStates extends HomeAppState {
   final String error;
+
   GetDigitalOrderErrorStates(this.error);
 }
 
@@ -248,6 +286,7 @@ class GetQuickOrderLoadingState extends HomeAppState {}
 
 class GetQuickOrderErrorStates extends HomeAppState {
   final String error;
+
   GetQuickOrderErrorStates(this.error);
 }
 
@@ -261,6 +300,7 @@ class ProfileGiftLoadingState extends HomeAppState {}
 
 class ProfileGiftErrorStates extends HomeAppState {
   final String error;
+
   ProfileGiftErrorStates(this.error);
 }
 
@@ -274,6 +314,7 @@ class ProfileLoadingState extends HomeAppState {}
 
 class ProfileErrorStates extends HomeAppState {
   final String error;
+
   ProfileErrorStates(this.error);
 }
 
@@ -287,6 +328,7 @@ class OffersLoadingState extends HomeAppState {}
 
 class OffersErrorStates extends HomeAppState {
   final String error;
+
   OffersErrorStates(this.error);
 }
 
@@ -300,6 +342,7 @@ class OneOffersLoadingState extends HomeAppState {}
 
 class OneOffersErrorStates extends HomeAppState {
   final String error;
+
   OneOffersErrorStates(this.error);
 }
 
@@ -313,6 +356,7 @@ class DeleteCartLoadingState extends HomeAppState {}
 
 class DeleteCartErrorStates extends HomeAppState {
   final String error;
+
   DeleteCartErrorStates(this.error);
 }
 
@@ -326,6 +370,7 @@ class ConfirmOrderLoadingState extends HomeAppState {}
 
 class ConfirmOrderErrorStates extends HomeAppState {
   final String error;
+
   ConfirmOrderErrorStates(this.error);
 }
 

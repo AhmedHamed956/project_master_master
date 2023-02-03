@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_pixels/image_pixels.dart';
 import 'package:project/Models/Ads_Model.dart';
 import 'package:project/src/ui/Shared/constant.dart';
 
@@ -7,6 +8,7 @@ import '../navigation_screen/main-screens/quick-screen.dart';
 
 class SliderWidget extends StatefulWidget {
   AdsData? model;
+
   SliderWidget({Key? key, this.model});
 
   @override
@@ -19,64 +21,42 @@ class _SliderWidgetState extends State<SliderWidget> {
     return InkWell(
         onTap: () {
           if (widget.model?.directedTo == 'quick') {
-            // var title = "${S.current.offer} ${S.current.quick}";
             Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                  builder: (BuildContext context) => QuickScreen(
-                      // title: title,
-                      // type: 'offer',
-                      )),
-            );
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => const QuickScreen()));
           }
           if (widget.model?.directedTo == 'digital') {
-            // var title = "${S.current.offer} ${S.current.digital_gifts}";
             Navigator.pushReplacement<void, void>(
               context,
               MaterialPageRoute<void>(
-                  builder: (BuildContext context) => DigtalScreen(
-                      // title: title,
-                      // type: 'offer',
-                      )),
+                  builder: (BuildContext context) => const DigtalScreen()),
             );
           }
-          // Navigator.pushNamed(context, CompanyScreen.routeName,
-          //     arguments: RouteArgument(param: model.company!.id));
         },
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-              // height: 50,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                  color: Colors.black26,
-                  borderRadius: BorderRadius.circular(16.0),
-                  border: Border.all(color: Color(0xfff5f5f5), width: 1.5),
-                  boxShadow: const [
-                    BoxShadow(
-                        color: Color(0xfff5f5f5),
-                        blurRadius: 3,
-                        spreadRadius: 3)
-                  ]),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(16.0),
-                child: Image.network(
-                  '${domainlink}${widget.model?.image}',
-                  fit: BoxFit.fill,
-                ),
-              )
-              //  CachedNetworkImage(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            child: Container(
+                width: MediaQuery.of(context).size.width,
+                clipBehavior: Clip.antiAliasWithSaveLayer,
+                decoration: BoxDecoration(
+                    color: Colors.black26,
+                    borderRadius: BorderRadius.circular(12.0),
+                    boxShadow: const [
+                      BoxShadow(
+                          color: Color(0xffe0e0e0),
+                          blurRadius: 7,
+                          spreadRadius: 7)
+                    ]),
+                child: ImagePixels.container(
+                    imageProvider:
+                        NetworkImage('$domainlink${widget.model?.image}'),
+                    colorAlignment: Alignment.topLeft,
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(16.0),
+                        child: Image.network(
+                            '$domainlink${widget.model?.image}',
 
-              //     imageUrl: model.image!,
-              //     fit: BoxFit.cover,
-              //     placeholder: (context, url) => const Center(
-              //         heightFactor: 3,
-              //         widthFactor: 2,
-              //         child: CircularProgressIndicator(
-              //             color: mainColorLite, strokeWidth: 1)),
-              //     errorWidget: (context, url, error) =>
-              //         new Icon(Icons.error, color: mainColorLite)),
-              ),
-        ));
+                        ))))));
   }
 }

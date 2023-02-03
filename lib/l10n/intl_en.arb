@@ -145,10 +145,9 @@
   "performance_details": "performance details",
   "shops": "shops",
   "show_cart": "show cart",
-  "accept": "Accept"
-  "no_data": "Dont have data of"
-  "allow_location":"Allow while using app"
-   "delivery_mode:"delivery mode"
-   "enter_Adresss":"enter Adresss №"
-  "enter_Location":"Enter Location"
+  "accept": "Accept",
+  "no_data": "Dont have data of",
+  "allow_location":"Allow while using app",
+  "no_similar_results_found": "no similar results found",
+  "please_choose_the_address_first": "Please choose the address first"
 }

@@ -7,13 +7,14 @@ import 'package:project/src/ui/Home/Cubit.dart';
 import 'package:project/src/ui/Home/states.dart';
 import 'package:project/src/ui/components/component.dart';
 
+import '../../../Models/model/product_data.dart';
 import '../../../generated/l10n.dart';
 import '../Cart_Shops/order-details.dart';
 import '../Shared/constant.dart';
 import '../navigation_screen/main-screens/Quick-Screens/Quick-Tracking.dart';
 
 class QuickWidget extends StatefulWidget {
-  GetQuickData? model;
+  ProductData? model;
   QuickWidget({super.key, this.model});
 
   @override

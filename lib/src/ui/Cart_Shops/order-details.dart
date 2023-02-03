@@ -9,6 +9,7 @@ import 'package:project/src/ui/Home/Cubit.dart';
 import 'package:project/src/ui/Home/Home.dart';
 import 'package:project/src/ui/location/mappingSet.dart';
 
+import '../../../Models/model/cart_data.dart';
 import '../../../generated/l10n.dart';
 import '../Home/states.dart';
 import '../Shared/constant.dart';
@@ -36,6 +37,7 @@ class OrderDetails extends StatefulWidget {
   String? gift;
   String? quickProductId;
   CartData? model;
+
   OrderDetails(
       {super.key,
       this.total,
@@ -121,6 +123,7 @@ class _OrderDetailsState extends State<OrderDetails> {
   @override
   bool isChecked = false;
   TextEditingController promoCodeController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<HomeCubit, HomeAppState>(
@@ -392,68 +395,49 @@ class _OrderDetailsState extends State<OrderDetails> {
                                 ],
                               )
                             : Container(),
-                        const Divider(
-                          color: Colors.grey,
-                        ),
-                        const SizedBox(
-                          height: 16,
-                        ),
+                        const Divider(color: Colors.grey),
+                        const SizedBox(height: 16),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    ConstrainedBox(
-                                        constraints:
-                                            BoxConstraints(maxWidth: 200),
+                            Flexible(
+                                child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                  Row(children: [
+                                    Flexible(
                                         child: Text(
-                                          widget.city == null
-                                              ? S.current.enter_Location
-                                              : '${widget.city}',
-                                          style: const TextStyle(
-                                            color: textColor,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                        )),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    ConstrainedBox(
-                                      constraints:
-                                          BoxConstraints(maxWidth: 250),
-                                      child: Text(
-                                        widget.street == null
-                                            ? ''
-                                            : '${widget.street}',
-                                        style: const TextStyle(
-                                          color: textColor,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      S.current
-                                          .delivery_details_can_be_specified_in_this_field,
-                                      style: const TextStyle(
-                                        color: greencolor,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
+                                            widget.city == null
+                                                ? S.current.enter_Location
+                                                : '${widget.city}',
+                                            style: const TextStyle(
+                                                color: textColor,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w700)))
+                                  ]),
+                                  Row(children: [
+                                    Flexible(
+                                        child: Text(
+                                            widget.street == null
+                                                ? ''
+                                                : '${widget.street}',
+                                            style: const TextStyle(
+                                                color: textColor,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w500)))
+                                  ]),
+                                  Row(children: [
+                                    Flexible(
+                                        child: Text(
+                                            S.current
+                                                .delivery_details_can_be_specified_in_this_field,
+                                            style: const TextStyle(
+                                                color: greencolor,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w400)))
+                                  ])
+                                ])),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -487,9 +471,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                                             // fit: BoxFit.fill
                                           )),
                                         ),
-                                        const SizedBox(
-                                          height: 8,
-                                        ),
+                                        const SizedBox(height: 8),
                                         Text(
                                           S.current.open_map,
                                           style: const TextStyle(

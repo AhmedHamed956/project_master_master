@@ -9,6 +9,8 @@ import 'package:project/src/ui/Cart_Shops/Add_To_Cart.dart';
 import 'package:project/src/ui/Home/Cubit.dart';
 import 'package:project/src/ui/Home/states.dart';
 
+import '../../../Models/model/cart_data.dart';
+import '../../../Models/model/products_data.dart';
 import '../../../generated/l10n.dart';
 import '../Cart_Shops/order-details.dart';
 import '../Shared/constant.dart';
@@ -27,7 +29,6 @@ class _CardWidgetState extends State<CardWidget> {
   late int? totalcart = widget.model.total;
   late int totalprice = widget.model.totalPrice!.toInt();
   late int? price;
-  late List<Products>? temp = widget.model.products;
 
   late int quantity;
   @override

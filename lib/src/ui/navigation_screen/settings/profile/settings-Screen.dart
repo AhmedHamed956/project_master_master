@@ -1,25 +1,19 @@
-import 'dart:developer';
-
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:project/Models/getProfile_Model.dart';
 import 'package:project/src/blocs/global_bloc/global_bloc.dart';
 import 'package:project/src/ui/Home/Cubit.dart';
 import 'package:project/src/ui/Home/states.dart';
 import 'package:project/src/ui/Shared/constant.dart';
-import 'package:project/src/ui/delivery_package/navigation_screens/delivery_cycle_screen.dart';
 import 'package:project/src/ui/navigation_screen/settings/My-Walet/myWalet-screen.dart';
 import 'package:project/src/ui/navigation_screen/settings/profile/terms-screens.dart';
 import 'package:project/src/ui/navigation_screen/settings/profile/webView_Rep.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../../Models/model/user_model.dart';
 import '../../../../../generated/l10n.dart';
-import '../../../../common/global.dart';
-import '../../../../network/local/cache-helper.dart';
 import '../../../components/component.dart';
-import '../../../delivery_package/navigation_screens/nav_screen.dart';
 import 'Edit-profile.dart';
 import 'gift-card.dart';
 
@@ -63,7 +57,7 @@ class _SettingScreenState extends State<SettingScreen> {
               },
               fallback: (context) => Container(
                   color: Colors.white,
-                  child: Center(
+                  child: const Center(
                       child: CircularProgressIndicator(
                     color: button2color,
                   ))));
@@ -72,61 +66,54 @@ class _SettingScreenState extends State<SettingScreen> {
     );
   }
 
-  Widget getScreen(ProfileData model) => Scaffold(
+  Widget getScreen(UserModel model) => Scaffold(
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
           child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 36, horizontal: 24),
               child: Column(children: [
-                Row(children: [
+                const SizedBox(height: 16),
+                IntrinsicHeight(
+                    child: Row(children: [
                   Container(
-                      // decoration: BoxDecoration(
-                      //     gradient: quickButton,
-                      //     borderRadius: BorderRadius.circular(10)),
-                      height: 70,
-                      width: 70,
-                      child: Padding(
-                          padding: const EdgeInsets.all(0.1),
-                          child: Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Center(
-                                  child: model.avatar == 'user.svg'
-                                      ? SvgPicture.network(
-                                          '${domainlink}${model.avatar}')
-                                      : Image.network(
-                                          '${domainlink}${model.avatar}'))))),
+                      height: 80,
+                      width: 80,
+                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10)),
+                      child: model.avatar == 'user.svg'
+                          ? SvgPicture.network('$domainlink${model.avatar}')
+                          : Image.network('$domainlink${model.avatar}',
+                              fit: BoxFit.cover)),
                   const SizedBox(width: 16),
                   Expanded(
                       child: Column(
-                          // mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                         Text('${model.name}',
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w400,
                                 color: textColor)),
-                        const SizedBox(height: 11.33),
+                        // const SizedBox(height: 11.33),
                         Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text('${model.email}',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.w400,
                                       color: textColor)),
-                              Text(
-                                '${model.phone}',
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400,
-                                    color: textColor),
-                              ),
-                              // SizedBox(width: 40),
+                              Text('${model.phone}',
+                                  style: const TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
+                                      color: textColor))
                             ]),
-                        const SizedBox(height: 14.74),
+                        // const SizedBox(height: 14.74),
                         InkWell(
                             onTap: () {
                               Navigator.push(
@@ -135,31 +122,25 @@ class _SettingScreenState extends State<SettingScreen> {
                                       builder: (context) =>
                                           EditProfile(model: model)));
                             },
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    margin: EdgeInsets.zero,
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 12, vertical: 8),
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(100),
-                                        gradient: maingradientColor),
-                                    child: Text(S.current.edit_profile,
-                                        style: const TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w400,
-                                            color: Colors.white)),
-                                  )
-                                ]))
+                            child: Row(children: [
+                              Container(
+                                  margin: EdgeInsets.zero,
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16, vertical: 6),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(100),
+                                      gradient: maingradientColor),
+                                  child: Text(S.current.edit_profile,
+                                      style: const TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.white)))
+                            ]))
                       ]))
-                ]),
-                const SizedBox(height: 26),
+                ])),
                 Padding(
-                    padding: const EdgeInsets.only(right: 20, left: 30),
+                    padding: const EdgeInsets.symmetric(vertical: 20),
                     child: Divider(color: profilebordercolor.withOpacity(0.8))),
-                const SizedBox(height: 26),
                 _rowWidget(
                     onTap: () {
                       Navigator.push(
@@ -252,7 +233,7 @@ class _SettingScreenState extends State<SettingScreen> {
                                       fontWeight: FontWeight.w700,
                                       color: button1color)))),
                     ]),
-                Container(
+                SizedBox(
                   width: MediaQuery.of(context).size.width,
                   height: 56,
                   child: ingridentbutton(
@@ -274,20 +255,19 @@ class _SettingScreenState extends State<SettingScreen> {
                       //                       DeliveryCycleScreen()))
                       //         });
                     },
-                    color1: Color(0xAFF59B81E),
-                    color2: Color(0xAFFB0C81F),
+                    color1: const Color(0xAFF59B81E),
+                    color2: const Color(0xAFFB0C81F),
                   ),
                 ),
                 const SizedBox(height: 60),
                 Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                  Container(
-                      child: Text(
+                  Text(
                     "${S.current.app_version}V2.00",
                     style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
                         color: textColor),
-                  ))
+                  )
                 ]),
                 const SizedBox(height: 30),
               ])),

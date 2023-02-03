@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../../Models/Home_Model.dart';
+import '../../../../Models/model/shop_model.dart';
 import '../../../../generated/l10n.dart';
 import '../../../common/global.dart';
 import '../../Home/Cubit.dart';
@@ -91,7 +92,7 @@ class _ShopsOffersState extends State<ShopsOffers> {
               itemCount: model.data!.length));
 }
 
-Widget shopOfferItem(HomeData model, context) => Padding(
+Widget shopOfferItem(ShopData model, context) => Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 10,
       ),

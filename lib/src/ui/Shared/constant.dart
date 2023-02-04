@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:project/src/network/local/cache-helper.dart';
 import 'package:project/src/ui/Auth/Login_Screen.dart';
 
+import '../../common/global.dart';
+
 const Color mainBackgourndColor = Color(0xffF5F5F5);
 const Color textFieldColor = Color(0xff79747E);
 const Color textColor = Color(0xff5B5B5B);
@@ -70,7 +72,10 @@ LinearGradient trackPointButton = const LinearGradient(colors: [
 LinearGradient maingradientColor =
     const LinearGradient(colors: [button1color, button2color]);
 
-void sginOut(context) {
+void sginOut(context) async {
+  await storage.delete(key: "myLocation");
+  await storage.delete(key: "myAddress");
+
   CacheHelper.removeData(key: 'token').then((value) {
     CacheHelper.removeData(key: 'mylocation').then((value) {}).then((value) {
       CacheHelper.removeData(key: 'mycity').then((value) {}).then((value) {

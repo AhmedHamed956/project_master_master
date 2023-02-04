@@ -149,5 +149,6 @@
   "no_data": "Dont have data of",
   "allow_location":"Allow while using app",
   "no_similar_results_found": "no similar results found",
-  "please_choose_the_address_first": "Please choose the address first"
+  "please_choose_the_address_first": "Please choose the address first",
+  "please_turn_on_the_gps_location_service_to_continue": "Please turn on the GPS location service, to continue"
 }

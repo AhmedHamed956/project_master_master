@@ -12,7 +12,7 @@ import 'package:project/src/ui/components/component.dart';
 
 import '../../../generated/l10n.dart';
 import '../../network/local/cache-helper.dart';
-import '../location/locationPerrmision.dart';
+import '../location/location_permission_screen.dart';
 import 'Cubit/cubit.dart';
 import 'Cubit/states.dart';
 

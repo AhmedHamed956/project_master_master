@@ -121,6 +121,6 @@
   "enter_Adresss": "حدد شارع العنوان №",
   "enter_Location": "ادخل عنوان التوصيل",
   "no_similar_results_found": "لا توجد نتائج مماثلة",
-  "please_choose_the_address_first": "الرجاء اختيار العنوان أولا"
-
+  "please_choose_the_address_first": "الرجاء اختيار العنوان أولا",
+  "please_turn_on_the_gps_location_service_to_continue": "يرجى فتح خدمة تحديد الموقع GPS ، للمتابعة"
 }

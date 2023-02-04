@@ -158,6 +158,9 @@ class MessageLookup extends MessageLookupByLibrary {
             "Please choose the address first"),
         "please_enter_the_otp_code":
             MessageLookupByLibrary.simpleMessage("Please enter the OTP code"),
+        "please_turn_on_the_gps_location_service_to_continue":
+            MessageLookupByLibrary.simpleMessage(
+                "Please turn on the GPS location service, to continue"),
         "previous": MessageLookupByLibrary.simpleMessage("Previous"),
         "privacy_policy":
             MessageLookupByLibrary.simpleMessage("Privacy Policy"),

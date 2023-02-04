@@ -7,7 +7,7 @@ import 'package:project/Models/GetCartData_Model.dart';
 import 'package:project/src/common/global.dart';
 import 'package:project/src/ui/Home/Cubit.dart';
 import 'package:project/src/ui/Home/Home.dart';
-import 'package:project/src/ui/location/mappingSet.dart';
+import 'package:project/src/ui/location/mapping_set.dart';
 
 import '../../../Models/model/cart_data.dart';
 import '../../../generated/l10n.dart';
@@ -456,32 +456,31 @@ class _OrderDetailsState extends State<OrderDetails> {
                                                 deliverycost:
                                                     widget.deliverycost,
                                                 quickproductId:
-                                                    widget.quickProductId)));
+                                                    widget.quickProductId,
+                                                getLocation: true)));
                                   },
-                                  child: Container(
-                                    child: Column(
-                                      children: [
-                                        Container(
-                                          height: 24,
-                                          width: 24,
-                                          decoration: const BoxDecoration(
-                                              image: DecorationImage(
-                                            image: AssetImage(
-                                                'assets/icons/Vector-9.png'),
-                                            // fit: BoxFit.fill
-                                          )),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        height: 24,
+                                        width: 24,
+                                        decoration: const BoxDecoration(
+                                            image: DecorationImage(
+                                          image: AssetImage(
+                                              'assets/icons/Vector-9.png'),
+                                          // fit: BoxFit.fill
+                                        )),
+                                      ),
+                                      const SizedBox(height: 8),
+                                      Text(
+                                        S.current.open_map,
+                                        style: const TextStyle(
+                                          color: button1color,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
                                         ),
-                                        const SizedBox(height: 8),
-                                        Text(
-                                          S.current.open_map,
-                                          style: const TextStyle(
-                                            color: button1color,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        )
-                                      ],
-                                    ),
+                                      )
+                                    ],
                                   ),
                                 ),
                               ],

@@ -71,7 +71,9 @@ class _MainScreenState extends State<MainScreen> {
 
       if (state is GetSavedLocationSuccessStates) {
         _savedLocation = state.model;
-        mylocation = state.model?.name ?? "";
+        if (state.model?.name != null) {
+          myAddress = state.model?.name ?? "";
+        }
       }
 
       if (state is AdsSuccessStates) {
@@ -425,5 +427,7 @@ class _MainScreenState extends State<MainScreen> {
     });
     String model = json.encode(value);
     await storage.write(key: "myLocation", value: model);
+    myAddress = value?.name;
+    await storage.write(key: "myAddress", value: value?.name);
   }
 }

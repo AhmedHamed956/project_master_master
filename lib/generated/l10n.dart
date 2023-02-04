@@ -1549,6 +1549,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Please turn on the GPS location service, to continue`
+  String get please_turn_on_the_gps_location_service_to_continue {
+    return Intl.message(
+      'Please turn on the GPS location service, to continue',
+      name: 'please_turn_on_the_gps_location_service_to_continue',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

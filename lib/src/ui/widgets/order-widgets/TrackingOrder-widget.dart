@@ -15,6 +15,7 @@ import '../../components/appar.dart';
 
 class TrackingOrder extends StatefulWidget {
   final String? id;
+
   const TrackingOrder({super.key, this.id});
 
   @override
@@ -556,9 +557,7 @@ class _TrackingOrderState extends State<TrackingOrder> {
                                       color: trackpointColor,
                                       shape: BoxShape.circle),
                                 ),
-                                const SizedBox(
-                                  width: 28,
-                                ),
+                                const SizedBox(width: 28),
                                 Text(
                                   S.current
                                       .the_request_was_successfully_executed,

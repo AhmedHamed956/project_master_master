@@ -14,12 +14,14 @@ import '../../../network/remote/Dio_helper.dart';
 import '../../../network/remote/endPoint.dart';
 import '../../Shared/constant.dart';
 import '../../delivery_package/navigation_screens/delivery_cycle_screen.dart';
-import '../../location/locationPerrmision.dart';
+import '../../location/location_permission_screen.dart';
 import '../otp_Screen.dart';
 
 class LoginScreenCubit extends Cubit<LoginAppStates> {
   LoginScreenCubit() : super(LogincubitIntialStates());
+
   static LoginScreenCubit get(context) => BlocProvider.of(context);
+
   // LoginModel loginModel;
 
   Future<void> userlogin({@required phone, context}) async {
@@ -41,6 +43,7 @@ class LoginScreenCubit extends Cubit<LoginAppStates> {
   }
 
   UserResponse? userModel;
+
   // UserModel userModel;
   Future<void> checkotp({@required code, context}) async {
     FormData formData = FormData.fromMap({
@@ -58,10 +61,8 @@ class LoginScreenCubit extends Cubit<LoginAppStates> {
       emit(CheckOtpSuccessStates(userModel!));
       CacheHelper.saveData(key: 'token', value: userModel?.token)
           .then((value) => token = CacheHelper.getData(key: 'token'))
-          .then((value) => Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => const LocationPermision())));
+          .then((value) => Navigator.push(context,
+              MaterialPageRoute(builder: (context) => LocationPermissionScreen())));
     }).catchError((error) {
       emit(CheckOtpErrorStates(error.toString()));
     });

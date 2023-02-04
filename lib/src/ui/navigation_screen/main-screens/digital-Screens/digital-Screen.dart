@@ -14,6 +14,7 @@ import 'order-details.dart';
 class DigtalScreen extends StatefulWidget {
   final String? title;
   final String? type;
+
   const DigtalScreen({super.key, this.title, this.type});
 
   @override
@@ -25,6 +26,7 @@ class _DigtalScreenState extends State<DigtalScreen> {
   FocusNode _focusNode2 = new FocusNode();
   var cost;
   var totalcost;
+
   @override
   void initState() {
     cost = 0;

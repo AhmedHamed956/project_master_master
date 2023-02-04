@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:collection';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -7,29 +6,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
-
-// import 'package:geocoding/geocoding.dart';
-import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:project/Models/GetCartData_Model.dart';
-import 'package:project/Models/getProfile_Model.dart';
 import 'package:project/Models/model/location_model.dart';
 import 'package:project/src/common/global.dart';
 import 'package:project/src/network/local/cache-helper.dart';
 import 'package:project/src/ui/Cart_Shops/order-details.dart';
 import 'package:project/src/ui/Home/Cubit.dart';
 import 'package:project/src/ui/Home/states.dart';
-import 'package:project/src/ui/navigation_screen/order-screen.dart';
 import 'package:project/src/ui/navigation_screen/settings/profile/Edit-profile.dart';
 import 'package:project/src/ui/widgets/widgets.dart';
 
-// import 'package:geolocator/geolocator.dart';
 import '../../../Models/model/cart_data.dart';
 import '../../../Models/model/user_model.dart';
 import '../../../generated/l10n.dart';
+import '../Home/Home.dart';
 import '../Shared/constant.dart';
 import '../components/component.dart';
-import '../Home/Home.dart';
 
 class MappingSet extends StatefulWidget {
   String mappingset;
@@ -43,6 +35,8 @@ class MappingSet extends StatefulWidget {
   CartData? cartmodel;
   UserModel? profilemodel;
 
+  bool? getLocation = false;
+
   MappingSet(
       {super.key,
       required this.mappingset,
@@ -53,7 +47,8 @@ class MappingSet extends StatefulWidget {
       this.total,
       this.totalprice,
       this.deliverycost,
-      this.quickproductId});
+      this.quickproductId,
+      this.getLocation});
 
   @override
   State<MappingSet> createState() => _MappingSetState();
@@ -63,14 +58,12 @@ class _MappingSetState extends State<MappingSet> {
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
 
-  static const CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(24.7136, 46.6753),
-    zoom: 14.4746,
-  );
+  static const CameraPosition _kGooglePlex =
+      CameraPosition(target: LatLng(24.7136, 46.6753), zoom: 14.0);
 
   bool typing = false;
   var search = TextEditingController();
-  var markers = HashSet<Marker>();
+  Set<Marker> markers = {};
   String? _currentAddress;
 
   double? _currentlat;
@@ -96,48 +89,6 @@ class _MappingSetState extends State<MappingSet> {
     _homeCubit.getLocations();
 
     super.initState();
-  }
-
-  Future<bool> _handleLocationPermission() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text(
-              'Location services are disabled. Please enable the services')));
-      return false;
-    }
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Location permissions are denied')));
-        return false;
-      }
-    }
-    if (permission == LocationPermission.deniedForever) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text(
-              'Location permissions are permanently denied, we cannot request permissions.')));
-      return false;
-    }
-    return true;
-  }
-
-  Future<void> _getCurrentPosition(LatLng latLng) async {
-    final hasPermission = await _handleLocationPermission();
-
-    if (!hasPermission) return;
-    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
-        .then((Position position) {
-      setState(() => _currentPosition = position);
-      _getAddressFromLatLng(_currentPosition!, latLng);
-    }).catchError((e) {
-      debugPrint(e);
-    });
   }
 
   @override
@@ -220,89 +171,39 @@ class _MappingSetState extends State<MappingSet> {
           return GoogleMap(
               mapType: MapType.normal,
               initialCameraPosition: _kGooglePlex,
-              onMapCreated: (GoogleMapController controller) {
-                mapController = controller;
-                _controller.complete(controller);
-              },
+              onMapCreated: _onMapCreated,
+              zoomControlsEnabled: false,
               onTap: _onMapTap,
               markers: markers);
         }),
-        bottomNavigationBar: SizedBox(
-            height: 147,
-            child: Column(children: [
-              Flexible(
-                  child: Center(
-                      child: Text(
-                          _currentAddress == null
-                              ? S.current.enter_Adresss
-                              : '$_currentAddress',
-                          style: const TextStyle(
-                              color: button1color,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500)))),
-              Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 34, vertical: 10),
-                  child: ingridentbutton(
-                      color1: button1color,
-                      color2: button2color,
-                      width: 360,
-                      height: 56,
-                      function: () async {
-                        if (widget.mappingset == 'startlocation') {
-                          if (_currentAddress == null) {
-                            showSnackBar(
-                                title:
-                                    S.current.please_choose_the_address_first);
-                          } else {
-                            _startLocation();
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => HomeScreen()));
-                          }
-                        }
-                        if (widget.mappingset == 'completeOrder') {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => OrderDetails(
-                                        model: widget.cartmodel,
-                                        city: city,
-                                        street: street,
-                                        counrty: counrty,
-                                        location: latlong,
-                                        payment: widget.payment,
-                                        gift: widget.gift,
-                                        quickProductId: widget.quickproductId,
-                                        totalprice: widget.totalprice,
-                                        total: widget.total,
-                                        deliverycost: widget.deliverycost,
-                                      )));
-                        }
-
-                        if (widget.mappingset == 'changelocation') {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => EditProfile(
-                                      model: widget.profilemodel,
-                                      city: city,
-                                      street: street,
-                                      country: counrty,
-                                      location: latlong)));
-                        }
-                      },
-                      text: S.current.deliver_here))
-            ])));
+        bottomNavigationBar: IntrinsicHeight(
+            child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                child: Column(children: [
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Flexible(
+                            child: Text(
+                                _currentAddress ?? S.current.enter_Adresss,
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                    color: button1color,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500)))
+                      ]),
+                  const SizedBox(height: 8),
+                  Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: CommonBtn(
+                          text: S.current.deliver_here,
+                          onTap: _onDeliveryHereTap))
+                ]))));
   }
 
-  _startLocation() async {
-    String value = json.encode(myLocation);
-    await storage.write(key: "myLocation", value: value);
-  }
-
-  Future<void> _getAddressFromLatLng(Position position, LatLng latLng) async {
+  Future<void> _getAddressFromLatLng(LatLng latLng) async {
     await placemarkFromCoordinates(latLng.latitude, latLng.longitude)
         .then((List<Placemark> placemarks) {
       Placemark place = placemarks[0];
@@ -320,14 +221,169 @@ class _MappingSetState extends State<MappingSet> {
 
         CacheHelper.saveData(key: 'mystreet', value: mystreet);
 
-        mylocation = fullLocation;
-
-        // print(_currentAddress.toString());
-        // print('aaaaaaaaaaaaaaaaa');
+        // mylocation = fullLocation;
       });
     }).catchError((e) {
       debugPrint(e);
     });
+  }
+
+  void _onMapTap(LatLng latLng) {
+    if (widget.getLocation == true) {
+      markers.clear();
+      _getCurrentPosition(latLng);
+    }
+  }
+
+  Future<bool> _handleLocationPermission() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      showSnackBar(
+          title: "Location services are disabled. Please enable the services");
+
+      return false;
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        showSnackBar(title: "Location permissions are denied");
+        return false;
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      showSnackBar(
+          title:
+              "Location permissions are permanently denied, we cannot request permissions.");
+
+      return false;
+    }
+    return true;
+  }
+
+  Future<void> _getCurrentPosition(LatLng latLng) async {
+    final hasPermission = await _handleLocationPermission();
+
+    if (!hasPermission) return;
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+        .then((Position position) {
+      setState(() {
+        markers.add(Marker(
+            markerId: MarkerId('${latLng.latitude}, ${latLng.longitude}'),
+            position: LatLng(latLng.latitude, latLng.longitude)));
+        _currentlat = latLng.latitude;
+        _currentlong = latLng.longitude;
+        latlong = '$_currentlat,$_currentlong';
+        _currentPosition = position;
+      });
+      _getAddressFromLatLng(latLng);
+    }).catchError((e) {
+      debugPrint(e);
+    });
+  }
+
+  Future<void> _onMapCreated(GoogleMapController controller) async {
+    mapController = controller;
+    _controller.complete(controller);
+    if (widget.getLocation == true) {
+      Position position = await _determinePosition();
+      mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+          target: LatLng(position.latitude, position.longitude), zoom: 13.5)));
+      _getAddressFromLatLng(LatLng(position.latitude, position.longitude));
+      markers.clear();
+      markers.add(Marker(
+          markerId: const MarkerId("currentPin"),
+          icon: BitmapDescriptor.defaultMarker,
+          position: LatLng(position.latitude, position.longitude)));
+    }
+  }
+  Future<Position> _determinePosition() async {
+    LocationPermission permission;
+
+// Test if location services are enabled.
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    } else {
+      // serviceEnabled = true;
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately.
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+    return Geolocator.getCurrentPosition();
+  }
+  _onDeliveryHereTap() {
+    if (widget.mappingset == 'startlocation') {
+      if (_currentAddress == null) {
+        showSnackBar(title: S.current.please_choose_the_address_first);
+      } else {
+        if (myLocation == null) {
+          _saveAddress(fullLocation);
+        } else {
+          _saveLocation();
+        }
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => HomeScreen()));
+      }
+    }
+    if (widget.mappingset == 'completeOrder') {
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => OrderDetails(
+                    model: widget.cartmodel,
+                    city: city,
+                    street: street,
+                    counrty: counrty,
+                    location: latlong,
+                    payment: widget.payment,
+                    gift: widget.gift,
+                    quickProductId: widget.quickproductId,
+                    totalprice: widget.totalprice,
+                    total: widget.total,
+                    deliverycost: widget.deliverycost,
+                  )));
+    }
+
+    if (widget.mappingset == 'changelocation') {
+      if (myLocation == null) {
+        _saveAddress(fullLocation);
+      } else {
+        _saveLocation();
+      }
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => EditProfile(
+                  model: widget.profilemodel,
+                  city: city,
+                  street: street,
+                  country: counrty,
+                  location: latlong)));
+    }
+  }
+
+  _saveLocation() async {
+    if(myLocation!=null){
+    String value = json.encode(myLocation);
+    await storage.write(key: "myLocation", value: value);
+  }}
+
+  _saveAddress(String? address) async {
+    if (address != null) {
+      myAddress = address;
+      await storage.write(key: "myAddress", value: address);
+    }
   }
 
   void _clearBtnTap() {
@@ -355,26 +411,9 @@ class _MappingSetState extends State<MappingSet> {
               markerId: const MarkerId('currentLocation'),
               position: LatLng(latitude, longitude)));
           myLocation = element;
-          mylocation = element.name ?? "";
+          _saveAddress(element.name);
         }
       }
     });
-  }
-
-  void _onMapTap(LatLng latLng) {
-    if (widget.mappingset != 'startlocation') {
-      markers.clear();
-      print('doneeee');
-      print('$latLng');
-      _getCurrentPosition(latLng);
-      setState(() {
-        markers.add(Marker(
-            markerId: MarkerId('${latLng.latitude}, ${latLng.longitude}'),
-            position: LatLng(latLng.latitude, latLng.longitude)));
-        _currentlat = latLng.latitude;
-        _currentlong = latLng.longitude;
-        latlong = '$_currentlat,$_currentlong';
-      });
-    }
   }
 }

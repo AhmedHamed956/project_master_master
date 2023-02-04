@@ -8,32 +8,55 @@ import '../Shared/constant.dart';
 Widget ingridentbutton(
         {double? width,
         double? height,
-        String? text,
+        required String text,
         required VoidCallback function,
         required Color color1,
         required Color color2}) =>
     Container(
       width: width,
       height: height,
-      // ignore: sort_child_properties_last
-      child: MaterialButton(
-          // ignore: sort_child_properties_last
-          child: Text(
-            text!,
-            style: const TextStyle(
-                color: Colors.white, fontSize: 16, fontWeight: FontWeight.w400),
-          ),
-          // shape: RoundedRectangleBorder(
-          //   borderRadius: BorderRadius.circular(15.0),
-          // ),
-          onPressed: function),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(4),
           gradient: LinearGradient(
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
               colors: [color2, color1])),
+      child: MaterialButton(
+          onPressed: function,
+          child: Text(text,
+              style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400))),
     );
+
+class CommonBtn extends StatelessWidget {
+  double? width = 0;
+  String text = "";
+  Function? onTap;
+
+  CommonBtn({this.width, required this.text, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        width: double.maxFinite,
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(4),
+            gradient: const LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [Color(0xff701EB8), Color(0xffA10CA4)])),
+        child: MaterialButton(
+            onPressed: () => onTap!(),
+            child: Text(text,
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400))));
+  }
+}
 
 Widget defultbutton({
   double? width,
@@ -48,14 +71,11 @@ Widget defultbutton({
 
       // ignore: sort_child_properties_last
       child: MaterialButton(
+          onPressed: function,
           child: Text(
             text!,
             style: const TextStyle(color: button1color, fontSize: 16),
-          ),
-          // shape: RoundedRectangleBorder(
-          //   borderRadius: BorderRadius.circular(15.0),
-          // ),
-          onPressed: function),
+          )),
       decoration:
           BoxDecoration(borderRadius: BorderRadius.circular(4), color: color),
     );
@@ -107,7 +127,7 @@ Widget defaulttextfield(
                         child: Center(
                             child: Text(
                           S.current.apply,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w400,
                               color: Colors.white),
@@ -124,7 +144,7 @@ Widget defaulttextfield(
               : null,
           border: isQuickSearch
               ? InputBorder.none
-              : OutlineInputBorder(
+              : const OutlineInputBorder(
                   borderSide: BorderSide(color: textFieldColor))),
     );
 

@@ -7,7 +7,7 @@ class ProfileModel {
 
   ProfileModel({this.status, this.message, this.data});
 
-  ProfileModel.fromJson(Map<String, dynamic> json) {
+  ProfileModel.fromJson(dynamic json) {
     status = json['status'];
     message = json['message'];
     data = json['data'] != null ? new UserModel.fromJson(json['data']) : null;

@@ -12,7 +12,8 @@ import 'package:project/src/ui/Home/Cubit.dart';
 import 'package:project/src/ui/Home/Home.dart';
 import 'package:project/src/ui/Shared/constant.dart';
 import 'package:project/src/ui/delivery_package/navigation_screens/delivery_cycle_screen.dart';
-import 'package:project/src/ui/location/mappingSet.dart';
+import 'package:project/src/ui/location/location_permission_screen.dart';
+import 'package:project/src/ui/location/mapping_set.dart';
 import 'package:project/src/ui/navigation_screen/main-screens/quick-screen.dart';
 
 import 'generated/l10n.dart';
@@ -34,7 +35,9 @@ Future<void> main() async {
   // token = '27|O8ubJ3Dgpp7yQaRoSrH9ItJIYuLZw37TUfTjCmPn';
 
   token = CacheHelper.getData(key: 'token');
-  mylocation = CacheHelper.getData(key: 'mylocation');
+  // mylocation = CacheHelper.getData(key: 'mylocation');
+  myAddress = await storage.read(key: "myAddress");
+
   mycity = CacheHelper.getData(key: 'mycity');
   mystreet = CacheHelper.getData(key: 'mystreet');
 
@@ -45,19 +48,15 @@ Future<void> main() async {
     widget = const LoginScreen();
   }
 
-  runApp(MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (BuildContext context) => LoginScreenCubit()),
-        BlocProvider(create: (context) => HomeCubit()..ordersScreen()),
-        BlocProvider(create: (context) => HomeCubit()),
-        BlocProvider(
-            create: (context) => GlobalBloc()
-              ..add(StartAppEvent())
-              ..add(DeliveryAppEvent())),
-      ],
-      child: MyApp(
-        startwidget: widget,
-      )));
+  runApp(MultiBlocProvider(providers: [
+    BlocProvider(create: (BuildContext context) => LoginScreenCubit()),
+    BlocProvider(create: (context) => HomeCubit()..ordersScreen()),
+    BlocProvider(create: (context) => HomeCubit()),
+    BlocProvider(
+        create: (context) => GlobalBloc()
+          ..add(StartAppEvent())
+          ..add(DeliveryAppEvent()))
+  ], child: MyApp(startwidget: widget)));
 }
 
 class MyApp extends StatefulWidget {
@@ -98,38 +97,7 @@ class _MyAppState extends State<MyApp> {
                   ? widget.startwidget = HomeScreen()
                   : widget.startwidget = DeliveryCycleScreen();
             });
-
-            // if (GlobalBloc()
-            //         .checkIsRepresentativeModel
-            //         ?.data
-            //         ?.isRepresentative ==
-            //     1) {
-            //   // widget.startwidget = DeliveryCycleScreen();
-            //   // setState(() {
-            //   //   deliveryApp = true;
-            //   //   CacheHelper.saveData(key: 'deliveryApp', value: deliveryApp);
-            //   //   print(deliveryApp);
-            //   // });
-            // } else {
-            //   print('bbbbbb');
-            //   // widget.startwidget = HomeScreen();
-            //   // setState(() {
-            //   //   deliveryApp = false;
-            //   //   CacheHelper.saveData(key: 'deliveryApp', value: deliveryApp);
-            //   //   print(deliveryApp);
-            //   // });
-            // }
           }
-
-          // log("ChangeLangSuccess  = =  " + _locale!.languageCode.toString());
-
-          // if (state is CheckIsSuccessStates) {
-          //   print(state.props);
-          //   // setState(() {
-          //   //   _locale = state.locale;
-          //   // });
-          //   // log("ChangeLangSuccess  = =  " + _locale!.languageCode.toString());
-          // }
         },
         child: MaterialApp(
             title: 'BIFLORA',
@@ -152,6 +120,7 @@ class _MyAppState extends State<MyApp> {
             supportedLocales: S.delegate.supportedLocales,
             // home: const HomeScreen(),
             home: widget.startwidget,
+            // home: LocationPermissionScreen(),
             // home: QuickScreen(),
             // home: MappingSet(mappingset: 'startlocation'),
             // home: DeliveryCycleScreen(),

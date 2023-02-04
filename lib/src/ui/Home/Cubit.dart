@@ -423,10 +423,10 @@ class HomeCubit extends Cubit<HomeAppState> {
     emit(ProfileLoadingState());
     DioHelper.getdata(url: getProfileData, token: token).then((value) {
       profileModel = ProfileModel.fromJson(value.data);
-      log(value.data);
+      // log(value.data);
       emit(ProfileSuccessStates());
-    }).catchError((error) {
-      log(error.toString());
+    }).catchError((error, s) {
+      log("getProfieData $error $s");
       emit(ProfileErrorStates(error.toString()));
     });
   }

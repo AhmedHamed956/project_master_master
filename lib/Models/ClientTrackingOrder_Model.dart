@@ -36,17 +36,19 @@ class Message {
   String? dateOrder;
   bool? searchDelivery;
   bool? orderProgress;
-  bool? orderInWay;
+  bool? isRedirectClient;
+  bool? isClientDelivery;
   bool? isDone;
   String? deliveryName;
-  String? luctionName;
+  Null? luctionName;
   String? mobile;
 
   Message(
       {this.dateOrder,
       this.searchDelivery,
       this.orderProgress,
-      this.orderInWay,
+      this.isRedirectClient,
+      this.isClientDelivery,
       this.isDone,
       this.deliveryName,
       this.luctionName,
@@ -56,7 +58,8 @@ class Message {
     dateOrder = json['date_order'];
     searchDelivery = json['search_Delivery'];
     orderProgress = json['order_progress'];
-    orderInWay = json['order_in_way'];
+    isRedirectClient = json['is_redirect_client'];
+    isClientDelivery = json['is_client_delivery'];
     isDone = json['is_done'];
     deliveryName = json['Delivery_name'];
     luctionName = json['luction_name'];
@@ -68,7 +71,8 @@ class Message {
     data['date_order'] = this.dateOrder;
     data['search_Delivery'] = this.searchDelivery;
     data['order_progress'] = this.orderProgress;
-    data['order_in_way'] = this.orderInWay;
+    data['is_redirect_client'] = this.isRedirectClient;
+    data['is_client_delivery'] = this.isClientDelivery;
     data['is_done'] = this.isDone;
     data['Delivery_name'] = this.deliveryName;
     data['luction_name'] = this.luctionName;
@@ -86,6 +90,7 @@ class ClientTrakingOrderData {
   int? totalPrice;
   String? status;
   Null? scheduler;
+  int? isQuick;
   String? createdAt;
   String? updatedAt;
   List<Products>? products;
@@ -101,6 +106,7 @@ class ClientTrakingOrderData {
       this.totalPrice,
       this.status,
       this.scheduler,
+      this.isQuick,
       this.createdAt,
       this.updatedAt,
       this.products,
@@ -116,6 +122,7 @@ class ClientTrakingOrderData {
     totalPrice = json['total_price'];
     status = json['status'];
     scheduler = json['scheduler'];
+    isQuick = json['is_quick'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     if (json['products'] != null) {
@@ -142,6 +149,7 @@ class ClientTrakingOrderData {
     data['total_price'] = this.totalPrice;
     data['status'] = this.status;
     data['scheduler'] = this.scheduler;
+    data['is_quick'] = this.isQuick;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     if (this.products != null) {

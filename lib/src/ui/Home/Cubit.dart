@@ -40,7 +40,7 @@ class HomeCubit extends Cubit<HomeAppState> {
   static HomeCubit get(context) => BlocProvider.of(context);
   HomeModel? homeModel;
 
-  Future<void> getHomeShops() async {
+  Future<void> getHomeProduct() async {
     DioHelper.getdata(url: home, token: token).then((value) {
       HomeModel homeModel = HomeModel.fromJson(value.data);
       // log("getHomeProduct ${jsonEncode(value.data)}");
@@ -51,15 +51,14 @@ class HomeCubit extends Cubit<HomeAppState> {
     });
   }
 
-  Future<void> getHomeFilterShops(LocationModel location) async {
-    DioHelper.getdata(
-            url: homeFilterProduct + location.id.toString(), token: token)
+  Future<void> getHomeFilterProduct(String cityId) async {
+    DioHelper.getdata(url: homeFilterProduct + cityId, token: token)
         .then((value) {
       HomeShopsFilterResponse homeShopsFilterResponse =
           HomeShopsFilterResponse.fromJson(value.data);
       log("getHomeFilterProduct ${jsonEncode(value.data)}");
       emit(HomeShopFilterSuccessStates(
-          items: homeShopsFilterResponse.data?.shops, model: location));
+          items: homeShopsFilterResponse.data?.shops));
     }).catchError((error, s) {
       log("getHomeFilterProduct $error $s");
       emit(HomeErrorStates(error.toString()));
@@ -171,27 +170,18 @@ class HomeCubit extends Cubit<HomeAppState> {
   }
 
   Future<void> postQuickOrder(
-      {@required productID, @required quantity, context, id}) async {
+      {@required productID, @required quantity, isQiuck}) async {
     FormData formData = FormData.fromMap(
-        {"product_id": productID, "quantity": quantity, 'user_id': 56});
-    emit(PostOrderLoadingState());
-    log('done');
+        {"product_id": productID, "quantity": quantity, 'is_quick': isQiuck});
+    emit(PosQuickOrderLoadingState());
+    // log('done');
     DioHelper.postdata(url: addtoCart, data: formData, token: token)
         .then((value) {
-      log(value.data);
+      print(value.data);
 
-      emit(PostOrderSuccessStates());
-      // Navigator.push(
-      //     context,
-      //     MaterialPageRoute(
-      //         builder: (context) => AddToCart(
-      //               id: id,
-      //             ))).then((value) => HomeCubit()
-      //   ..getCartData(
-      //     id: id,
-      //   ));
+      emit(PosQuickOrderSuccessStates());
     }).catchError((error) {
-      emit(PostOrderErrorStates(error.toString()));
+      emit(PosQuickOrderErrorStates(error.toString()));
     });
   }
 
@@ -216,10 +206,12 @@ class HomeCubit extends Cubit<HomeAppState> {
   }
 
   GetnonReadyQuickModel? getnonReadyQuickModel;
-
   Future<void> getNonReadyQuickData() async {
     emit(GetNonReadyQuickLoadingState());
-    DioHelper.getdata(url: readyQuick, token: token).then((value) {
+    DioHelper.getdata(
+      url: readyQuick,
+      token: token,
+    ).then((value) {
       getnonReadyQuickModel = GetnonReadyQuickModel.fromJson(value.data);
       print(value.data);
       emit(GetNonReadyQuickSuccessStates());
@@ -252,7 +244,7 @@ class HomeCubit extends Cubit<HomeAppState> {
 
   Future<void> getCartData({required id}) async {
     emit(GetCartLoadingState());
-    DioHelper.getdata(url: '$addtoCart/1', token: token).then((value) {
+    DioHelper.getdata(url: '$addtoCart/$id', token: token).then((value) {
       getCartModel = GetCartModel.fromJson(value.data);
       log("getCartData ${jsonEncode(value.data)}");
       emit(GetCartSuccessStates());
@@ -327,6 +319,23 @@ class HomeCubit extends Cubit<HomeAppState> {
     }).catchError((error, s) {
       log("ordersScreenError : $error  $s");
       emit(OrderScreenErrorStates(error.toString()));
+    });
+  }
+
+  Future<void> cancelOrder({
+    @required id,
+  }) async {
+    FormData formData = FormData.fromMap({});
+    emit(CancelOrderLoadingState());
+
+    DioHelper.postdata(url: '$cancelorder/$id', data: formData, token: token)
+        .then((value) {
+      confirmModel = ConfirmModel.fromJson(value.data);
+      print(value.data);
+
+      emit(CancelOrderSuccessStates());
+    }).catchError((error) {
+      emit(CancelOrderErrorStates(error.toString()));
     });
   }
 
@@ -406,11 +415,9 @@ class HomeCubit extends Cubit<HomeAppState> {
     DioHelper.postdata(
             url: "$postConfirmorder$productID", data: formData, token: token)
         .then((value) {
-      log(value.data);
+      print(value.data);
 
       emit(PostGiftOrderSuccessStates());
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (context) => const GiftCardScreen()));
     }).catchError((error) {
       emit(PostGiftOrderErrorStates(error.toString()));
     });
@@ -500,7 +507,7 @@ class HomeCubit extends Cubit<HomeAppState> {
     emit(AdsCartLoadingState());
     DioHelper.getdata(url: ads, token: token).then((value) {
       adsModel = AdsModel.fromJson(value.data);
-      // log(value.data);
+      log(value.data);
       emit(AdsSuccessStates());
     }).catchError((error) {
       log(error.toString());

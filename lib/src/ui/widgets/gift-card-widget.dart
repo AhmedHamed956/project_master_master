@@ -198,13 +198,15 @@ class _GiftCardWidgetState extends State<GiftCardWidget> {
                                                                 if (int.parse(
                                                                         value) <=
                                                                     0) {
-                                                                  value = '0';
+                                                                  amountRemain =
+                                                                      0;
                                                                 }
-                                                                amountRemain =
-                                                                    (amountRemain! -
-                                                                        int.parse(
-                                                                            value));
-                                                                value = '0';
+                                                                amountRemain = (widget
+                                                                        .model
+                                                                        .totalPrice! -
+                                                                    int.parse(
+                                                                        value));
+                                                                // amountRemain = 0;
                                                               }
                                                             });
                                                           },

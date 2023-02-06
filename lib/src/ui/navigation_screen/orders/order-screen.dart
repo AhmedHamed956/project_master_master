@@ -222,26 +222,134 @@ class _OrderScreenState extends State<OrderScreen>
                                                                       FontWeight
                                                                           .w700))))),
                                               const SizedBox(width: 13),
-                                              Container(
-                                                  padding: const EdgeInsets
-                                                          .symmetric(
-                                                      horizontal: 12,
-                                                      vertical: 8),
-                                                  decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              4),
-                                                      color: cancelButtonColor),
-                                                  child: Center(
-                                                      child: Text(
-                                                          S.current.cancel,
-                                                          style: const TextStyle(
+                                              model.data![1].progress![index]
+                                                          .deliveryDetail !=
+                                                      null
+                                                  ? InkWell(
+                                                      onTap: () {
+                                                        showDialog<void>(
+                                                          context: context,
+                                                          builder: (BuildContext
+                                                              context) {
+                                                            return AlertDialog(
+                                                              shape:
+                                                                  RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            15.0),
+                                                              ),
+                                                              content: Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .center,
+                                                                children: [
+                                                                  const Text(
+                                                                    'هل تريد إلغاء الطلب',
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            16,
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .w400,
+                                                                        color:
+                                                                            textColor),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              // content: const Text(
+                                                              //     'A dialog is a type of modal window that\n'
+                                                              //     'appears in front of app content to\n'
+                                                              //     'provide critical information, or prompt\n'
+                                                              //     'for a decision to be made.'),
+                                                              actions: <Widget>[
+                                                                Padding(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                              .all(
+                                                                          8.0),
+                                                                  child: Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .spaceAround,
+                                                                    children: [
+                                                                      InkWell(
+                                                                        child:
+                                                                            Container(
+                                                                          child:
+                                                                              Center(
+                                                                            child:
+                                                                                Text(
+                                                                              "نعم",
+                                                                              style: TextStyle(color: button2color),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        onTap:
+                                                                            () {
+                                                                          HomeCubit()
+                                                                              .cancelOrder(id: model.data?[1].progress![index].id);
+                                                                          setState(
+                                                                              () {
+                                                                            model.data![1].progress!.removeAt(index);
+                                                                          });
+
+                                                                          Navigator.pop(
+                                                                              context);
+                                                                        },
+                                                                      ),
+                                                                      InkWell(
+                                                                        onTap:
+                                                                            () {
+                                                                          Navigator.pop(
+                                                                              context);
+                                                                        },
+                                                                        child:
+                                                                            Container(
+                                                                          child:
+                                                                              Center(
+                                                                            child:
+                                                                                Text(
+                                                                              "لا",
+                                                                              style: TextStyle(color: button2color),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            );
+                                                          },
+                                                        );
+                                                      },
+                                                      child: Container(
+                                                          padding: const EdgeInsets
+                                                                  .symmetric(
+                                                              horizontal: 12,
+                                                              vertical: 8),
+                                                          decoration: BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius.circular(
+                                                                      4),
                                                               color:
-                                                                  Colors.white,
-                                                              fontSize: 12,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400))))
+                                                                  cancelButtonColor),
+                                                          child: Center(
+                                                              child: Text(
+                                                                  S.current
+                                                                      .cancel,
+                                                                  style: const TextStyle(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      fontSize:
+                                                                          12,
+                                                                      fontWeight:
+                                                                          FontWeight.w400)))),
+                                                    )
+                                                  : Container(
+                                                      width: 50,
+                                                    )
                                             ])
                                           ])
                                     ]))),
@@ -253,120 +361,136 @@ class _OrderScreenState extends State<OrderScreen>
             ConditionalBuilder(
               condition: model.data![2].scheduler!.isNotEmpty,
               builder: (context) => Padding(
-                padding: const EdgeInsets.only(right: 34, left: 34, top: 20),
-                child: ListView.separated(
-                    // physics: const NeverScrollableScrollPhysics(),
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) => Container(
-                          height: 123,
-                          width: 360,
-                          decoration: BoxDecoration(
-                            color: orderCardColor,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                left: 20, right: 15, top: 14, bottom: 21),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      '${model.data?[2].scheduler?.first.total} ${S.current.rs}',
-                                      style: const TextStyle(
-                                          color: textColor,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    Text(
-                                      '#${model.data?[2].scheduler?.first.id}',
-                                      style: const TextStyle(
-                                          color: textColor,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w400),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      '${model.data?[2].scheduler?.first.shopData?.storeName}',
-                                      style: const TextStyle(
-                                          color: textColor,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w500),
-                                    )
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    const Text(
-                                      '05/06/2022',
-                                      style: TextStyle(
-                                          color: textColor,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w400),
-                                    ),
-                                    Row(
-                                      children: [
-                                        Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 12, vertical: 8),
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(4),
-                                              gradient: maingradientColor),
-                                          child: Center(
-                                            child: Text(
-                                              S.of(context).reschedule,
-                                              style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.w700),
-                                            ),
-                                          ),
-                                        ),
-                                        const SizedBox(width: 13),
-                                        Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 12, vertical: 8),
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(4),
-                                              color: cancelButtonColor),
-                                          child: Center(
-                                            child: Text(
-                                              S.of(context).cancel,
-                                              style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.w400),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
+                  padding: const EdgeInsets.only(right: 34, left: 34, top: 20),
+                  child: ListView.separated(
+                      // physics: const NeverScrollableScrollPhysics(),
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) => const PastOrder(),
+                      separatorBuilder: (context, index) => const Padding(
+                            padding: EdgeInsets.only(
+                              right: 34,
+                              left: 34,
+                            ),
+                            child: Divider(
+                              height: 37,
+                              // color: Colors.grey,
                             ),
                           ),
-                        ),
-                    separatorBuilder: (context, index) => const Padding(
-                        padding: EdgeInsets.only(
-                          right: 34,
-                          left: 34,
-                        ),
-                        child: Divider(height: 37)),
-                    itemCount: model.data![2].scheduler!.length),
-              ),
+                      itemCount: 1)
+                  // ListView.separated(
+                  //     // physics: const NeverScrollableScrollPhysics(),
+                  //     scrollDirection: Axis.vertical,
+                  //     shrinkWrap: true,
+                  //     itemBuilder: (context, index) => Container(
+                  //           height: 123,
+                  //           width: 360,
+                  //           decoration: BoxDecoration(
+                  //             color: orderCardColor,
+                  //             borderRadius: BorderRadius.circular(10),
+                  //           ),
+                  //           child: Padding(
+                  //             padding: const EdgeInsets.only(
+                  //                 left: 20, right: 15, top: 14, bottom: 21),
+                  //             child: Column(
+                  //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //               children: [
+                  //                 Row(
+                  //                   mainAxisAlignment:
+                  //                       MainAxisAlignment.spaceBetween,
+                  //                   children: [
+                  //                     Text(
+                  //                       '${model.data?[2].scheduler?.first.total} ${S.current.rs}',
+                  //                       style: const TextStyle(
+                  //                           color: textColor,
+                  //                           fontSize: 18,
+                  //                           fontWeight: FontWeight.w500),
+                  //                     ),
+                  //                     Text(
+                  //                       '#${model.data?[2].scheduler?.first.id}',
+                  //                       style: const TextStyle(
+                  //                           color: textColor,
+                  //                           fontSize: 16,
+                  //                           fontWeight: FontWeight.w400),
+                  //                     ),
+                  //                   ],
+                  //                 ),
+                  //                 Row(
+                  //                   mainAxisAlignment: MainAxisAlignment.start,
+                  //                   children: [
+                  //                     Text(
+                  //                       '${model.data?[2].scheduler?.first.shopData?.storeName}',
+                  //                       style: const TextStyle(
+                  //                           color: textColor,
+                  //                           fontSize: 18,
+                  //                           fontWeight: FontWeight.w500),
+                  //                     )
+                  //                   ],
+                  //                 ),
+                  //                 Row(
+                  //                   mainAxisAlignment:
+                  //                       MainAxisAlignment.spaceBetween,
+                  //                   children: [
+                  //                     const Text(
+                  //                       '05/06/2022',
+                  //                       style: TextStyle(
+                  //                           color: textColor,
+                  //                           fontSize: 16,
+                  //                           fontWeight: FontWeight.w400),
+                  //                     ),
+                  //                     Row(
+                  //                       children: [
+                  //                         Container(
+                  //                           padding: const EdgeInsets.symmetric(
+                  //                               horizontal: 12, vertical: 8),
+                  //                           decoration: BoxDecoration(
+                  //                               borderRadius:
+                  //                                   BorderRadius.circular(4),
+                  //                               gradient: maingradientColor),
+                  //                           child: Center(
+                  //                             child: Text(
+                  //                               S.of(context).reschedule,
+                  //                               style: const TextStyle(
+                  //                                   color: Colors.white,
+                  //                                   fontSize: 12,
+                  //                                   fontWeight: FontWeight.w700),
+                  //                             ),
+                  //                           ),
+                  //                         ),
+                  //                         const SizedBox(width: 13),
+                  //                         Container(
+                  //                           padding: const EdgeInsets.symmetric(
+                  //                               horizontal: 12, vertical: 8),
+                  //                           decoration: BoxDecoration(
+                  //                               borderRadius:
+                  //                                   BorderRadius.circular(4),
+                  //                               color: cancelButtonColor),
+                  //                           child: Center(
+                  //                             child: Text(
+                  //                               S.of(context).cancel,
+                  //                               style: const TextStyle(
+                  //                                   color: Colors.white,
+                  //                                   fontSize: 12,
+                  //                                   fontWeight: FontWeight.w400),
+                  //                             ),
+                  //                           ),
+                  //                         ),
+                  //                       ],
+                  //                     ),
+                  //                   ],
+                  //                 ),
+                  //               ],
+                  //             ),
+                  //           ),
+                  //         ),
+                  //     separatorBuilder: (context, index) => const Padding(
+                  //         padding: EdgeInsets.only(
+                  //           right: 34,
+                  //           left: 34,
+                  //         ),
+                  //         child: Divider(height: 37)),
+                  //     itemCount: model.data![2].scheduler!.length),
+                  ),
               fallback: (context) => const Center(
                 child: Text("No Data"),
               ),
@@ -381,13 +505,13 @@ class _OrderScreenState extends State<OrderScreen>
                           scrollDirection: Axis.vertical,
                           shrinkWrap: true,
                           itemBuilder: (context, index) => Padding(
-                                padding: const EdgeInsets.only(
-                                  right: 34,
-                                  left: 34,
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 5,
+                                  // left: 34,
                                 ),
                                 child: Container(
                                   height: 123,
-                                  width: 360,
+                                  width: MediaQuery.of(context).size.width,
                                   decoration: BoxDecoration(
                                     color: orderCardColor,
                                     borderRadius: BorderRadius.circular(10),
@@ -407,14 +531,14 @@ class _OrderScreenState extends State<OrderScreen>
                                               MainAxisAlignment.spaceBetween,
                                           children: [
                                             Text(
-                                              '${model.data?[2].scheduler?.first.total} ${S.current.rs}',
+                                              '${model.data?[3].cancle?[index].totalPrice} ${S.current.rs}',
                                               style: const TextStyle(
                                                   color: textColor,
                                                   fontSize: 18,
                                                   fontWeight: FontWeight.w500),
                                             ),
-                                            const Text(
-                                              '#362840',
+                                            Text(
+                                              '${model.data?[3].cancle?[index].id} #',
                                               style: TextStyle(
                                                   color: textColor,
                                                   fontSize: 16,
@@ -422,12 +546,12 @@ class _OrderScreenState extends State<OrderScreen>
                                             ),
                                           ],
                                         ),
-                                        const Row(
+                                        Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
                                           children: [
                                             Text(
-                                              'اسم المتجر',
+                                              '${model.data?[3].cancle?[index].shopData?.brandName} ',
                                               style: TextStyle(
                                                   color: textColor,
                                                   fontSize: 18,
@@ -435,12 +559,12 @@ class _OrderScreenState extends State<OrderScreen>
                                             )
                                           ],
                                         ),
-                                        const Row(
+                                        Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
                                           children: [
                                             Text(
-                                              '05/06/2022',
+                                              '${model.data?[3].cancle?[index].shopData?.createdAt?.split('T').first}',
                                               style: TextStyle(
                                                   color: textColor,
                                                   fontSize: 16,

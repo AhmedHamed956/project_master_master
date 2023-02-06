@@ -32,7 +32,14 @@ class _GiftCardScreenState extends State<GiftCardScreen> {
     return BlocProvider(
       create: (context) => HomeCubit()..getProfieGiftData(),
       child: BlocConsumer<HomeCubit, HomeAppState>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state is PostGiftOrderSuccessStates) {
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const GiftCardScreen()));
+          }
+        },
         builder: (context, state) {
           return ConditionalBuilder(
               condition: HomeCubit.get(context).profileGiftModel != null,
@@ -53,97 +60,97 @@ class _GiftCardScreenState extends State<GiftCardScreen> {
 
   Widget profileGiftScreen(int currentindex, ProfileGiftModel model) =>
       Scaffold(
-        bottomNavigationBar: Container(
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topRight,
-                  end: Alignment.bottomLeft,
-                  colors: [button2color, button1color])),
-          child: BottomAppBar(
-            elevation: 0,
-            color: Colors.transparent,
-            child: SizedBox(
-              height: 56,
-              width: MediaQuery.of(context).size.width,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 25, right: 25),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    IconBottomBar(
-                        index: currentindex,
-                        text: S.current.main,
-                        icon: 'menu-open.png',
-                        selected: currentindex == 0,
-                        onpressed: () {
-                          setState(() {
-                            currentindex = 0;
-                            print(currentindex);
-                          });
-                        }),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 30),
-                      child: IconBottomBar(
-                          index: currentindex,
-                          text: S.current.orders,
-                          icon: 'basket.png',
-                          selected: currentindex == 1,
-                          onpressed: () {
-                            setState(() {
-                              currentindex = 1;
-                              print(currentindex);
-                            });
-                          }),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 30),
-                      child: IconBottomBar(
-                          index: currentindex,
-                          text: S.current.offers,
-                          icon: 'offers.png',
-                          selected: currentindex == 2,
-                          onpressed: () {
-                            setState(() {
-                              currentindex = 2;
-                              print(currentindex);
-                            });
-                          }),
-                    ),
-                    IconBottomBar(
-                        index: currentindex,
-                        text: S.current.settings,
-                        icon: 'Vector.png',
-                        selected: currentindex == 3,
-                        onpressed: () {
-                          setState(() {
-                            currentindex = 3;
-                            print(currentindex);
-                          });
-                        })
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.white,
+        // bottomNavigationBar: Container(
+        //   decoration: BoxDecoration(
+        //       gradient: LinearGradient(
+        //           begin: Alignment.topRight,
+        //           end: Alignment.bottomLeft,
+        //           colors: [button2color, button1color])),
+        //   child: BottomAppBar(
+        //     elevation: 0,
+        //     color: Colors.transparent,
+        //     child: SizedBox(
+        //       height: 56,
+        //       width: MediaQuery.of(context).size.width,
+        //       child: Padding(
+        //         padding: const EdgeInsets.only(left: 25, right: 25),
+        //         child: Row(
+        //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //           children: [
+        //             IconBottomBar(
+        //                 index: currentindex,
+        //                 text: S.current.main,
+        //                 icon: 'menu-open.png',
+        //                 selected: currentindex == 0,
+        //                 onpressed: () {
+        //                   setState(() {
+        //                     currentindex = 0;
+        //                     print(currentindex);
+        //                   });
+        //                 }),
+        //             Padding(
+        //               padding: const EdgeInsets.only(left: 30),
+        //               child: IconBottomBar(
+        //                   index: currentindex,
+        //                   text: S.current.orders,
+        //                   icon: 'basket.png',
+        //                   selected: currentindex == 1,
+        //                   onpressed: () {
+        //                     setState(() {
+        //                       currentindex = 1;
+        //                       print(currentindex);
+        //                     });
+        //                   }),
+        //             ),
+        //             Padding(
+        //               padding: const EdgeInsets.only(right: 30),
+        //               child: IconBottomBar(
+        //                   index: currentindex,
+        //                   text: S.current.offers,
+        //                   icon: 'offers.png',
+        //                   selected: currentindex == 2,
+        //                   onpressed: () {
+        //                     setState(() {
+        //                       currentindex = 2;
+        //                       print(currentindex);
+        //                     });
+        //                   }),
+        //             ),
+        //             IconBottomBar(
+        //                 index: currentindex,
+        //                 text: S.current.settings,
+        //                 icon: 'Vector.png',
+        //                 selected: currentindex == 3,
+        //                 onpressed: () {
+        //                   setState(() {
+        //                     currentindex = 3;
+        //                     print(currentindex);
+        //                   });
+        //                 })
+        //           ],
+        //         ),
+        //       ),
+        //     ),
+        //   ),
+        // ),
+        // floatingActionButton: FloatingActionButton(
+        //   backgroundColor: Colors.white,
 
-          //Floating action button on Scaffold
-          onPressed: () {
-            //code to execute on button press
-          },
-          child: Container(
-            width: 62,
-            height: 63,
-            child: Image.asset(
-              'assets/icons/BiFloraICON.png',
-            ),
-          ),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        //   //Floating action button on Scaffold
+        //   onPressed: () {
+        //     //code to execute on button press
+        //   },
+        //   child: Container(
+        //     width: 62,
+        //     height: 63,
+        //     child: Image.asset(
+        //       'assets/icons/BiFloraICON.png',
+        //     ),
+        //   ),
+        // ),
+        // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         backgroundColor: mainBackgourndColor,
-        body: Column(
+        body: ListView(
           children: [
             AppBarWidget(
               label: S.current.gift_cards,
@@ -153,7 +160,7 @@ class _GiftCardScreenState extends State<GiftCardScreen> {
               height: 35,
             ),
             Container(
-              height: 500,
+              height: MediaQuery.of(context).size.height - 150,
               decoration: BoxDecoration(
                   color: Colors.white,
                   boxShadow: [
@@ -169,16 +176,19 @@ class _GiftCardScreenState extends State<GiftCardScreen> {
                     topRight: Radius.circular(20),
                   )),
               // height: 495,
-              child: ListView.separated(
-                  // physics: const NeverScrollableScrollPhysics(),
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) =>
-                      GiftCardWidget(model: model.data![index]),
-                  separatorBuilder: (context, index) => SizedBox(
-                        height: 20,
-                      ),
-                  itemCount: model.data!.length),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListView.separated(
+                    // physics: const NeverScrollableScrollPhysics(),
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) =>
+                        GiftCardWidget(model: model.data![index]),
+                    separatorBuilder: (context, index) => SizedBox(
+                          height: 20,
+                        ),
+                    itemCount: model.data!.length),
+              ),
             )
           ],
         ),

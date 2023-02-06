@@ -1,13 +1,9 @@
-import 'package:equatable/equatable.dart';
 import 'package:project/Models/User_response.dart';
 import 'package:project/Models/model/location_model.dart';
 
 import '../../../Models/model/shop_model.dart';
 
-abstract class HomeAppState extends Equatable {
-  @override
-  List<Object?> get props => [];
-}
+abstract class HomeAppState {}
 
 class HomecubitIntialStates extends HomeAppState {}
 
@@ -19,20 +15,14 @@ class HomeSuccessStates extends HomeAppState {
 
 class HomeShopFilterSuccessStates extends HomeAppState {
   List<ShopData>? items;
-  LocationModel model;
 
-  HomeShopFilterSuccessStates({this.items, required this.model});
-
-  @override
-  List<Object?> get props => [items, model];
+  HomeShopFilterSuccessStates({this.items});
 }
 
 class GetSavedLocationSuccessStates extends HomeAppState {
   LocationModel? model;
 
   GetSavedLocationSuccessStates({this.model});
-  @override
-  List<Object?> get props => [model];
 }
 
 class HomeLoadingState extends HomeAppState {}
@@ -120,6 +110,20 @@ class PostOrderErrorStates extends HomeAppState {
   PostOrderErrorStates(this.error);
 }
 
+class PosQuickOrderSuccessStates extends HomeAppState {
+  // final LoginModel loginModel;
+
+  PosQuickOrderSuccessStates();
+}
+
+class PosQuickOrderLoadingState extends HomeAppState {}
+
+class PosQuickOrderErrorStates extends HomeAppState {
+  final String error;
+
+  PosQuickOrderErrorStates(this.error);
+}
+
 class ReadyQuickPostOrderSuccessStates extends HomeAppState {
   // final LoginModel loginModel;
 
@@ -130,7 +134,6 @@ class ReadyQuickPostOrderLoadingState extends HomeAppState {}
 
 class ReadyQuickPostOrderErrorStates extends HomeAppState {
   final String error;
-
   ReadyQuickPostOrderErrorStates(this.error);
 }
 
@@ -228,7 +231,6 @@ class GetNonReadyQuickLoadingState extends HomeAppState {}
 
 class GetNonReadyQuickErrorStates extends HomeAppState {
   final String error;
-
   GetNonReadyQuickErrorStates(this.error);
 }
 
@@ -384,6 +386,20 @@ class ConfirmOrderErrorStates extends HomeAppState {
   final String error;
 
   ConfirmOrderErrorStates(this.error);
+}
+
+class CancelOrderSuccessStates extends HomeAppState {
+  // final LoginModel loginModel;
+
+  CancelOrderSuccessStates();
+}
+
+class CancelOrderLoadingState extends HomeAppState {}
+
+class CancelOrderErrorStates extends HomeAppState {
+  final String error;
+
+  CancelOrderErrorStates(this.error);
 }
 
 class ShopChangePasswordVisibilityState extends HomeAppState {}

@@ -7,19 +7,19 @@ class HomeModel {
 
   HomeModel({this.status, this.message, this.data});
 
-  HomeModel.fromJson(dynamic json) {
+  HomeModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
     if (json['data'] != null) {
       data = <ShopData>[];
       json['data'].forEach((v) {
-        data!.add(ShopData.fromJson(v));
+        data!.add(new ShopData.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = new Map<String, dynamic>();
     data['status'] = this.status;
     data['message'] = this.message;
     if (this.data != null) {

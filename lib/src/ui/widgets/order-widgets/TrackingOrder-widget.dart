@@ -433,7 +433,7 @@ class _TrackingOrderState extends State<TrackingOrder> {
                             ),
                             Row(
                               children: [
-                                model.message?.orderInWay == true
+                                model.message?.isRedirectClient == true
                                     ? Container(
                                         height: 17,
                                         width: 17,
@@ -461,7 +461,7 @@ class _TrackingOrderState extends State<TrackingOrder> {
                                 ),
                               ],
                             ),
-                            model.message?.orderInWay == true
+                            model.message?.isRedirectClient == true
                                 ? Row(
                                     children: [
                                       Container(
@@ -576,7 +576,7 @@ class _TrackingOrderState extends State<TrackingOrder> {
                     // SizedBox(
                     //   height: 60,
                     // ),
-                    model.message?.orderInWay == true
+                    model.message?.isRedirectClient == true
                         ? Padding(
                             padding: const EdgeInsets.only(bottom: 34),
                             child: Row(

@@ -40,7 +40,7 @@ class OrderRequestWidget extends StatelessWidget {
                       fontSize: 16,
                       fontWeight: FontWeight.w400)),
               const SizedBox(height: 16),
-              Text("# ${model.id}",
+              Text("# ${model.deliveryData?.orderId}",
                   style: const TextStyle(
                       color: textColor,
                       fontSize: 16,

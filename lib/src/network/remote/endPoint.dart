@@ -9,6 +9,7 @@ const DigitalProducts = 'DigitalProducts';
 const quickProducts = 'QuickProducts';
 const DigitalOrder = 'Client/DigitalOrder';
 const confirmorder = 'Client/confirm-order';
+const cancelorder = 'Client/cancle_order';
 const postConfirmorder = 'Client/DigitalOrderUseGift/';
 const getProfileData = 'Client/User';
 const updateProfileData = 'Client/update_profile';

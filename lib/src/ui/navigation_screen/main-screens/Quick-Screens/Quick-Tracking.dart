@@ -1,20 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:project/Models/getNonReadyQuick.dart';
+import 'package:project/Models/getNonReadyQuick.dart';
+import 'package:project/Models/getNonReadyQuick.dart';
+import 'package:project/src/network/remote/Dio_helper.dart';
 import 'package:project/src/ui/Home/Cubit.dart';
 import 'package:project/src/ui/Home/states.dart';
 
+import '../../../../../Models/getNonReadyQuick.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../Shared/constant.dart';
 
-class QuickTraking extends StatelessWidget {
+class QuickTraking extends StatefulWidget {
   const QuickTraking({super.key});
 
+  @override
+  State<QuickTraking> createState() => _QuickTrakingState();
+}
+
+final bool _running = true;
+
+Stream<String> _stream() async* {
+  while (_running) {
+    await Future<void>.delayed(const Duration(seconds: 10));
+    HomeCubit().getNonReadyQuickData();
+  }
+  // This loop will run forever because _running is always true
+}
+
+class _QuickTrakingState extends State<QuickTraking> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
         create: (context) => HomeCubit()..getNonReadyQuickData(),
         child: BlocConsumer<HomeCubit, HomeAppState>(
-          listener: (context, state) {},
+          listener: (context, state) {
+            if (state is GetNonReadyQuickSuccessStates) {}
+          },
           builder: (context, state) {
             return Scaffold(
                 body: Container(
@@ -121,56 +143,62 @@ class QuickTraking extends StatelessWidget {
                               ),
                             ],
                           )),
-                      Expanded(
-                        child: GridView.count(
-                          scrollDirection: Axis.vertical,
+                      StreamBuilder(
+                        // initialData: model,
+                        stream: _stream(),
+                        builder: (context, snapshot) {
+                          return Expanded(
+                            child: GridView.count(
+                              scrollDirection: Axis.vertical,
 
-                          shrinkWrap: true,
-                          primary: false,
-                          padding: const EdgeInsets.all(20),
-                          childAspectRatio:
-                              (MediaQuery.of(context).orientation ==
-                                      Orientation.landscape)
-                                  ? 2
-                                  : 1,
-                          crossAxisSpacing: 16,
-                          mainAxisSpacing: 12,
-                          crossAxisCount: 2,
+                              shrinkWrap: true,
+                              primary: false,
+                              padding: const EdgeInsets.all(20),
+                              childAspectRatio:
+                                  (MediaQuery.of(context).orientation ==
+                                          Orientation.landscape)
+                                      ? 2
+                                      : 1,
+                              crossAxisSpacing: 16,
+                              mainAxisSpacing: 12,
+                              crossAxisCount: 2,
 
-                          children: List.generate(1, (index) {
-                            return Container(
-                              decoration: BoxDecoration(
-                                color: cardcolor,
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              child: Column(
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.only(
-                                        top: 9, left: 8, right: 8),
-                                    width: 160,
-                                    height: 100,
-                                    child: Image.asset(
-                                        'assets/icons/Rectangle 7891.png',
-                                        fit: BoxFit.fill),
+                              children: List.generate(1, (index) {
+                                return Container(
+                                  decoration: BoxDecoration(
+                                    color: cardcolor,
+                                    borderRadius: BorderRadius.circular(10.0),
                                   ),
-                                  SizedBox(
-                                    height: 29,
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        padding: EdgeInsets.only(
+                                            top: 9, left: 8, right: 8),
+                                        width: 160,
+                                        height: 100,
+                                        child: Image.asset(
+                                            'assets/icons/Rectangle 7891.png',
+                                            fit: BoxFit.fill),
+                                      ),
+                                      SizedBox(
+                                        height: 29,
+                                      ),
+                                      Text(
+                                        '600 ${S.current.rs}',
+                                        style: TextStyle(
+                                            color: textColor,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w400),
+                                      )
+                                    ],
                                   ),
-                                  Text(
-                                    '600 ${S.current.rs}',
-                                    style: TextStyle(
-                                        color: textColor,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w400),
-                                  )
-                                ],
-                              ),
-                            );
-                          }),
+                                );
+                              }),
 
-                          // ),
-                        ),
+                              // ),
+                            ),
+                          );
+                        },
                       ),
                       Padding(
                           padding: const EdgeInsets.only(

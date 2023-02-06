@@ -2,6 +2,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project/Models/GetDigitalData_model.dart';
+import 'package:project/src/common/global.dart';
 import 'package:project/src/ui/Home/Cubit.dart';
 
 import '../../../../../generated/l10n.dart';
@@ -24,7 +25,12 @@ class DigtalScreen extends StatefulWidget {
 class _DigtalScreenState extends State<DigtalScreen> {
   FocusNode _focusNode = new FocusNode();
   FocusNode _focusNode2 = new FocusNode();
+  final _formKey = GlobalKey<FormState>();
+  bool _namevalidate = false;
+  bool _phonevalidate = false;
+
   var cost;
+
   var totalcost;
 
   @override
@@ -90,25 +96,29 @@ class _DigtalScreenState extends State<DigtalScreen> {
             type: widget.type,
           ),
           backgroundColor: mainBackgourndColor,
-          body: Padding(
-              padding: const EdgeInsets.only(right: 11, left: 12, top: 16),
-              child: ListView.separated(
-                  // physics: const NeverScrollableScrollPhysics(),
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) => digitalItem(
-                      model.data![index],
-                      nameController,
-                      phoneController,
-                      index),
-                  separatorBuilder: (context, index) =>
-                      const SizedBox(height: 21),
-                  itemCount: model.data!.length)));
+          body: Form(
+            key: _formKey,
+            child: Padding(
+                padding: const EdgeInsets.only(right: 11, left: 12, top: 16),
+                child: ListView.separated(
+                    // physics: const NeverScrollableScrollPhysics(),
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) => digitalItem(
+                        model.data![index],
+                        nameController,
+                        phoneController,
+                        index),
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(height: 21),
+                    itemCount: model.data!.length)),
+          ));
 
   Widget digitalItem(
           DigitalOrderData model,
           TextEditingController nameController,
           TextEditingController phoneController,
+          // bool _validate,
           int index) =>
       InkWell(
         onTap: () {
@@ -304,7 +314,7 @@ class _DigtalScreenState extends State<DigtalScreen> {
                                   const EdgeInsets.only(left: 13, right: 16),
                               child: Container(
                                 width: 405,
-                                height: 192,
+                                // height: 220,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(4),
                                     border: Border.all(
@@ -315,8 +325,8 @@ class _DigtalScreenState extends State<DigtalScreen> {
                                     padding: const EdgeInsets.only(
                                         left: 23,
                                         right: 22,
-                                        top: 22,
-                                        bottom: 33),
+                                        top: 15,
+                                        bottom: 20),
                                     child: Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
@@ -328,7 +338,7 @@ class _DigtalScreenState extends State<DigtalScreen> {
                                                     const EdgeInsets.fromLTRB(
                                                         0, 6, 0, 0),
                                                 child: Container(
-                                                  height: 56,
+                                                  // height: 80,
                                                   width: 360,
                                                   child: TextField(
                                                     keyboardType:
@@ -337,8 +347,12 @@ class _DigtalScreenState extends State<DigtalScreen> {
                                                     style: const TextStyle(
                                                         color: textColor),
                                                     maxLines: 2,
-                                                    decoration:
-                                                        const InputDecoration(
+                                                    decoration: InputDecoration(
+                                                      errorText: _namevalidate
+                                                          ? langKey == 'ar'
+                                                              ? 'برجاء ادخال اسم المتلقي'
+                                                              : 'Please Enter receiver name'
+                                                          : null,
                                                       focusedBorder:
                                                           OutlineInputBorder(
                                                         borderSide: BorderSide(
@@ -379,7 +393,9 @@ class _DigtalScreenState extends State<DigtalScreen> {
                                             )
                                           ],
                                         ),
-
+                                        SizedBox(
+                                          height: 20,
+                                        ),
                                         Stack(
                                           children: <Widget>[
                                             Padding(
@@ -387,32 +403,40 @@ class _DigtalScreenState extends State<DigtalScreen> {
                                                     const EdgeInsets.fromLTRB(
                                                         0, 6, 0, 0),
                                                 child: Container(
-                                                  height: 56,
+                                                  // height: 56,
                                                   width: 360,
-                                                  child: TextField(
+                                                  child: TextFormField(
                                                     keyboardType:
                                                         TextInputType.number,
                                                     controller: phoneController,
                                                     style: TextStyle(
                                                         color: textColor),
                                                     maxLines: 2,
-                                                    decoration:
-                                                        const InputDecoration(
-                                                      focusedBorder:
-                                                          OutlineInputBorder(
-                                                        borderSide: BorderSide(
-                                                          color: Color.fromRGBO(
-                                                              126, 132, 138, 1),
-                                                        ),
-                                                      ),
-                                                      border:
-                                                          OutlineInputBorder(
-                                                        borderSide: BorderSide(
+                                                    decoration: InputDecoration(
+                                                        focusedBorder:
+                                                            OutlineInputBorder(
+                                                          borderSide:
+                                                              BorderSide(
                                                             color:
-                                                                textFieldColor,
-                                                            width: 0.0),
-                                                      ),
-                                                    ),
+                                                                Color.fromRGBO(
+                                                                    126,
+                                                                    132,
+                                                                    138,
+                                                                    1),
+                                                          ),
+                                                        ),
+                                                        border:
+                                                            OutlineInputBorder(
+                                                          borderSide: BorderSide(
+                                                              color:
+                                                                  textFieldColor,
+                                                              width: 0.0),
+                                                        ),
+                                                        errorText: _phonevalidate
+                                                            ? langKey == 'ar'
+                                                                ? 'برجاء ادخال رقم الهاتف'
+                                                                : 'Please Enter Phone Number'
+                                                            : null),
                                                     focusNode: _focusNode2,
                                                   ),
                                                 )),
@@ -461,20 +485,31 @@ class _DigtalScreenState extends State<DigtalScreen> {
                                 height: 56,
                                 child: ingridentbutton(
                                     function: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  DigtalOrders(
-                                                    productID:
-                                                        model.id.toString(),
-                                                    price: model.prices![index]
-                                                        .toString(),
-                                                    namecontroller:
-                                                        nameController,
-                                                    phonecontroller:
-                                                        phoneController,
-                                                  )));
+                                      setState(() {
+                                        nameController.text.isEmpty
+                                            ? _namevalidate = true
+                                            : _namevalidate = false;
+
+                                        phoneController.text.isEmpty
+                                            ? _phonevalidate = true
+                                            : _phonevalidate = false;
+                                      });
+                                      if (nameController.text.isNotEmpty &&
+                                          phoneController.text.isNotEmpty) {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    DigtalOrders(
+                                                      productID:
+                                                          model.id.toString(),
+                                                      price: totalcost,
+                                                      namecontroller:
+                                                          nameController,
+                                                      phonecontroller:
+                                                          phoneController,
+                                                    )));
+                                      }
                                     },
                                     color1: button1color,
                                     color2: button2color,

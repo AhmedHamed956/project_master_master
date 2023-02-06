@@ -149,9 +149,17 @@ class _QuickScreenState extends State<QuickScreen> {
                             borderRadius: BorderRadius.circular(20.0)),
                         child: Column(children: [
                           Container(
-                              color: Colors.grey,
+                            width: MediaQuery.of(context).size.width,
+                            height: 110,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20)),
                               child: Image.network(
-                                  '$domainlink${model.data![index].masterImage}')),
+                                  '${domainlink}${model.data![index].masterImage}',
+                                  fit: BoxFit.fill),
+                            ),
+                          ),
                           Padding(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 12, vertical: 10),

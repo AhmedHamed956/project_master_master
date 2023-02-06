@@ -3,6 +3,7 @@ import 'package:project/src/ui/delivery_package/data/model/delivery_data.dart';
 class OrderRequestModel {
   OrderRequestModel({
     int? id,
+    int? orderId,
     int? userId,
     int? deliveryOrderId,
     int? isAccpet,
@@ -11,6 +12,7 @@ class OrderRequestModel {
     DeliveryData? deliveryData,
   }) {
     _id = id;
+    _orderId = orderId;
     _userId = userId;
     _deliveryOrderId = deliveryOrderId;
     _isAccpet = isAccpet;
@@ -21,6 +23,8 @@ class OrderRequestModel {
 
   OrderRequestModel.fromJson(dynamic json) {
     _id = json['id'];
+    _orderId = json['order_id'];
+
     _userId = json['user_id'];
     _deliveryOrderId = json['delivery_order_id'];
     _isAccpet = json['is_accpet'];
@@ -32,6 +36,8 @@ class OrderRequestModel {
   }
 
   int? _id;
+  int? _orderId;
+
   int? _userId;
   int? _deliveryOrderId;
   int? _isAccpet;
@@ -40,6 +46,7 @@ class OrderRequestModel {
   DeliveryData? _deliveryData;
 
   int? get id => _id;
+  int? get orderId => _orderId;
 
   int? get userId => _userId;
 
@@ -56,6 +63,8 @@ class OrderRequestModel {
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['id'] = _id;
+    map['order_id'] = _orderId;
+
     map['user_id'] = _userId;
     map['delivery_order_id'] = _deliveryOrderId;
     map['is_accpet'] = _isAccpet;

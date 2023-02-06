@@ -4,6 +4,7 @@ class DeliveryData {
   DeliveryData({
     int? id,
     int? userId,
+    int? orderId,
     int? detailOrderId,
     int? shopId,
     dynamic deliveryId,
@@ -21,6 +22,8 @@ class DeliveryData {
   }) {
     _id = id;
     _userId = userId;
+    _orderId = orderId;
+
     _detailOrderId = detailOrderId;
     _shopId = shopId;
     _deliveryId = deliveryId;
@@ -39,6 +42,7 @@ class DeliveryData {
 
   DeliveryData.fromJson(dynamic json) {
     _id = json['id'];
+    _orderId = json['order_id'];
     _userId = json['user_id'];
     _detailOrderId = json['detail_order_id'];
     _shopId = json['shop_id'];
@@ -59,6 +63,8 @@ class DeliveryData {
 
   int? _id;
   int? _userId;
+  int? _orderId;
+
   int? _detailOrderId;
   int? _shopId;
   dynamic _deliveryId;
@@ -77,6 +83,7 @@ class DeliveryData {
   int? get id => _id;
 
   int? get userId => _userId;
+  int? get orderId => _orderId;
 
   int? get detailOrderId => _detailOrderId;
 
@@ -110,6 +117,8 @@ class DeliveryData {
     final map = <String, dynamic>{};
     map['id'] = _id;
     map['user_id'] = _userId;
+    map['order_id'] = _orderId;
+
     map['detail_order_id'] = _detailOrderId;
     map['shop_id'] = _shopId;
     map['delivery_id'] = _deliveryId;

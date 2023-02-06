@@ -1,3 +1,4 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -60,7 +61,7 @@ class _QuickWidgetState extends State<QuickWidget> {
   Widget build(BuildContext context) {
     return BlocConsumer<HomeCubit, HomeAppState>(
       listener: (context, state) {
-        if (state is PostOrderSuccessStates) {
+        if (state is PosQuickOrderSuccessStates) {
           Navigator.push(
               context,
               MaterialPageRoute(
@@ -383,30 +384,42 @@ class _QuickWidgetState extends State<QuickWidget> {
                   SizedBox(
                     height: 40,
                   ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(right: 25, left: 25, bottom: 35),
-                    child: ingridentbutton(
-                      width: 366,
-                      height: 45,
-                      function: () {
-                        if (widget.model?.isAvailable == 1) {
-                          HomeCubit.get(context).postOrder(
-                              productID: widget.model?.productId,
-                              quantity: counter);
-                        } else {
-                          if (widget.model?.isAvailable == 0) {
-                            HomeCubit.get(context).postnonReadyQuickOrder(
-                                productID: widget.model?.productId,
-                                quantity: counter);
-                          }
-                        }
+                  ConditionalBuilder(
+                      condition: state is! PosQuickOrderLoadingState &&
+                          state is! ReadyQuickPostOrderLoadingState,
+                      builder: (context) {
+                        return Padding(
+                          padding: const EdgeInsets.only(
+                              right: 25, left: 25, bottom: 35),
+                          child: ingridentbutton(
+                            width: 366,
+                            height: 45,
+                            function: () {
+                              if (widget.model?.isAvailable == 1) {
+                                HomeCubit.get(context).postQuickOrder(
+                                    productID: widget.model?.productId,
+                                    quantity: counter,
+                                    isQiuck: 1);
+                              } else {
+                                if (widget.model?.isAvailable == 0) {
+                                  HomeCubit.get(context).postnonReadyQuickOrder(
+                                      productID: widget.model?.productId,
+                                      quantity: counter);
+                                }
+                              }
+                            },
+                            text: S.current.quick_order,
+                            color1: button1color,
+                            color2: button2color,
+                          ),
+                        );
                       },
-                      text: S.current.quick_order,
-                      color1: button1color,
-                      color2: button2color,
-                    ),
-                  )
+                      fallback: (context) => Container(
+                          color: Colors.white,
+                          child: Center(
+                              child: CircularProgressIndicator(
+                            color: button2color,
+                          ))))
                 ],
               ),
             ),

@@ -207,6 +207,18 @@ class TabDetailsErrorStates extends HomeAppState {
   TabDetailsErrorStates(this.error);
 }
 
+class QuickSuggestionSuccessStates extends HomeAppState {
+  QuickSuggestionSuccessStates();
+}
+
+class QuickSuggestionLoadingState extends HomeAppState {}
+
+class QuickSuggestionErrorStates extends HomeAppState {
+  final String error;
+
+  QuickSuggestionErrorStates(this.error);
+}
+
 class GetCartSuccessStates extends HomeAppState {
   // final LoginModel loginModel;
 

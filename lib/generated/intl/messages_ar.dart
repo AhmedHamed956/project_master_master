@@ -47,6 +47,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("إسم صاحب البطاقة"),
         "card_number": MessageLookupByLibrary.simpleMessage("رقم البطاقة"),
         "cash": MessageLookupByLibrary.simpleMessage("نقدي"),
+        "show_cart": MessageLookupByLibrary.simpleMessage("عرض السلة"),
         "chat": MessageLookupByLibrary.simpleMessage("Chat"),
         "closed": MessageLookupByLibrary.simpleMessage("مغلق"),
         "common_cycle": MessageLookupByLibrary.simpleMessage(
@@ -124,7 +125,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "open_map": MessageLookupByLibrary.simpleMessage("افتح الخريطة"),
         "order_cycle": MessageLookupByLibrary.simpleMessage(
             "----------------------------------------------"),
-        "order_details": MessageLookupByLibrary.simpleMessage("تفاصيل الطلب"),
+        "order_details": MessageLookupByLibrary.simpleMessage("إتمام الطلب"),
         "order_now": MessageLookupByLibrary.simpleMessage("اطلب الآن"),
         "order_tracking": MessageLookupByLibrary.simpleMessage("تتبع الطلب"),
         "ordered_items":

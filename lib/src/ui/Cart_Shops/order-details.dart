@@ -129,24 +129,83 @@ class _OrderDetailsState extends State<OrderDetails> {
     return BlocConsumer<HomeCubit, HomeAppState>(
       listener: (context, state) {
         if (state is ConfirmOrderSuccessStates) {
-          Navigator.pushReplacement<void, void>(
-            context,
-            MaterialPageRoute<void>(
-              builder: (BuildContext context) => HomeScreen(
-                index: 0,
+          showDialog<void>(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+                content: Container(
+                  height: 60,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        langKey == 'ar'
+                            ? "تم تاكيد الطلب"
+                            : "Order is Confirmed",
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: button2color),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ).then((value) {
+            Navigator.pushReplacement<void, void>(
+              context,
+              MaterialPageRoute<void>(
+                builder: (BuildContext context) => HomeScreen(
+                  index: 0,
+                ),
               ),
-            ),
-          );
+            );
+          });
         }
         if (state is ConfirmOrderErrorStates) {
-          Navigator.pushReplacement<void, void>(
-            context,
-            MaterialPageRoute<void>(
-              builder: (BuildContext context) => HomeScreen(
-                index: 0,
+          showDialog<void>(
+            context: context,
+            builder: (BuildContext context) {
+              // Future.delayed(Duration(seconds: 3), () {
+              //   Navigator.of(context).pop(true);
+              // });
+              return AlertDialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+                content: Container(
+                  height: 60,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        langKey == 'ar'
+                            ? "تم تاكيد الطلب"
+                            : "Order is Confirmed",
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: button2color),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ).then((value) {
+            Navigator.pushReplacement<void, void>(
+              context,
+              MaterialPageRoute<void>(
+                builder: (BuildContext context) => HomeScreen(
+                  index: 0,
+                ),
               ),
-            ),
-          );
+            );
+          });
         }
       },
       builder: (context, state) {
@@ -239,7 +298,10 @@ class _OrderDetailsState extends State<OrderDetails> {
                                   _gift = value;
                                   typeSend = 'ToPersone';
                                   widget.city = null;
-                                  result = null;
+
+                                  // result = null;
+                                  // mapVaildate = true;
+
                                   giftVaildate = false;
                                 });
                               },

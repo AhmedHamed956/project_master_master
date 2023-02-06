@@ -26,6 +26,7 @@ import '../../../Models/getProfile_Model.dart';
 import '../../../Models/get_QuickProduct_model.dart';
 import '../../../Models/home_shops_filter_response.dart';
 import '../../../Models/model/location_model.dart';
+import '../../../Models/model/quick_suggestion_model.dart';
 import '../../../Models/performance_Model.dart';
 import '../../../Models/profile_Gift_Model.dart';
 import '../../common/global.dart';
@@ -141,6 +142,19 @@ class HomeCubit extends Cubit<HomeAppState> {
     }).catchError((error, s) {
       log("tabdetails $error $s");
       emit(TabDetailsErrorStates(error.toString()));
+    });
+  }
+
+  QuickSuggestionModel? suggestionModel;
+
+  Future<void> quickSuggestion({@required id}) async {
+    emit(QuickSuggestionLoadingState());
+    DioHelper.getdata(url: '$quicksuggestion/$id', token: token).then((value) {
+      suggestionModel = QuickSuggestionModel.fromJson(value.data);
+      print(value.data);
+      emit(QuickSuggestionSuccessStates());
+    }).catchError((error, s) {
+      emit(QuickSuggestionErrorStates(error.toString()));
     });
   }
 

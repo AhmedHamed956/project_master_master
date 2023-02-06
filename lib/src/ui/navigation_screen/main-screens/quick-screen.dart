@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project/Models/get_QuickProduct_model.dart';
 import 'package:project/src/common/global.dart';
+import 'package:project/src/network/remote/endPoint.dart';
 import 'package:project/src/ui/Home/Cubit.dart';
 import 'package:project/src/ui/Home/states.dart';
 
@@ -131,16 +132,25 @@ class _QuickScreenState extends State<QuickScreen> {
             itemBuilder: (BuildContext context, int index) {
               return Wrap(children: [
                 InkWell(
-                    onTap: () {
-                      showModalBottomSheet(
-                          isScrollControlled: true,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0)),
-                          backgroundColor: Colors.transparent,
-                          builder: (BuildContext context) {
-                            return QuickWidget(model: model.data![index]);
-                          },
-                          context: context);
+                    onTap: () async {
+                      await HomeCubit.get(context)
+                          .quickSuggestion(id: model.data![index].id)
+                          .then(
+                        (value) {
+                          showModalBottomSheet(
+                              isScrollControlled: true,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0)),
+                              backgroundColor: Colors.transparent,
+                              builder: (BuildContext context) {
+                                var model2 =
+                                    HomeCubit.get(context).suggestionModel!;
+                                return QuickWidget(
+                                    model: model.data![index], model2: model2);
+                              },
+                              context: context);
+                        },
+                      );
                     },
                     child: Container(
                         clipBehavior: Clip.antiAliasWithSaveLayer,

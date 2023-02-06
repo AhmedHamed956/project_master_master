@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:project/Models/get_QuickProduct_model.dart';
+import 'package:project/Models/model/quick_suggestion_model.dart';
 import 'package:project/src/common/global.dart';
 import 'package:project/src/ui/Home/Cubit.dart';
 import 'package:project/src/ui/Home/states.dart';
@@ -16,7 +17,8 @@ import '../navigation_screen/main-screens/Quick-Screens/Quick-Tracking.dart';
 
 class QuickWidget extends StatefulWidget {
   ProductData? model;
-  QuickWidget({super.key, this.model});
+  QuickSuggestionModel model2;
+  QuickWidget({super.key, this.model, required this.model2});
 
   @override
   State<QuickWidget> createState() => _QuickWidgetState();
@@ -376,7 +378,7 @@ class _QuickWidgetState extends State<QuickWidget> {
                                       SizedBox(
                                         width: 12,
                                       ),
-                                  itemCount: 10)),
+                                  itemCount: widget.model2.data!.length)),
                         ),
                       ],
                     ),

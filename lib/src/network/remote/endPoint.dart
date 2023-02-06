@@ -14,6 +14,7 @@ const postConfirmorder = 'Client/DigitalOrderUseGift/';
 const getProfileData = 'Client/User';
 const updateProfileData = 'Client/update_profile';
 const readyQuick = 'Client/QuickOrder';
+const quicksuggestion = 'QuickOneProductSuggest';
 const offers = 'Offers';
 const oneoffers = 'OneOffer';
 const ads = 'Ads';

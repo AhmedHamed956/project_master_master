@@ -49,7 +49,7 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     _homeCubit = BlocProvider.of<HomeCubit>(context);
     _homeCubit
-      ..getHomeProduct()
+      ..getHomeShops()
       ..getAdsData()
       ..getCountries()
       ..getSavedLocation();

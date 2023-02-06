@@ -24,6 +24,7 @@ class ShopData {
   int? quickSubscriber;
   int? fromHour;
   int? toHour;
+  String? latLong;
   String? commissionRate;
   String? contractStartingDate;
   String? contractEndDate;
@@ -39,40 +40,40 @@ class ShopData {
 
   ShopData(
       {this.id,
-        this.userId,
-        this.logo,
-        this.background,
-        this.storeName,
-        this.cRN,
-        this.brandName,
-        this.region,
-        this.city,
-        this.phone,
-        this.email,
-        this.name,
-        this.contractStatus,
-        this.numberEmployees,
-        this.isTaxable,
-        this.taxNumber,
-        this.minimumOrder,
-        this.deliveryTime,
-        this.deliveryCost,
-        this.location,
-        this.quickSubscriber,
-        this.fromHour,
-        this.toHour,
-        this.commissionRate,
-        this.contractStartingDate,
-        this.contractEndDate,
-        this.shopCategory,
-        this.numberBranches,
-        this.normalNotes,
-        this.statusChangeNotes,
-        this.contractFile,
-        this.commercialRegisterFile,
-        this.createdAt,
-        this.updatedAt,
-        this.categoryData});
+      this.userId,
+      this.logo,
+      this.background,
+      this.storeName,
+      this.cRN,
+      this.brandName,
+      this.region,
+      this.city,
+      this.phone,
+      this.email,
+      this.name,
+      this.contractStatus,
+      this.numberEmployees,
+      this.isTaxable,
+      this.taxNumber,
+      this.minimumOrder,
+      this.deliveryTime,
+      this.deliveryCost,
+      this.location,
+      this.quickSubscriber,
+      this.fromHour,
+      this.toHour,
+      this.commissionRate,
+      this.contractStartingDate,
+      this.contractEndDate,
+      this.shopCategory,
+      this.numberBranches,
+      this.normalNotes,
+      this.statusChangeNotes,
+      this.contractFile,
+      this.commercialRegisterFile,
+      this.createdAt,
+      this.updatedAt,
+      this.categoryData});
 
   ShopData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -87,6 +88,7 @@ class ShopData {
     phone = json['phone'];
     email = json['email'];
     name = json['name'];
+    latLong = json['lat_Long'];
     contractStatus = json['contract_status'];
     numberEmployees = json['number_employees'];
     isTaxable = json['is_taxable'];
@@ -123,6 +125,7 @@ class ShopData {
     data['store_name'] = storeName;
     data['CRN'] = cRN;
     data['brand_name'] = brandName;
+    data['lat_Long'] = latLong;
     data['region'] = region;
     data['city'] = city;
     data['phone'] = phone;

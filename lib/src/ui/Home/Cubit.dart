@@ -40,7 +40,7 @@ class HomeCubit extends Cubit<HomeAppState> {
   static HomeCubit get(context) => BlocProvider.of(context);
   HomeModel? homeModel;
 
-  Future<void> getHomeProduct() async {
+  Future<void> getHomeShops() async {
     DioHelper.getdata(url: home, token: token).then((value) {
       HomeModel homeModel = HomeModel.fromJson(value.data);
       // log("getHomeProduct ${jsonEncode(value.data)}");

@@ -16,6 +16,7 @@ import 'package:project/src/ui/delivery_package/navigation_screens/delivery_cycl
 import 'package:project/src/ui/location/location_permission_screen.dart';
 import 'package:project/src/ui/location/mapping_set.dart';
 import 'package:project/src/ui/navigation_screen/main-screens/quick-screen.dart';
+import 'package:project/src/ui/navigation_screen/settings/profile/gift-card.dart';
 
 import 'generated/l10n.dart';
 
@@ -121,9 +122,7 @@ class _MyAppState extends State<MyApp> {
             supportedLocales: S.delegate.supportedLocales,
             // home: const HomeScreen(),
             home: widget.startwidget,
-            // home: LocationPermissionScreen(),
-            // home: QuickScreen(),
-            // home: MappingSet(mappingset: 'startlocation'),
+// home: GiftCardScreen(),
             // home: DeliveryCycleScreen(),
             onGenerateRoute: RouteGenerator.generateRoute));
   }

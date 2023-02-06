@@ -1,9 +1,13 @@
+import 'package:equatable/equatable.dart';
 import 'package:project/Models/User_response.dart';
 import 'package:project/Models/model/location_model.dart';
 
 import '../../../Models/model/shop_model.dart';
 
-abstract class HomeAppState {}
+abstract class HomeAppState extends Equatable {
+  @override
+  List<Object?> get props => [];
+}
 
 class HomecubitIntialStates extends HomeAppState {}
 
@@ -134,6 +138,7 @@ class ReadyQuickPostOrderLoadingState extends HomeAppState {}
 
 class ReadyQuickPostOrderErrorStates extends HomeAppState {
   final String error;
+
   ReadyQuickPostOrderErrorStates(this.error);
 }
 
@@ -166,9 +171,12 @@ class PostDigitalOrderErrorStates extends HomeAppState {
 }
 
 class PostGiftOrderSuccessStates extends HomeAppState {
-  // final LoginModel loginModel;
+  String? message;
 
-  PostGiftOrderSuccessStates();
+  PostGiftOrderSuccessStates({this.message});
+
+  @override
+  List<Object?> get props => [message];
 }
 
 class PostGiftOrderLoadingState extends HomeAppState {}
@@ -243,6 +251,7 @@ class GetNonReadyQuickLoadingState extends HomeAppState {}
 
 class GetNonReadyQuickErrorStates extends HomeAppState {
   final String error;
+
   GetNonReadyQuickErrorStates(this.error);
 }
 

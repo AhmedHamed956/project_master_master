@@ -47,7 +47,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("إسم صاحب البطاقة"),
         "card_number": MessageLookupByLibrary.simpleMessage("رقم البطاقة"),
         "cash": MessageLookupByLibrary.simpleMessage("نقدي"),
-        "show_cart": MessageLookupByLibrary.simpleMessage("عرض السلة"),
         "chat": MessageLookupByLibrary.simpleMessage("Chat"),
         "closed": MessageLookupByLibrary.simpleMessage("مغلق"),
         "common_cycle": MessageLookupByLibrary.simpleMessage(
@@ -176,6 +175,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "settings": MessageLookupByLibrary.simpleMessage("الإعدادات"),
         "settings_cycle": MessageLookupByLibrary.simpleMessage(
             "----------------------------------------------"),
+        "show_cart": MessageLookupByLibrary.simpleMessage("عرض السلة"),
         "similar_items": MessageLookupByLibrary.simpleMessage("منتجات اضافية"),
         "suggestions": MessageLookupByLibrary.simpleMessage("اقتراحات"),
         "terms_conditions":

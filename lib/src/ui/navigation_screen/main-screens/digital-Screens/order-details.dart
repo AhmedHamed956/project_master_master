@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project/src/ui/Home/Cubit.dart';
 import 'package:project/src/ui/navigation_screen/main-screens/digital-Screens/digital-Screen.dart';
+import 'package:project/src/ui/widgets/widgets.dart';
 
 import '../../../../../generated/l10n.dart';
 import '../../../Shared/constant.dart';
@@ -12,6 +13,7 @@ class DigtalOrders extends StatefulWidget {
   String productID;
   TextEditingController namecontroller;
   TextEditingController phonecontroller;
+
   DigtalOrders(
       {super.key,
       required this.namecontroller,
@@ -64,11 +66,11 @@ class _DigtalOrdersState extends State<DigtalOrders> {
                     color: shadowColor.withOpacity(0.1),
                     spreadRadius: 0,
                     blurRadius: 8,
-                    offset: Offset(0, -4), // changes position of shadow
+                    offset: const Offset(0, -4), // changes position of shadow
                   ),
                 ],
                 color: Colors.white,
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20))),
             // width: 360,
@@ -85,7 +87,7 @@ class _DigtalOrdersState extends State<DigtalOrders> {
                         children: [
                           Text(
                             S.current.who_the_gift_for,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: textColor,
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
@@ -94,7 +96,7 @@ class _DigtalOrdersState extends State<DigtalOrders> {
                         ],
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 16,
                     ),
                     Padding(
@@ -158,7 +160,7 @@ class _DigtalOrdersState extends State<DigtalOrders> {
                                 )
                               ],
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 16,
                             ),
                             Stack(
@@ -173,7 +175,8 @@ class _DigtalOrdersState extends State<DigtalOrders> {
                                         textAlign: TextAlign.right,
                                         keyboardType: TextInputType.number,
                                         controller: widget.phonecontroller,
-                                        style: TextStyle(color: textColor),
+                                        style:
+                                            const TextStyle(color: textColor),
                                         maxLines: 2,
                                         decoration: const InputDecoration(
                                           focusedBorder: OutlineInputBorder(
@@ -222,8 +225,8 @@ class _DigtalOrdersState extends State<DigtalOrders> {
                             //     label: 'aa')
                           ],
                         )),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 21, left: 20),
+                    const Padding(
+                      padding: EdgeInsets.only(right: 21, left: 20),
                       child: Divider(
                         color: dividerColor,
                       ),
@@ -238,7 +241,7 @@ class _DigtalOrdersState extends State<DigtalOrders> {
                             children: [
                               Text(
                                 S.current.payment_method,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: textColor,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w700,
@@ -250,7 +253,7 @@ class _DigtalOrdersState extends State<DigtalOrders> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Container(
-                                child: Text(
+                                child: const Text(
                                   'VISA  5841-XXXX-XXXX-XXXX',
                                   style: TextStyle(
                                     color: textColor,
@@ -268,7 +271,7 @@ class _DigtalOrdersState extends State<DigtalOrders> {
                                 child: Center(
                                   child: Text(
                                     S.current.add_new_card,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 14,
                                       fontWeight: FontWeight.w400,
@@ -281,16 +284,16 @@ class _DigtalOrdersState extends State<DigtalOrders> {
                         ],
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 12,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 21, left: 20),
+                    const Padding(
+                      padding: EdgeInsets.only(right: 21, left: 20),
                       child: Divider(
                         color: dividerColor,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 29,
                     ),
                     Padding(
@@ -322,7 +325,7 @@ class _DigtalOrdersState extends State<DigtalOrders> {
                                   children: [
                                     Text(
                                       S.current.total_amount,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         color: textColor,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w400,
@@ -330,7 +333,7 @@ class _DigtalOrdersState extends State<DigtalOrders> {
                                     ),
                                     Text(
                                       '${widget.price} ${S.current.rs}',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         color: textColor,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w700,
@@ -339,7 +342,7 @@ class _DigtalOrdersState extends State<DigtalOrders> {
                                   ],
                                 ),
                               ),
-                              Divider(
+                              const Divider(
                                 color: dividerColor,
                               ),
                               Padding(
@@ -354,7 +357,7 @@ class _DigtalOrdersState extends State<DigtalOrders> {
                                   children: [
                                     Text(
                                       S.current.total_calculted_amount,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         color: button1color,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w400,
@@ -362,7 +365,7 @@ class _DigtalOrdersState extends State<DigtalOrders> {
                                     ),
                                     Text(
                                       '${widget.price} ${S.current.rs}',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         color: button1color,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w700,
@@ -400,7 +403,7 @@ class _DigtalOrdersState extends State<DigtalOrders> {
                                       context,
                                       MaterialPageRoute<void>(
                                         builder: (BuildContext context) =>
-                                            DigtalScreen(),
+                                            const DigtalScreen(),
                                       )));
                         },
                         color1: button1color,

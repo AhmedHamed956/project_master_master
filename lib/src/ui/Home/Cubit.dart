@@ -14,10 +14,12 @@ import 'package:project/Models/location_response.dart';
 import 'package:project/Models/offers_Model.dart';
 import 'package:project/Models/one_offer_Model.dart';
 import 'package:project/Models/orders_response.dart';
+import 'package:project/Models/response/confirm_digetal_gift_response.dart';
 import 'package:project/Models/shop_details_Model.dart';
 import 'package:project/Models/suggest_search_response.dart';
 import 'package:project/src/ui/Home/states.dart';
 import 'package:project/src/ui/Shared/constant.dart';
+import 'package:project/src/ui/widgets/widgets.dart';
 
 import '../../../Models/GetCartData_Model.dart';
 import '../../../Models/GetDigitalData_model.dart';
@@ -220,6 +222,7 @@ class HomeCubit extends Cubit<HomeAppState> {
   }
 
   GetnonReadyQuickModel? getnonReadyQuickModel;
+
   Future<void> getNonReadyQuickData() async {
     emit(GetNonReadyQuickLoadingState());
     DioHelper.getdata(
@@ -313,10 +316,14 @@ class HomeCubit extends Cubit<HomeAppState> {
     emit(PostDigitalOrderLoadingState());
     DioHelper.postdata(url: DigitalOrder, data: formData, token: token)
         .then((value) {
-      log(value.data);
+      log("postdigitalorder ${jsonEncode(value.data)}");
 
+      ConfirmDigitalGiftResponse confirmDigitalGiftResponse =
+          ConfirmDigitalGiftResponse.fromJson(value.data);
+      showSnackBar(title: confirmDigitalGiftResponse.message ?? "");
       emit(PostDigitalOrderSuccessStates());
-    }).catchError((error) {
+    }).catchError((error, s) {
+      log("postdigitalorder $error $s");
       emit(PostDigitalOrderErrorStates(error.toString()));
     });
   }
@@ -422,17 +429,18 @@ class HomeCubit extends Cubit<HomeAppState> {
 
   Future<void> postGiftorder(
       {@required context, @required productID, @required amount}) async {
-    FormData formData = FormData.fromMap({
-      "amount": amount,
-    });
+    FormData formData = FormData.fromMap({"amount": amount});
     emit(PostGiftOrderLoadingState());
     DioHelper.postdata(
             url: "$postConfirmorder$productID", data: formData, token: token)
         .then((value) {
-      print(value.data);
+      log("postGiftorder ${jsonEncode(value.data)}");
 
-      emit(PostGiftOrderSuccessStates());
-    }).catchError((error) {
+      ConfirmDigitalGiftResponse response =
+          ConfirmDigitalGiftResponse.fromJson(value.data);
+      emit(PostGiftOrderSuccessStates(message: response.message ?? ""));
+    }).catchError((error, s) {
+      log("postGiftorder $error $s");
       emit(PostGiftOrderErrorStates(error.toString()));
     });
   }

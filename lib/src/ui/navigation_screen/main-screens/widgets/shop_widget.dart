@@ -29,13 +29,6 @@ class _ShopWidgetState extends State<ShopWidget> {
   @override
   void initState() {
     _model = widget.model;
-    distance = locationService.distanceBetweenTwoPoints(
-        lat1: double.tryParse(_model.latLong!.split(",").first) ?? 0,
-        lon1: double.tryParse(_model.latLong!.split(",").elementAt(1)) ?? 0,
-        lat2: double.tryParse(widget.location.latLong!.split(",").first) ?? 0,
-        lon2:
-            double.tryParse(widget.location.latLong!.split(",").elementAt(1)) ??
-                0);
 
     log("distance : $distance");
 

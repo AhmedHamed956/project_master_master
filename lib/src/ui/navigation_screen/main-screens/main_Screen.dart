@@ -261,9 +261,8 @@ class _MainScreenState extends State<MainScreen> {
                                 itemCount: _shops.length)
                           ]),
                       fallback: (context) => const Center(
-                              child: CircularProgressIndicator(
-                            color: button2color,
-                          )))
+                          child:
+                              CircularProgressIndicator(color: button2color)))
                 ]))
           ]));
     });

@@ -27,7 +27,7 @@ class _ShopsOffersState extends State<ShopsOffers> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeCubit()..getHomeProduct(),
+      create: (context) => HomeCubit()..getHomeShops(),
       child: BlocConsumer<HomeCubit, HomeAppState>(
         listener: (context, state) {},
         builder: (context, state) {

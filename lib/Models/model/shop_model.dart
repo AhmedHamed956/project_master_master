@@ -21,6 +21,7 @@ class ShopData {
   String? deliveryTime;
   String? deliveryCost;
   String? location;
+  String? latLong;
   int? quickSubscriber;
   int? fromHour;
   int? toHour;
@@ -39,40 +40,41 @@ class ShopData {
 
   ShopData(
       {this.id,
-        this.userId,
-        this.logo,
-        this.background,
-        this.storeName,
-        this.cRN,
-        this.brandName,
-        this.region,
-        this.city,
-        this.phone,
-        this.email,
-        this.name,
-        this.contractStatus,
-        this.numberEmployees,
-        this.isTaxable,
-        this.taxNumber,
-        this.minimumOrder,
-        this.deliveryTime,
-        this.deliveryCost,
-        this.location,
-        this.quickSubscriber,
-        this.fromHour,
-        this.toHour,
-        this.commissionRate,
-        this.contractStartingDate,
-        this.contractEndDate,
-        this.shopCategory,
-        this.numberBranches,
-        this.normalNotes,
-        this.statusChangeNotes,
-        this.contractFile,
-        this.commercialRegisterFile,
-        this.createdAt,
-        this.updatedAt,
-        this.categoryData});
+      this.userId,
+      this.logo,
+      this.background,
+      this.storeName,
+      this.cRN,
+      this.brandName,
+      this.region,
+      this.city,
+      this.phone,
+      this.email,
+      this.name,
+      this.contractStatus,
+      this.numberEmployees,
+      this.isTaxable,
+      this.taxNumber,
+      this.minimumOrder,
+      this.deliveryTime,
+      this.deliveryCost,
+      this.location,
+      this.latLong,
+      this.quickSubscriber,
+      this.fromHour,
+      this.toHour,
+      this.commissionRate,
+      this.contractStartingDate,
+      this.contractEndDate,
+      this.shopCategory,
+      this.numberBranches,
+      this.normalNotes,
+      this.statusChangeNotes,
+      this.contractFile,
+      this.commercialRegisterFile,
+      this.createdAt,
+      this.updatedAt,
+      this.categoryData});
 
   ShopData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -95,6 +97,7 @@ class ShopData {
     deliveryTime = json['delivery_time'];
     deliveryCost = json['delivery_cost'];
     location = json['location'];
+    latLong = json['lat_long'];
     quickSubscriber = json['quick_subscriber'];
     fromHour = json['from_hour'];
     toHour = json['to_hour'];
@@ -136,6 +139,7 @@ class ShopData {
     data['delivery_time'] = deliveryTime;
     data['delivery_cost'] = deliveryCost;
     data['location'] = location;
+    data['lat_long'] = latLong;
     data['quick_subscriber'] = quickSubscriber;
     data['from_hour'] = fromHour;
     data['to_hour'] = toHour;

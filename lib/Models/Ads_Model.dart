@@ -1,4 +1,3 @@
-
 import 'model/translations_model.dart';
 
 class AdsModel {
@@ -8,19 +7,19 @@ class AdsModel {
 
   AdsModel({this.status, this.message, this.data});
 
-  AdsModel.fromJson(Map<String, dynamic> json) {
+  AdsModel.fromJson(dynamic json) {
     status = json['status'];
     message = json['message'];
     if (json['data'] != null) {
       data = <AdsData>[];
       json['data'].forEach((v) {
-        data!.add(new AdsData.fromJson(v));
+        data!.add(AdsData.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['status'] = this.status;
     data['message'] = this.message;
     if (this.data != null) {
@@ -62,7 +61,7 @@ class AdsData {
       this.dis,
       this.translations});
 
-  AdsData.fromJson(Map<String, dynamic> json) {
+  AdsData.fromJson(dynamic json) {
     id = json['id'];
     image = json['image'];
     directedTo = json['directed_to'];
@@ -79,13 +78,13 @@ class AdsData {
     if (json['translations'] != null) {
       translations = <Translations>[];
       json['translations'].forEach((v) {
-        translations!.add(new Translations.fromJson(v));
+        translations!.add(Translations.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = this.id;
     data['image'] = this.image;
     data['directed_to'] = this.directedTo;
@@ -105,4 +104,3 @@ class AdsData {
     return data;
   }
 }
-

@@ -1,9 +1,13 @@
+import 'package:equatable/equatable.dart';
 import 'package:project/Models/User_response.dart';
 import 'package:project/Models/model/location_model.dart';
 
 import '../../../Models/model/shop_model.dart';
 
-abstract class HomeAppState {}
+abstract class HomeAppState extends Equatable {
+  @override
+  List<Object?> get props => [];
+}
 
 class HomecubitIntialStates extends HomeAppState {}
 
@@ -15,14 +19,20 @@ class HomeSuccessStates extends HomeAppState {
 
 class HomeShopFilterSuccessStates extends HomeAppState {
   List<ShopData>? items;
+  LocationModel model;
 
-  HomeShopFilterSuccessStates({this.items});
+  HomeShopFilterSuccessStates({this.items, required this.model});
+
+  @override
+  List<Object?> get props => [items, model];
 }
 
 class GetSavedLocationSuccessStates extends HomeAppState {
   LocationModel? model;
 
   GetSavedLocationSuccessStates({this.model});
+  @override
+  List<Object?> get props => [model];
 }
 
 class HomeLoadingState extends HomeAppState {}
@@ -63,7 +73,7 @@ class ShopDetailsErrorStates extends HomeAppState {
 
 class GetCountresSuccessStates extends HomeAppState {
   // final LoginModel loginModel;
-  List<LocationModel> ?items;
+  List<LocationModel>? items;
 
   GetCountresSuccessStates({required this.items});
 }
@@ -120,6 +130,7 @@ class ReadyQuickPostOrderLoadingState extends HomeAppState {}
 
 class ReadyQuickPostOrderErrorStates extends HomeAppState {
   final String error;
+
   ReadyQuickPostOrderErrorStates(this.error);
 }
 
@@ -217,6 +228,7 @@ class GetNonReadyQuickLoadingState extends HomeAppState {}
 
 class GetNonReadyQuickErrorStates extends HomeAppState {
   final String error;
+
   GetNonReadyQuickErrorStates(this.error);
 }
 

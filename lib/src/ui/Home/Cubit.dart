@@ -40,7 +40,7 @@ class HomeCubit extends Cubit<HomeAppState> {
   static HomeCubit get(context) => BlocProvider.of(context);
   HomeModel? homeModel;
 
-  Future<void> getHomeProduct() async {
+  Future<void> getHomeShops() async {
     DioHelper.getdata(url: home, token: token).then((value) {
       HomeModel homeModel = HomeModel.fromJson(value.data);
       // log("getHomeProduct ${jsonEncode(value.data)}");
@@ -51,14 +51,15 @@ class HomeCubit extends Cubit<HomeAppState> {
     });
   }
 
-  Future<void> getHomeFilterProduct(String cityId) async {
-    DioHelper.getdata(url: homeFilterProduct + cityId, token: token)
+  Future<void> getHomeFilterShops(LocationModel location) async {
+    DioHelper.getdata(
+            url: homeFilterProduct + location.id.toString(), token: token)
         .then((value) {
       HomeShopsFilterResponse homeShopsFilterResponse =
           HomeShopsFilterResponse.fromJson(value.data);
       log("getHomeFilterProduct ${jsonEncode(value.data)}");
       emit(HomeShopFilterSuccessStates(
-          items: homeShopsFilterResponse.data?.shops));
+          items: homeShopsFilterResponse.data?.shops, model: location));
     }).catchError((error, s) {
       log("getHomeFilterProduct $error $s");
       emit(HomeErrorStates(error.toString()));
@@ -215,6 +216,7 @@ class HomeCubit extends Cubit<HomeAppState> {
   }
 
   GetnonReadyQuickModel? getnonReadyQuickModel;
+
   Future<void> getNonReadyQuickData() async {
     emit(GetNonReadyQuickLoadingState());
     DioHelper.getdata(url: readyQuick, token: token).then((value) {
@@ -254,7 +256,7 @@ class HomeCubit extends Cubit<HomeAppState> {
       getCartModel = GetCartModel.fromJson(value.data);
       log("getCartData ${jsonEncode(value.data)}");
       emit(GetCartSuccessStates());
-    }).catchError((error,s) {
+    }).catchError((error, s) {
       log("getCartData $error $s");
       emit(GetCartErrorStates(error.toString()));
     });
@@ -347,8 +349,7 @@ class HomeCubit extends Cubit<HomeAppState> {
     });
     emit(ConfirmOrderLoadingState());
     log('done');
-    DioHelper.postdata(
-            url: '$confirmorder/$id', data: formData, token: token)
+    DioHelper.postdata(url: '$confirmorder/$id', data: formData, token: token)
         .then((value) {
       confirmModel = ConfirmModel.fromJson(value.data);
       log(value.data);
@@ -403,9 +404,7 @@ class HomeCubit extends Cubit<HomeAppState> {
     });
     emit(PostGiftOrderLoadingState());
     DioHelper.postdata(
-            url: "$postConfirmorder$productID",
-            data: formData,
-            token: token)
+            url: "$postConfirmorder$productID", data: formData, token: token)
         .then((value) {
       log(value.data);
 
@@ -501,7 +500,7 @@ class HomeCubit extends Cubit<HomeAppState> {
     emit(AdsCartLoadingState());
     DioHelper.getdata(url: ads, token: token).then((value) {
       adsModel = AdsModel.fromJson(value.data);
-      log(value.data);
+      // log(value.data);
       emit(AdsSuccessStates());
     }).catchError((error) {
       log(error.toString());
@@ -527,8 +526,7 @@ class HomeCubit extends Cubit<HomeAppState> {
 
   Future<void> getclientTraking({@required id}) async {
     emit(GetClientTrackingLoadingState());
-    DioHelper.getdata(url: '$clientTracking/$id', token: token)
-        .then((value) {
+    DioHelper.getdata(url: '$clientTracking/$id', token: token).then((value) {
       clientTrakingOrderModel = ClientTrakingOrderModel.fromJson(value.data);
       log(value.data);
       emit(GetClientTrackingSuccessStates());

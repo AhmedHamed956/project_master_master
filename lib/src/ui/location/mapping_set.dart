@@ -80,7 +80,8 @@ class _MappingSetState extends State<MappingSet> {
   late HomeCubit _homeCubit;
 
   late GoogleMapController mapController;
-  LocationModel? myLocation;
+  LocationModel? searchLocation;
+  LocationModel? mapLocation;
 
   @override
   void initState() {
@@ -210,18 +211,23 @@ class _MappingSetState extends State<MappingSet> {
       setState(() {
         _currentAddress =
             '${place.country}, ${place.subAdministrativeArea}, ${place.street}';
-        counrty = place.country.toString();
-        city = place.subAdministrativeArea.toString();
-        street = place.street.toString();
-        fullLocation = '$city-$street';
-        mycity = '$city';
-        mystreet = '$street';
-        CacheHelper.saveData(key: 'mylocation', value: fullLocation);
-        CacheHelper.saveData(key: 'mycity', value: mycity);
-
-        CacheHelper.saveData(key: 'mystreet', value: mystreet);
+        // counrty = place.country.toString();
+        // city = place.subAdministrativeArea.toString();
+        // street = place.street.toString();
+        // fullLocation = '$city-$street';
+        // mycity = '$city';
+        // mystreet = '$street';
+        // CacheHelper.saveData(key: 'mylocation', value: fullLocation);
+        // CacheHelper.saveData(key: 'mycity', value: mycity);
+        //
+        // CacheHelper.saveData(key: 'mystreet', value: mystreet);
 
         // mylocation = fullLocation;
+        searchLocation = null;
+        mapLocation = LocationModel(
+            id: 080900100,
+            name: _currentAddress,
+            latLong: "${latLng.latitude},${latLng.longitude}");
       });
     }).catchError((e) {
       debugPrint(e);
@@ -300,6 +306,7 @@ class _MappingSetState extends State<MappingSet> {
           position: LatLng(position.latitude, position.longitude)));
     }
   }
+
   Future<Position> _determinePosition() async {
     LocationPermission permission;
 
@@ -322,16 +329,23 @@ class _MappingSetState extends State<MappingSet> {
     }
     return Geolocator.getCurrentPosition();
   }
+
   _onDeliveryHereTap() {
     if (widget.mappingset == 'startlocation') {
       if (_currentAddress == null) {
         showSnackBar(title: S.current.please_choose_the_address_first);
       } else {
-        if (myLocation == null) {
-          _saveAddress(fullLocation);
-        } else {
-          _saveLocation();
+        if (searchLocation != null) {
+          _saveLocation(searchLocation);
+        } else if (mapLocation != null) {
+          _saveLocation(mapLocation);
         }
+        // if (searchLocation == null) {
+        //   _saveAddress(fullLocation);
+        // } else {
+        //   _saveLocation();
+        // }
+
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => HomeScreen()));
       }
@@ -356,33 +370,31 @@ class _MappingSetState extends State<MappingSet> {
     }
 
     if (widget.mappingset == 'changelocation') {
-      if (myLocation == null) {
-        _saveAddress(fullLocation);
+      if (_currentAddress == null) {
+        showSnackBar(title: S.current.please_choose_the_address_first);
       } else {
-        _saveLocation();
+        if (searchLocation != null) {
+          _saveLocation(searchLocation);
+        } else if (mapLocation != null) {
+          _saveLocation(mapLocation);
+        }
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => EditProfile(
+                    model: widget.profilemodel,
+                    city: city,
+                    street: street,
+                    country: counrty,
+                    location: latlong)));
       }
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) => EditProfile(
-                  model: widget.profilemodel,
-                  city: city,
-                  street: street,
-                  country: counrty,
-                  location: latlong)));
     }
   }
 
-  _saveLocation() async {
-    if(myLocation!=null){
-    String value = json.encode(myLocation);
-    await storage.write(key: "myLocation", value: value);
-  }}
-
-  _saveAddress(String? address) async {
-    if (address != null) {
-      myAddress = address;
-      await storage.write(key: "myAddress", value: address);
+  _saveLocation(LocationModel? location) async {
+    if (location != null) {
+      String value = json.encode(location);
+      await storage.write(key: "myLocation", value: value);
     }
   }
 
@@ -410,8 +422,9 @@ class _MappingSetState extends State<MappingSet> {
           markers.add(Marker(
               markerId: const MarkerId('currentLocation'),
               position: LatLng(latitude, longitude)));
-          myLocation = element;
-          _saveAddress(element.name);
+          mapLocation = null;
+          searchLocation = element;
+          // _saveAddress(element.name);
         }
       }
     });

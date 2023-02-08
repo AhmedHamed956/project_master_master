@@ -92,6 +92,20 @@ class OrderScreenSuccessStates extends HomeAppState {
   OrderScreenSuccessStates();
 }
 
+class GetdigitalShopRatingLoadingState extends HomeAppState {}
+
+class GetdigitalShopRatingErrorStates extends HomeAppState {
+  final String error;
+
+  GetdigitalShopRatingErrorStates(this.error);
+}
+
+class GetdigitalShopRatingsuccessStates extends HomeAppState {
+  // final LoginModel loginModel;
+
+  GetdigitalShopRatingsuccessStates();
+}
+
 class OrderScreenLoadingState extends HomeAppState {}
 
 class OrderScreenErrorStates extends HomeAppState {
@@ -126,6 +140,20 @@ class PosQuickOrderErrorStates extends HomeAppState {
   final String error;
 
   PosQuickOrderErrorStates(this.error);
+}
+
+class PosRatSuccessStates extends HomeAppState {
+  // final LoginModel loginModel;
+
+  PosRatSuccessStates();
+}
+
+class PosRatLoadingState extends HomeAppState {}
+
+class PosRatErrorStates extends HomeAppState {
+  final String error;
+
+  PosRatErrorStates(this.error);
 }
 
 class ReadyQuickPostOrderSuccessStates extends HomeAppState {
@@ -168,6 +196,20 @@ class PostDigitalOrderErrorStates extends HomeAppState {
   final String error;
 
   PostDigitalOrderErrorStates(this.error);
+}
+
+class UpdateScadualeSuccessStates extends HomeAppState {
+  // final LoginModel loginModel;
+
+  UpdateScadualeSuccessStates();
+}
+
+class UpdateScadualeLoadingState extends HomeAppState {}
+
+class UpdateScadualeErrorStates extends HomeAppState {
+  final String error;
+
+  UpdateScadualeErrorStates(this.error);
 }
 
 class PostGiftOrderSuccessStates extends HomeAppState {
@@ -393,6 +435,20 @@ class DeleteCartErrorStates extends HomeAppState {
   final String error;
 
   DeleteCartErrorStates(this.error);
+}
+
+class GiveRatingSuccessStates extends HomeAppState {
+  // final LoginModel loginModel;
+
+  GiveRatingSuccessStates();
+}
+
+class GiveRatingLoadingState extends HomeAppState {}
+
+class DGiveRatingErrorStates extends HomeAppState {
+  final String error;
+
+  DGiveRatingErrorStates(this.error);
 }
 
 class ConfirmOrderSuccessStates extends HomeAppState {

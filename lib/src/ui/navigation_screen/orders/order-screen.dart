@@ -8,10 +8,13 @@ import 'package:project/src/ui/Home/states.dart';
 import '../../../../generated/l10n.dart';
 import '../../Shared/constant.dart';
 import '../../widgets/order-widgets/TrackingOrder-widget.dart';
+import '../../widgets/order-widgets/order-schedule.dart';
 import '../../widgets/order-widgets/pastOrder-widget.dart';
 
 class OrderScreen extends StatefulWidget {
-  const OrderScreen({super.key});
+  final bool? schadular;
+
+  OrderScreen({this.schadular});
 
   @override
   State<OrderScreen> createState() => _OrderScreenState();
@@ -23,7 +26,12 @@ class _OrderScreenState extends State<OrderScreen>
 
   @override
   void initState() {
-    _tabController = TabController(vsync: this, initialIndex: 1, length: 4);
+    if (widget.schadular == true) {
+      _tabController = TabController(vsync: this, initialIndex: 2, length: 4);
+    } else {
+      _tabController = TabController(vsync: this, initialIndex: 1, length: 4);
+    }
+
     super.initState();
   }
 
@@ -97,7 +105,8 @@ class _OrderScreenState extends State<OrderScreen>
                     // physics: const NeverScrollableScrollPhysics(),
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
-                    itemBuilder: (context, index) => const PastOrder(),
+                    itemBuilder: (context, index) =>
+                        PastOrder(model: model.data![0].delivery![index]),
                     separatorBuilder: (context, index) => const Padding(
                           padding: EdgeInsets.only(
                             right: 34,
@@ -108,7 +117,7 @@ class _OrderScreenState extends State<OrderScreen>
                             // color: Colors.grey,
                           ),
                         ),
-                    itemCount: 1),
+                    itemCount: model.data![0].delivery!.length),
               ),
               fallback: (context) => const Center(
                 child: Text("No Data"),
@@ -159,7 +168,7 @@ class _OrderScreenState extends State<OrderScreen>
                                           children: [
                                             Expanded(
                                                 child: Text(
-                                                    '${model.data?[1].progress![index].shopData?.storeName}',
+                                                    '${model.data?[1].progress![index].shopDatta?.storeName}',
                                                     style: const TextStyle(
                                                         color: textColor,
                                                         fontSize: 18,
@@ -366,7 +375,8 @@ class _OrderScreenState extends State<OrderScreen>
                       // physics: const NeverScrollableScrollPhysics(),
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
-                      itemBuilder: (context, index) => const PastOrder(),
+                      itemBuilder: (context, index) => OrderSchedule(
+                          model: model.data![2].scheduler![index]),
                       separatorBuilder: (context, index) => const Padding(
                             padding: EdgeInsets.only(
                               right: 34,
@@ -377,7 +387,7 @@ class _OrderScreenState extends State<OrderScreen>
                               // color: Colors.grey,
                             ),
                           ),
-                      itemCount: 1)
+                      itemCount: model.data![2].scheduler!.length)
                   // ListView.separated(
                   //     // physics: const NeverScrollableScrollPhysics(),
                   //     scrollDirection: Axis.vertical,
@@ -551,7 +561,7 @@ class _OrderScreenState extends State<OrderScreen>
                                               MainAxisAlignment.start,
                                           children: [
                                             Text(
-                                              '${model.data?[3].cancle?[index].shopData?.brandName} ',
+                                              '${model.data?[3].cancle?[index].shopDatta?.brandName} ',
                                               style: TextStyle(
                                                   color: textColor,
                                                   fontSize: 18,
@@ -564,7 +574,7 @@ class _OrderScreenState extends State<OrderScreen>
                                               MainAxisAlignment.start,
                                           children: [
                                             Text(
-                                              '${model.data?[3].cancle?[index].shopData?.createdAt?.split('T').first}',
+                                              '${model.data?[3].cancle?[index].shopDatta?.createdAt?.split('T').first}',
                                               style: TextStyle(
                                                   color: textColor,
                                                   fontSize: 16,

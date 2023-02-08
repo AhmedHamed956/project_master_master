@@ -134,9 +134,9 @@ class _EditProfileState extends State<EditProfile> {
                     )));
         print("done");
       }
-      if (state is PostEditProfileErrorStates) {
-        print("error");
-      }
+      // if (state is PostEditProfileErrorStates) {
+      //   print("error");
+      // }
     }, builder: (context, state) {
       return Scaffold(
           backgroundColor: mainBackgourndColor,
@@ -162,37 +162,39 @@ class _EditProfileState extends State<EditProfile> {
                 child: Padding(
                     padding: const EdgeInsets.only(right: 25, left: 26),
                     child: Column(children: [
-                      Stack(
-                        alignment: Alignment.center,
-                        children: <Widget>[
-                          InkWell(
-                            child: Container(
-                                child: uploadImage == null
-                                    ? SizedBox(
-                                        height: 100,
-                                        width: 100,
-                                        child:
-                                            widget.model?.avatar == "user.svg"
-                                                ? SvgPicture.network(
-                                                    '${domainlink}${widget.model?.avatar}',
-                                                  )
-                                                : Image.network(
-                                                    '${domainlink}${widget.model?.avatar}',
-                                                  ))
-                                    : SizedBox(
-                                        height: 100,
-                                        width: 100,
-                                        child: Image.file(photo!))),
-                            onTap: () {
-                              pickFromGallery();
-                            },
+                      InkWell(
+                        onTap: () {
+                          pickFromGallery();
+                        },
+                        child: Container(
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: <Widget>[
+                              Container(
+                                  child: uploadImage == null
+                                      ? SizedBox(
+                                          height: 100,
+                                          width: 100,
+                                          child:
+                                              widget.model?.avatar == "user.svg"
+                                                  ? SvgPicture.network(
+                                                      '${domainlink}${widget.model?.avatar}',
+                                                    )
+                                                  : Image.network(
+                                                      '${domainlink}${widget.model?.avatar}',
+                                                    ))
+                                      : SizedBox(
+                                          height: 100,
+                                          width: 100,
+                                          child: Image.file(photo!))),
+                              const Icon(
+                                Icons.camera_alt_rounded,
+                                color: greencolor,
+                                size: 30,
+                              )
+                            ],
                           ),
-                          const Icon(
-                            Icons.camera_alt_rounded,
-                            color: greencolor,
-                            size: 30,
-                          )
-                        ],
+                        ),
                       ),
                       // InkWell(
                       //   child: Container(
@@ -477,8 +479,8 @@ class _EditProfileState extends State<EditProfile> {
                               width: 378,
                               height: 56,
                               child: ingridentbutton(
-                                  function: () {
-                                    HomeCubit.get(context).editProfile(
+                                  function: () async {
+                                    await HomeCubit.get(context).editProfile(
                                         name: nameController.text,
                                         email: emailController.text,
                                         phone: phoneController.text,

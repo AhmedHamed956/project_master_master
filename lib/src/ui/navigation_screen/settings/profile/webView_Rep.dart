@@ -12,25 +12,23 @@ class WebViewPage extends StatefulWidget {
   State<WebViewPage> createState() => _WebViewPageState();
 }
 
-Future _launchURL() async {
-  const url = 'https://biflora.bluecode.sa/reg-representative';
-  final uri = Uri.parse(url);
-  if (await canLaunchUrl(uri)) {
-    await launchUrl(uri);
-  } else {
-    throw 'Could not launch $url';
-  }
-}
+// void _launchURL() async {
+//   const url = 'https://biflora.bluecode.sa/reg-representative';
+//   final uri = Uri.parse(url);
+//   if (await canLaunchUrl(uri)) {
+//     await launchUrl(uri);
+//   } else {
+//     throw 'Could not launch $url';
+//   }
+// }
 
 class _WebViewPageState extends State<WebViewPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: WebViewAppBar(label: ''),
-        // body: WebView(
-        //   initialUrl: 'https://biflora.bluecode.sa/reg-representative',
-        //   javascriptMode: JavascriptMode.unrestricted,
-        // )
-    );
+    return const Scaffold(
+        body: WebView(
+      initialUrl: 'https://biflora.bluecode.sa/reg-representative',
+      javascriptMode: JavascriptMode.unrestricted,
+    ));
   }
 }

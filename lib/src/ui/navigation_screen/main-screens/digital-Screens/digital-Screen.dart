@@ -41,6 +41,7 @@ class _DigtalScreenState extends State<DigtalScreen> {
   @override
   void initState() {
     super.initState();
+
     //Add Listener to know when is updated focus
     _focusNode.addListener(_onLoginUserNameFocusChange);
     _focusNode2.addListener(_onLoginUserNameFocusChange);
@@ -171,19 +172,35 @@ class _DigtalScreenState extends State<DigtalScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                        height: 180,
-                        width: MediaQuery.of(context).size.width,
-                        clipBehavior: Clip.hardEdge,
-                        decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(10),
-                                topRight: Radius.circular(10))),
-                        child: ImagePixels.container(
-                            imageProvider:
-                                NetworkImage("$domainlink${model.image}"),
-                            colorAlignment: Alignment.topLeft,
-                            defaultColor: Colors.grey,
-                            child: Image.network("$domainlink${model.image}"))),
+                      height: 180,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(10)),
+                        // color: Colors.grey,
+                        image: DecorationImage(
+                          fit: BoxFit.fill,
+                          image: NetworkImage("${domainlink}${model.image}"),
+                        ),
+                      ),
+                      // child:
+                      //     Image.asset('assets/icons/Rectangle 7863-2 2.png'),
+                    ),
+                    // Container(
+                    //     height: 180,
+                    //     width: MediaQuery.of(context).size.width,
+                    //     clipBehavior: Clip.hardEdge,
+                    //     decoration: const BoxDecoration(
+                    //         borderRadius: BorderRadius.only(
+                    //             topLeft: Radius.circular(10),
+                    //             topRight: Radius.circular(10))),
+                    //     child: ImagePixels.container(
+                    //         imageProvider:
+                    //             NetworkImage("$domainlink${model.image}"),
+                    //         colorAlignment: Alignment.topLeft,
+                    //         defaultColor: Colors.grey,
+                    //         child: Image.network("$domainlink${model.image}"))),
                     Padding(
                         padding:
                             const EdgeInsets.only(top: 25, left: 23, right: 23),
@@ -198,15 +215,18 @@ class _DigtalScreenState extends State<DigtalScreen> {
                               totalcost == null
                                   ? Text(
                                       '${model.prices![index]} ${S.current.rs}',
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.w700,
-                                          color: indicatorColor))
-                                  : Text('$totalcost ${S.current.rs}',
-                                      style: const TextStyle(
+                                          color: indicatorColor),
+                                    )
+                                  : Text(
+                                      '${totalcost} ${S.current.rs}',
+                                      style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.w700,
-                                          color: indicatorColor))
+                                          color: indicatorColor),
+                                    ),
                             ])),
                     const SizedBox(height: 9),
                     Padding(
@@ -219,19 +239,87 @@ class _DigtalScreenState extends State<DigtalScreen> {
                                     fontWeight: FontWeight.w400,
                                     color: textColor)))),
                     const SizedBox(height: 20),
+                    SizedBox(
+                      height: 20,
+                    ),
+
                     Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: SizedBox(
-                            height: 30,
-                            width: MediaQuery.of(context).size.width,
-                            child: ListView.separated(
-                                scrollDirection: Axis.horizontal,
-                                //  / shrinkWrap: true,
-                                itemBuilder: (context, index) =>
-                                    priceWidget(model, index),
-                                separatorBuilder: (context, index) =>
-                                    const SizedBox(),
-                                itemCount: model.prices!.length))),
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: Container(
+                        height: 30,
+                        width: MediaQuery.of(context).size.width,
+                        child: ListView.separated(
+                            scrollDirection: Axis.horizontal,
+                            //  / shrinkWrap: true,
+                            itemBuilder: (context, index) => Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 0),
+                                child: InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        cost = index;
+                                        totalcost = model.prices![index];
+                                        print(totalcost.toString());
+                                      });
+                                    },
+                                    child: cost == index
+                                        ? Container(
+                                            height: 24,
+                                            width: 75,
+                                            decoration: BoxDecoration(
+                                                color: button1color,
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                border: Border.all(
+                                                    color: button1color)),
+                                            child: Center(
+                                              child: Text(
+                                                '${model.prices![index]} ${S.current.rs}',
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight.w400),
+                                              ),
+                                            ),
+                                          )
+                                        : Container(
+                                            height: 24,
+                                            width: 75,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                border: Border.all(
+                                                    color: button1color)),
+                                            child: Center(
+                                              child: Text(
+                                                '${model.prices![index]} ${S.current.rs}',
+                                                style: TextStyle(
+                                                    color: button1color,
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight.w400),
+                                              ),
+                                            ),
+                                          ))),
+                            separatorBuilder: (context, index) =>
+                                const SizedBox(),
+                            itemCount: model.prices!.length),
+                      ),
+                    ),
+                    // Padding(
+                    //     padding: const EdgeInsets.symmetric(horizontal: 8),
+                    //     child: SizedBox(
+                    //         height: 30,
+                    //         width: MediaQuery.of(context).size.width,
+                    //         child: ListView.separated(
+                    //             scrollDirection: Axis.horizontal,
+                    //             //  / shrinkWrap: true,
+                    //             itemBuilder: (context, index) =>
+                    //                 priceWidget(model, index),
+                    //             separatorBuilder: (context, index) =>
+                    //                 const SizedBox(),
+                    //             itemCount: model.prices!.length))),
                     const SizedBox(height: 20),
                     Padding(
                         padding: const EdgeInsets.only(left: 13, right: 16),

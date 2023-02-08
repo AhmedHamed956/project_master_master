@@ -26,6 +26,8 @@ class CardWidget extends StatefulWidget {
 
 class _CardWidgetState extends State<CardWidget> {
   int? counter;
+  List<int> _counter = [];
+
   //  widget.model.products!.first.quantity!.toInt();
   late int? totalcart = widget.model.total;
   late int totalprice = widget.model.totalPrice!.toInt();
@@ -33,23 +35,23 @@ class _CardWidgetState extends State<CardWidget> {
 
   late int quantity;
   @override
-  void _increment(int amount) {
-    setState(() {
-      counter == null ? counter = amount : null;
-      counter = (counter! + 1);
+  // void _increment(int amount) {
+  //   setState(() {
+  //     counter == null ? counter = amount : null;
+  //     counter = (counter! + 1);
 
-      print(counter);
-    });
-  }
+  //     print(counter);
+  //   });
+  // }
 
-  void _dicrement(int amount) {
-    setState(() {
-      counter == null ? counter = amount : null;
-      counter = (counter! - 1);
+  // void _dicrement(int amount) {
+  //   setState(() {
+  //     counter == null ? counter = amount : null;
+  //     counter = (counter! - 1);
 
-      print(counter);
-    });
-  }
+  //     print(counter);
+  //   });
+  // }
 
   Widget build(BuildContext context) {
     return BlocConsumer<HomeCubit, HomeAppState>(
@@ -292,21 +294,21 @@ class _CardWidgetState extends State<CardWidget> {
                                                                 //     _dicrement())
                                                                 : HomeCubit()
                                                                     .postOrder(
-                                                                      productID: widget
-                                                                          .model
-                                                                          .products![
-                                                                              index]
-                                                                          .productsData!
-                                                                          .id,
-                                                                      quantity:
-                                                                          -1,
-                                                                    )
-                                                                    .then((value) => _dicrement(widget
+                                                                    productID: widget
                                                                         .model
                                                                         .products![
                                                                             index]
-                                                                        .quantity!
-                                                                        .toInt()));
+                                                                        .productsData!
+                                                                        .id,
+                                                                    quantity:
+                                                                        -1,
+                                                                  );
+                                                            // .then((value) => _dicrement(widget
+                                                            //     .model
+                                                            //     .products![
+                                                            //         index]
+                                                            //     .quantity!
+                                                            //     .toInt()));
                                                             setState(() {
                                                               price = int.parse(widget
                                                                   .model
@@ -367,9 +369,10 @@ class _CardWidgetState extends State<CardWidget> {
                                                         width: 13,
                                                       ),
                                                       Text(
-                                                        counter == null
-                                                            ? '${widget.model.products![index].quantity!.toInt()}'
-                                                            : "$counter",
+                                                        // counter == null
+                                                        // ?
+                                                        '${widget.model.products![index].quantity!.toInt()}',
+                                                        // : "$counter",
                                                         style: const TextStyle(
                                                             fontSize: 18,
                                                             fontWeight:
@@ -381,24 +384,30 @@ class _CardWidgetState extends State<CardWidget> {
                                                       ),
                                                       InkWell(
                                                         onTap: () {
-                                                          HomeCubit()
-                                                              .postOrder(
-                                                                productID: widget
+                                                          HomeCubit().postOrder(
+                                                            productID: widget
+                                                                .model
+                                                                .products![
+                                                                    index]
+                                                                .productsData!
+                                                                .id,
+                                                            quantity: 1,
+                                                          );
+                                                          // .then((value) =>
+                                                          //     _increment(widget
+                                                          //         .model
+                                                          //         .products![
+                                                          //             index]
+                                                          //         .quantity!
+                                                          //         .toInt()));
+                                                          setState(() {
+                                                            counter = widget
                                                                     .model
                                                                     .products![
                                                                         index]
-                                                                    .productsData!
-                                                                    .id,
-                                                                quantity: 1,
-                                                              )
-                                                              .then((value) =>
-                                                                  _increment(widget
-                                                                      .model
-                                                                      .products![
-                                                                          index]
-                                                                      .quantity!
-                                                                      .toInt()));
-                                                          setState(() {
+                                                                    .quantity!
+                                                                    .toInt() +
+                                                                1;
                                                             price = int.parse(widget
                                                                 .model
                                                                 .products![

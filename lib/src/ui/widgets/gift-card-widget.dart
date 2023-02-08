@@ -1,3 +1,4 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -7,6 +8,7 @@ import 'package:image_pixels/image_pixels.dart';
 import 'package:project/Models/profile_Gift_Model.dart';
 import 'package:project/src/common/global.dart';
 import 'package:project/src/ui/Home/Cubit.dart';
+import 'package:project/src/ui/Home/states.dart';
 
 import 'package:project/src/ui/components/component.dart';
 import 'package:project/src/ui/widgets/widgets.dart';
@@ -43,7 +45,11 @@ class _GiftCardWidgetState extends State<GiftCardWidget> {
             border: Border.all(color: buttonLightcolor),
             borderRadius: BorderRadius.circular(20)),
         child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Image.network('$domainlink${widget.model.productData!.image}'),
+          Container(
+              width: 110,
+              height: 71,
+              child: Image.network(
+                  '${domainlink}${widget.model.productData!.image}')),
           const SizedBox(width: 16),
           Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -121,21 +127,38 @@ class _GiftCardWidgetState extends State<GiftCardWidget> {
                   // crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
-                        height: 220,
-                        width: MediaQuery.of(context).size.width,
-                        clipBehavior: Clip.hardEdge,
-                        decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(10),
-                                topRight: Radius.circular(10))),
-                        child: ImagePixels.container(
-                          colorAlignment: Alignment.topLeft,
-                          defaultColor: Colors.grey,
-                          imageProvider: NetworkImage(
-                              "$domainlink${widget.model.productData!.image}"),
-                          child: Image.network(
-                              "$domainlink${widget.model.productData!.image}"),
-                        )),
+                      height: 220,
+                      width: 428,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(10)),
+                        image: DecorationImage(
+                          fit: BoxFit.fill,
+                          image: NetworkImage(
+                              '${domainlink}${widget.model.productData!.image}'),
+                        ),
+                      ),
+                      // child:
+                      //     Image.asset('assets/icons/Rectangle 7863-2 2.png'),
+                    ),
+                    // Container(
+                    //     height: 220,
+                    //     width: MediaQuery.of(context).size.width,
+                    //     clipBehavior: Clip.hardEdge,
+                    //     decoration: const BoxDecoration(
+                    //         borderRadius: BorderRadius.only(
+                    //             topLeft: Radius.circular(10),
+                    //             topRight: Radius.circular(10))),
+                    //     child: ImagePixels.container(
+                    //       colorAlignment: Alignment.topLeft,
+                    //       defaultColor: Colors.grey,
+                    //       imageProvider: NetworkImage(
+                    //           "$domainlink${widget.model.productData!.image}"),
+                    //       child: Image.network(
+                    //         "$domainlink${widget.model.productData!.image}",
+                    //       ),
+                    //     )),
                     Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 23, vertical: 10),
@@ -201,31 +224,42 @@ class _GiftCardWidgetState extends State<GiftCardWidget> {
                                       foreground: Paint()
                                         ..shader = linearGradient))
                             ])),
-                    Padding(
-                        padding: const EdgeInsets.only(
-                            right: 25, left: 25, bottom: 35),
-                        child: ingridentbutton(
-                            width: 366,
-                            height: 45,
-                            function: () {
-                              if (textController.text.isNotEmpty) {
-                                if (int.tryParse(textController.text )! <=
-                                    widget.model.totalPrice!) {
-                                  widget.homeCubit.postGiftorder(
-                                      context: context,
-                                      productID: widget.model.id,
-                                      amount: textController.text);
-                                } else {
-                                  Navigator.pop(context);
-                                  textController.clear();
-                                  showSnackBar(
-                                      title: "المبلغ اكبر من قيمه الهدية");
-                                }
-                              }
-                            },
-                            text: S.current.confirm_payment,
-                            color1: button1color,
-                            color2: button2color))
+
+                    ConditionalBuilder(
+                      condition: State is! PostGiftOrderLoadingState,
+                      builder: (context) {
+                        return Padding(
+                            padding: const EdgeInsets.only(
+                                right: 25, left: 25, bottom: 35),
+                            child: ingridentbutton(
+                                width: 366,
+                                height: 45,
+                                function: () {
+                                  if (textController.text.isNotEmpty) {
+                                    if (int.tryParse(textController.text)! <=
+                                        widget.model.totalPrice!) {
+                                      widget.homeCubit.postGiftorder(
+                                          context: context,
+                                          productID: widget.model.id,
+                                          amount: textController.text);
+                                    } else {
+                                      Navigator.pop(context);
+                                      textController.clear();
+                                      showSnackBar(
+                                          title: "المبلغ اكبر من قيمه الهدية");
+                                    }
+                                  }
+                                },
+                                text: S.current.confirm_payment,
+                                color1: button1color,
+                                color2: button2color));
+                      },
+                      fallback: (context) => Container(
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      ),
+                    )
                   ])));
     });
   }

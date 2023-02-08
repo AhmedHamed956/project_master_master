@@ -24,7 +24,7 @@ class _SliderWidgetState extends State<SliderWidget> {
             Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                    builder: (BuildContext context) => const QuickScreen()));
+                    builder: (BuildContext context) => QuickScreen()));
           }
           if (widget.model?.directedTo == 'digital') {
             Navigator.pushReplacement<void, void>(
@@ -55,8 +55,7 @@ class _SliderWidgetState extends State<SliderWidget> {
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(16.0),
                         child: Image.network(
-                            '$domainlink${widget.model?.image}',
-
+                          '$domainlink${widget.model?.image}',
                         ))))));
   }
 }

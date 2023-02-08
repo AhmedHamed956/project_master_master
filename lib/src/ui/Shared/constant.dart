@@ -41,7 +41,9 @@ late String? street = '';
 String clientAdress = "";
 bool? cartIseEmpty;
 String scheduled = '';
-
+String time = '';
+String am_pm = '';
+ int? stepp ;
 const int currentindex = 0;
 bool ischat = false;
 String? token;

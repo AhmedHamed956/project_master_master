@@ -11,13 +11,15 @@ import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:get/route_manager.dart';
 import 'package:intl/intl.dart' show DateFormat;
 import 'package:project/generated/l10n.dart';
+import 'package:project/src/ui/Home/Cubit.dart';
 import 'package:project/src/ui/Shared/constant.dart';
 import 'package:project/src/ui/components/component.dart';
+import 'package:project/src/ui/navigation_screen/orders/order-screen.dart';
 
 class Test extends StatefulWidget {
-  Test({
-    Key? key,
-  }) : super(key: key);
+  final bool? reschudual;
+  final String? id;
+  Test({this.reschudual, this.id});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -46,6 +48,9 @@ class _TestState extends State<Test> {
 
   @override
   void initState() {
+    hoursController.text = '01';
+    minController.text = '00';
+
     am = true;
     super.initState();
   }
@@ -262,7 +267,7 @@ class _TestState extends State<Test> {
             ),
           ),
           SizedBox(
-            height: 20,
+            height: 50,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -273,8 +278,22 @@ class _TestState extends State<Test> {
                     function: () {
                       setState(() {
                         scheduled = _currentDate2.toString();
+                        scheduled = scheduled.split(' ').first as String;
+                        time = hoursController.text + ':' + minController.text;
+                        scheduled = scheduled + " " + time;
+                        if (am == true) {
+                          am_pm = 'am';
+                        } else {
+                          am_pm = 'pm';
+                        }
+                        print(scheduled);
                       });
-                      Navigator.pop(context);
+                      if (widget.reschudual == true) {
+                        HomeCubit().updateScaduale(
+                            id: widget.id,
+                            schedule: scheduled,
+                            context: context);
+                      }
                     },
                     color1: button1color,
                     color2: button2color,

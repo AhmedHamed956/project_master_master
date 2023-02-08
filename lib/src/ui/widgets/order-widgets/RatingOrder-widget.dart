@@ -1,17 +1,33 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:project/src/ui/Home/Cubit.dart';
+import 'package:project/src/ui/Home/states.dart';
 
 import '../../../../generated/l10n.dart';
 import '../../Shared/constant.dart';
 import '../../components/appar.dart';
 import '../../components/component.dart';
 
-class RatingOrderScreen extends StatelessWidget {
-  const RatingOrderScreen({super.key});
+class RatingOrderScreen extends StatefulWidget {
+  final model;
+
+  const RatingOrderScreen({super.key, this.model});
+
+  @override
+  State<RatingOrderScreen> createState() => _RatingOrderScreenState();
+}
+
+class _RatingOrderScreenState extends State<RatingOrderScreen> {
+  TextEditingController clientNoteController = TextEditingController();
+  TextEditingController deliveryNoteController = TextEditingController();
+  double? deliveryRating;
+  double? shopRating;
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController rateController = TextEditingController();
     return Scaffold(
       backgroundColor: mainBackgourndColor,
       appBar: AppBarWidget(label: S.current.rate_order),
@@ -22,7 +38,7 @@ class RatingOrderScreen extends StatelessWidget {
               height: 20,
             ),
             Container(
-                height: 600,
+                height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                     boxShadow: [
@@ -45,8 +61,8 @@ class RatingOrderScreen extends StatelessWidget {
                     Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(
-                              right: 12, left: 11, top: 19),
+                          padding:
+                              EdgeInsets.only(right: 12, left: 11, top: 19),
                           child: Container(
                             height: 146,
                             width: MediaQuery.of(context).size.width,
@@ -57,8 +73,8 @@ class RatingOrderScreen extends StatelessWidget {
                                 ),
                                 borderRadius: BorderRadius.circular(10)),
                             child: Padding(
-                              padding: const EdgeInsets.only(
-                                  right: 18, left: 22, top: 7),
+                              padding:
+                                  EdgeInsets.only(right: 18, left: 22, top: 7),
                               child: Column(
                                 children: [
                                   Row(
@@ -70,13 +86,17 @@ class RatingOrderScreen extends StatelessWidget {
                                             MainAxisAlignment.end,
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
-                                        children: const [
+                                        children: [
                                           SizedBox(
                                             height: 50,
                                             width: 50,
-                                            child: CircleAvatar(
-                                              // backgroundColor: Colors.brown.shade800,
-                                              child: Text('AH'),
+                                            child: ClipRRect(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(25)),
+                                              child: Image.network(
+                                                '${domainlink}${widget.model?.shopDatta?.background}',
+                                                // color: Colors.transparent,
+                                              ),
                                             ),
                                           ),
                                           SizedBox(
@@ -85,7 +105,7 @@ class RatingOrderScreen extends StatelessWidget {
                                           Padding(
                                             padding: EdgeInsets.only(top: 8),
                                             child: Text(
-                                              'اسم متجر البائع',
+                                              "${widget.model?.shopDatta?.brandName}",
                                               style: TextStyle(
                                                 color: textColor,
                                                 fontSize: 18,
@@ -96,7 +116,7 @@ class RatingOrderScreen extends StatelessWidget {
                                         ],
                                       ),
                                       Text(
-                                        '#362840',
+                                        '#${widget.model?.id}',
                                         style: TextStyle(
                                           color: textColor,
                                           fontSize: 16,
@@ -135,7 +155,7 @@ class RatingOrderScreen extends StatelessWidget {
                                             width: 29,
                                           ),
                                           Text(
-                                            '251.00 ${S.current.rs}',
+                                            '${widget.model?.totalPrice} ${S.current.rs}',
                                             style: TextStyle(
                                               color: textColor,
                                               fontSize: 16,
@@ -162,7 +182,7 @@ class RatingOrderScreen extends StatelessWidget {
                                         ),
                                       ),
                                       Text(
-                                        '05/06/2022',
+                                        '${widget.model?.createdAt?.split('T').first}',
                                         style: TextStyle(
                                           color: textColor,
                                           fontSize: 16,
@@ -187,13 +207,17 @@ class RatingOrderScreen extends StatelessWidget {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
+                                children: [
                                   SizedBox(
                                     height: 50,
                                     width: 50,
-                                    child: CircleAvatar(
-                                      // backgroundColor: Colors.brown.shade800,
-                                      child: Text('AH'),
+                                    child: ClipRRect(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(25)),
+                                      child: Image.network(
+                                        '${domainlink}${widget.model?.shopDatta?.background}',
+                                        // color: Colors.transparent,
+                                      ),
                                     ),
                                   ),
                                   SizedBox(
@@ -202,7 +226,7 @@ class RatingOrderScreen extends StatelessWidget {
                                   Padding(
                                     padding: EdgeInsets.only(top: 8),
                                     child: Text(
-                                      'اسم متجر البائع',
+                                      "${widget.model?.shopDatta?.brandName}",
                                       style: TextStyle(
                                         color: textColor,
                                         fontSize: 16,
@@ -234,7 +258,11 @@ class RatingOrderScreen extends StatelessWidget {
                                 itemPadding:
                                     EdgeInsets.symmetric(horizontal: 1.0),
                                 onRatingUpdate: (rating) {
-                                  print(rating);
+                                  setState(() {
+                                    shopRating = rating;
+                                  });
+
+                                  // print(rating);
                                 },
                               ),
                             ],
@@ -248,7 +276,7 @@ class RatingOrderScreen extends StatelessWidget {
                             width: 373,
                             child: defaulttextfield(
                                 isQuickSearch: false,
-                                controller: rateController,
+                                controller: clientNoteController,
                                 type: TextInputType.text,
                                 // prefix: Icons.search,
                                 iconColor: textColor,
@@ -269,13 +297,22 @@ class RatingOrderScreen extends StatelessWidget {
                               Row(
                                 // mainAxisAlignment: MainAxisAlignment.end,
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
+                                children: [
                                   SizedBox(
                                     height: 50,
                                     width: 50,
-                                    child: CircleAvatar(
-                                      // backgroundColor: Colors.brown.shade800,
-                                      child: Text('AH'),
+                                    child: ClipRRect(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(25)),
+                                      child: widget.model?.deliveryDetail
+                                                  ?.deliveryUserData?.avatar ==
+                                              'user.svg'
+                                          ? SvgPicture.network(
+                                              '${domainlink}${widget.model?.deliveryDetail?.deliveryUserData?.avatar}')
+                                          : Image.network(
+                                              '${domainlink}${widget.model?.deliveryDetail?.deliveryUserData?.avatar}',
+                                              // color: Colors.transparent,
+                                            ),
                                     ),
                                   ),
                                   SizedBox(
@@ -284,7 +321,7 @@ class RatingOrderScreen extends StatelessWidget {
                                   Padding(
                                     padding: EdgeInsets.only(top: 8),
                                     child: Text(
-                                      'اسم المندوب',
+                                      '${widget.model?.deliveryDetail?.deliveryUserData?.name}',
                                       style: TextStyle(
                                         color: textColor,
                                         fontSize: 16,
@@ -316,7 +353,10 @@ class RatingOrderScreen extends StatelessWidget {
                                 itemPadding:
                                     EdgeInsets.symmetric(horizontal: 1.0),
                                 onRatingUpdate: (rating) {
-                                  print(rating);
+                                  setState(() {
+                                    deliveryRating = rating;
+                                  });
+                                  // print(deliveryRating);
                                 },
                               ),
                             ],
@@ -330,7 +370,7 @@ class RatingOrderScreen extends StatelessWidget {
                             width: 373,
                             child: defaulttextfield(
                                 isQuickSearch: false,
-                                controller: rateController,
+                                controller: deliveryNoteController,
                                 type: TextInputType.text,
                                 // prefix: Icons.search,
                                 iconColor: textColor,
@@ -342,21 +382,42 @@ class RatingOrderScreen extends StatelessWidget {
                           padding:
                               const EdgeInsets.only(right: 24.99, left: 25),
                           child: Divider(),
-                        )
+                        ),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              right: 25, left: 25, bottom: 35),
+                          child: ingridentbutton(
+                            width: 378,
+                            height: 56,
+                            function: () async {
+                              await HomeCubit.get(context)
+                                  .giveShopAndDeliveryRating(
+                                      id: widget.model?.id,
+                                      noteRate: clientNoteController.text,
+                                      notedelivery: deliveryNoteController.text,
+                                      ratingdelivery: deliveryRating,
+                                      shopRate: shopRating,
+                                      context: context
+                                      // await HomeCubit.get(context)
+                                      //     .giveShopAndDeliveryRating(
+                                      //   id: widget.model?.id,
+                                      //   noteRate: clientNoteController.text,
+                                      //   notedelivery: deliveryNoteController.text,
+                                      //   ratingdelivery: deliveryRating,
+                                      //   shopRate: shopRating,
+                                      // );
+                                      );
+                            },
+                            text: S.current.send_rate,
+                            color1: Color(0xAFF59B81E),
+                            color2: Color(0xAFFB0C81F),
+                          ),
+                        ),
                       ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          right: 25, left: 25, bottom: 35),
-                      child: ingridentbutton(
-                        width: 378,
-                        height: 56,
-                        function: () {},
-                        text: S.current.send_rate,
-                        color1: Color(0xAFF59B81E),
-                        color2: Color(0xAFFB0C81F),
-                      ),
-                    )
                   ],
                 )),
           ],

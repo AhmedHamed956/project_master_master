@@ -20,3 +20,6 @@ const oneoffers = 'OneOffer';
 const ads = 'Ads';
 const getPerfomance = 'Rep/myـstatistics';
 const clientTracking = 'Client/get_one_order';
+const digitalshoprating = 'Client/DigitalOrderShowShop';
+const giverating = 'Client/give_rating';
+const digitalOrderrating = 'Digital_Order_rating';

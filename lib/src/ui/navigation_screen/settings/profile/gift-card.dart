@@ -9,6 +9,7 @@ import 'package:project/src/ui/components/appar.dart';
 import 'package:project/src/ui/widgets/widgets.dart';
 
 import '../../../../../generated/l10n.dart';
+import '../../../../common/global.dart';
 import '../../../widgets/gift-card-widget.dart';
 
 class GiftCardScreen extends StatefulWidget {
@@ -34,9 +35,10 @@ class _GiftCardScreenState extends State<GiftCardScreen> {
   Widget build(BuildContext context) {
     return BlocConsumer<HomeCubit, HomeAppState>(listener: (context, state) {
       if (state is PostGiftOrderSuccessStates) {
-        showSnackBar(title: state.message ?? "error");
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const GiftCardScreen()));
+        // showSnackBar(title: state.message ?? "error");
+
+        // Navigator.pushReplacement(context,
+        //     MaterialPageRoute(builder: (context) => const GiftCardScreen()));
       }
     }, builder: (context, state) {
       return ConditionalBuilder(
@@ -57,7 +59,7 @@ class _GiftCardScreenState extends State<GiftCardScreen> {
             AppBarWidget(label: S.current.gift_cards, type: 'gift_card'),
             const SizedBox(height: 35),
             Container(
-                height: MediaQuery.of(context).size.height - 150,
+                height: MediaQuery.of(context).size.height,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     boxShadow: [

@@ -13,7 +13,9 @@ import '../navigation_screen/orders/order-screen.dart';
 
 class HomeScreen extends StatefulWidget {
   int? index;
-  HomeScreen({super.key, this.index});
+  bool? schadular;
+
+  HomeScreen({super.key, this.index, this.schadular});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -45,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
       const MainScreen(),
       const OffersScreen(),
       const SupportAgent(),
-      const OrderScreen(),
+      OrderScreen(schadular: widget.schadular),
       const SettingScreen(),
     ];
     super.initState();

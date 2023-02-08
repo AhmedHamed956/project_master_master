@@ -10,6 +10,7 @@ import 'package:project/Models/ClientTrackingOrder_Model.dart';
 import 'package:project/Models/Home_Model.dart';
 import 'package:project/Models/OrderConfirm_Model.dart';
 import 'package:project/Models/Tabs_Details_Model.dart';
+import 'package:project/Models/digitalShopRating_model.dart';
 import 'package:project/Models/location_response.dart';
 import 'package:project/Models/offers_Model.dart';
 import 'package:project/Models/one_offer_Model.dart';
@@ -17,8 +18,11 @@ import 'package:project/Models/orders_response.dart';
 import 'package:project/Models/response/confirm_digetal_gift_response.dart';
 import 'package:project/Models/shop_details_Model.dart';
 import 'package:project/Models/suggest_search_response.dart';
+import 'package:project/src/ui/Home/Home.dart';
 import 'package:project/src/ui/Home/states.dart';
 import 'package:project/src/ui/Shared/constant.dart';
+import 'package:project/src/ui/navigation_screen/main-screens/Quick-Screens/Quick-Tracking.dart';
+import 'package:project/src/ui/navigation_screen/settings/profile/gift-card-rating.dart';
 import 'package:project/src/ui/widgets/widgets.dart';
 
 import '../../../Models/GetCartData_Model.dart';
@@ -161,9 +165,18 @@ class HomeCubit extends Cubit<HomeAppState> {
   }
 
   Future<void> postOrder(
-      {@required productID, @required quantity, context, id}) async {
-    FormData formData = FormData.fromMap(
-        {"product_id": productID, "quantity": quantity, 'user_id': 56});
+      {@required productID,
+      @required quantity,
+      @required scheduler,
+      @required time,
+      context,
+      id}) async {
+    FormData formData = FormData.fromMap({
+      "product_id": productID,
+      "quantity": quantity,
+      'scheduler': scheduler,
+      "time": time
+    });
     emit(PostOrderLoadingState());
     log('done');
     DioHelper.postdata(url: addtoCart, data: formData, token: token)
@@ -201,10 +214,25 @@ class HomeCubit extends Cubit<HomeAppState> {
     });
   }
 
-  Future<void> postnonReadyQuickOrder({
-    @required productID,
-    @required quantity,
-  }) async {
+  Future<void> giveDigitalOrderrating(
+      {@required id, @required rating, note}) async {
+    FormData formData =
+        FormData.fromMap({"product_id": id, "rating": rating, 'note': note});
+    emit(PosRatLoadingState());
+
+    DioHelper.postdata(
+            url: '$digitalOrderrating/$id', data: formData, token: token)
+        .then((value) {
+      print(value.data);
+
+      emit(PosRatSuccessStates());
+    }).catchError((error) {
+      emit(PosRatErrorStates(error.toString()));
+    });
+  }
+
+  Future<void> postnonReadyQuickOrder(
+      {@required productID, @required quantity, context}) async {
     FormData formData = FormData.fromMap({
       "product_id": productID,
       "quantity": quantity,
@@ -230,6 +258,8 @@ class HomeCubit extends Cubit<HomeAppState> {
       token: token,
     ).then((value) {
       getnonReadyQuickModel = GetnonReadyQuickModel.fromJson(value.data);
+      stepper = getnonReadyQuickModel?.data?.first.step;
+
       print(value.data);
       emit(GetNonReadyQuickSuccessStates());
     }).catchError((error) {
@@ -239,9 +269,18 @@ class HomeCubit extends Cubit<HomeAppState> {
   }
 
   Future<void> postcart(
-      {@required productID, @required quantity, context, id}) async {
-    FormData formData = FormData.fromMap(
-        {"product_id": productID, "quantity": quantity, 'user_id': 56});
+      {@required productID,
+      @required quantity,
+      @required scheduler,
+      @required time,
+      context,
+      id}) async {
+    FormData formData = FormData.fromMap({
+      "product_id": productID,
+      "quantity": quantity,
+      'scheduler': scheduler,
+      'time': time
+    });
     emit(PostCartLoadingState());
     log('done');
     DioHelper.postdata(url: addtoCart, data: formData, token: token)
@@ -288,6 +327,38 @@ class HomeCubit extends Cubit<HomeAppState> {
     });
   }
 
+  Future<void> giveShopAndDeliveryRating(
+      {@required id,
+      @required shopRate,
+      @required noteRate,
+      @required ratingdelivery,
+      @required notedelivery,
+      context}) async {
+    FormData formData = FormData.fromMap({
+      "order_id": id,
+      "rating_shop": shopRate,
+      "note_shop": noteRate,
+      "rating_delivery": ratingdelivery,
+      "note_delivery": notedelivery,
+    });
+    emit(GiveRatingLoadingState());
+
+    await DioHelper.postdata(url: giverating, data: formData, token: token)
+        .then((value) {
+      print(value.data);
+
+      emit(GiveRatingSuccessStates());
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => HomeScreen(
+                    index: 3,
+                  )));
+    }).catchError((error) {
+      emit(DGiveRatingErrorStates(error.toString()));
+    });
+  }
+
   DigitalOrderModel? digitalOrderModel;
 
   Future<void> getDigitalGiftData() async {
@@ -325,6 +396,29 @@ class HomeCubit extends Cubit<HomeAppState> {
     }).catchError((error, s) {
       log("postdigitalorder $error $s");
       emit(PostDigitalOrderErrorStates(error.toString()));
+    });
+  }
+
+  Future<void> updateScaduale(
+      {@required id, @required schedule, context}) async {
+    FormData formData = FormData.fromMap({
+      "scheduler": schedule,
+      "_method": 'PUT',
+    });
+    emit(UpdateScadualeLoadingState());
+    DioHelper.postdata(url: '$addtoCart/$id', data: formData, token: token)
+        .then((value) {
+      emit(UpdateScadualeSuccessStates());
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => HomeScreen(index: 3, schadular: true)));
+      // Navigator.pop(
+      //   context,
+      // );
+    }).catchError((error, s) {
+      log("postdigitalorder $error $s");
+      emit(UpdateScadualeErrorStates(error.toString()));
     });
   }
 
@@ -439,6 +533,61 @@ class HomeCubit extends Cubit<HomeAppState> {
       ConfirmDigitalGiftResponse response =
           ConfirmDigitalGiftResponse.fromJson(value.data);
       emit(PostGiftOrderSuccessStates(message: response.message ?? ""));
+
+      showDialog<void>(
+        context: context,
+        builder: (BuildContext context) {
+          Future.delayed(Duration(seconds: 2), () {
+            Navigator.of(context).pop(true);
+          });
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.0),
+            ),
+            content: Container(
+              height: 60,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(
+                    Icons.check_circle_rounded,
+                    color: button2color,
+                    size: 20,
+                  ),
+                  // Container(
+                  //   margin: const EdgeInsets.all(100.0),
+                  //   decoration: const BoxDecoration(
+                  //       gradient: LinearGradient(
+                  //           begin: Alignment.topRight,
+                  //           end: Alignment.bottomLeft,
+                  //           colors: [button2color, button1color]),
+                  //       shape: BoxShape.circle),
+                  //       child: Center(child: Icon(Icons.check_circle_rounded)),
+                  // ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    langKey == 'ar'
+                        ? "تم الدفع من خلال القسيمة بنجاح!"
+                        : "Payment is Confirmed",
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        color: button2color),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ).then((value) {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    GiftCardRating(productID: productID.toString())));
+      });
     }).catchError((error, s) {
       log("postGiftorder $error $s");
       emit(PostGiftOrderErrorStates(error.toString()));
@@ -466,6 +615,7 @@ class HomeCubit extends Cubit<HomeAppState> {
       @required name,
       @required email,
       @required phone}) async {
+    emit(PostEditProfileLoadingState());
     // FormData formData = FormData.fromMap({
     //   "avatar": avatar,
     //   // "map": latlong
@@ -484,11 +634,11 @@ class HomeCubit extends Cubit<HomeAppState> {
             )
           : "",
     });
-    emit(PostEditProfileLoadingState());
+
     await DioHelper.postdata(
-            url: "$updateProfileData/$id", data: formData, token: token)
+            url: "$updateProfileData/4", data: formData, token: token)
         .then((value) {
-      log(value.data);
+      print(value.data);
       emit(PostEditProfileSuccessStates());
     }).catchError((error) {
       emit(PostEditProfileErrorStates(error.toString()));
@@ -562,6 +712,20 @@ class HomeCubit extends Cubit<HomeAppState> {
     }).catchError((error) {
       log(error.toString());
       emit(GetClientTrackingErrorStates(error.toString()));
+    });
+  }
+
+  DigitalShopRatingModel? digitalShopRatingModel;
+  Future<void> digitalShopRating({@required productID}) async {
+    emit(GetdigitalShopRatingLoadingState());
+    DioHelper.getdata(url: '$digitalshoprating/$productID', token: token)
+        .then((value) {
+      digitalShopRatingModel = DigitalShopRatingModel.fromJson(value.data);
+      print(value.data);
+      emit(GetdigitalShopRatingsuccessStates());
+    }).catchError((error) {
+      log(error.toString());
+      emit(GetdigitalShopRatingErrorStates(error.toString()));
     });
   }
 ////////////////////////////////////////

@@ -1,6 +1,8 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_calendar_carousel/classes/event.dart';
+import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
@@ -8,6 +10,7 @@ import 'package:project/Models/Tabs_Details_Model.dart';
 import 'package:project/src/common/global.dart';
 import 'package:project/src/ui/Home/Home.dart';
 import 'package:project/src/ui/Shared/constant.dart';
+import 'package:project/src/ui/navigation_screen/main-screens/quick-screen.dart';
 import 'package:project/test.dart';
 
 import '../../../Models/model/product_data.dart';
@@ -17,6 +20,7 @@ import '../../../generated/l10n.dart';
 import '../Cart_Shops/Add_To_Cart.dart';
 import '../Home/Cubit.dart';
 import '../Home/states.dart';
+import '../components/component.dart';
 
 class ShopDetails extends StatefulWidget {
   final String id;
@@ -40,15 +44,46 @@ class _ShopDetailsState extends State<ShopDetails>
 
   dynamic tdata = DateFormat("HH:mm:ss").format(DateTime.now());
   int? selected;
+  DateTime _currentDate2 = DateTime.now();
+  String aaaa = DateFormat.yMd().format(DateTime.now());
+
+  String _currentMonth = DateFormat.yMMM().format(DateTime.now());
+  DateTime _targetDateTime = DateTime.now();
+  TextEditingController hoursController = TextEditingController();
+  TextEditingController minController = TextEditingController();
+  String? time;
+  bool? am;
+  bool? pm;
 
   // var total;
   void initState() {
+    hoursController.text = '01';
+    minController.text = '00';
+
+    am = true;
     // selected = null;
     print(langKey);
     print('$tdata');
     // HomeCubit.get(context).shopDetails(id: widget.id);
     print(widget.id);
     super.initState();
+  }
+
+  Future<void> _navigateAndDisplaySelection(BuildContext context) async {
+    // Navigator.push returns a Future that completes after calling
+    // Navigator.pop on the Selection Screen.
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => Test()),
+    );
+
+    // When a BuildContext is used from a StatefulWidget, the mounted property
+    // must be checked after an asynchronous gap.
+    if (!mounted) return;
+
+    // After the Selection Screen returns a result, hide any previous snackbars
+    // and show the new result.
+    print('result is $result');
   }
 
   @override
@@ -85,6 +120,7 @@ class _ShopDetailsState extends State<ShopDetails>
                 length: HomeCubit.get(context).tabsDetailsModel!.data!.length,
                 vsync: this);
           }
+          if (state is PostOrderSuccessStates) {}
         },
         builder: (context, state) {
           var model = HomeCubit.get(context).shopDetailsModel;
@@ -380,7 +416,7 @@ class _ShopDetailsState extends State<ShopDetails>
       );
 
   Widget _tabSection(String storename, BuildContext context, ShopData model,
-      TabsDetailsModel tabmodel, TabsData products) {
+      TabsDetailsModel tabmodel, Data products) {
     return DefaultTabController(
         length: tabmodel.data!.length,
         child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
@@ -445,7 +481,7 @@ class _ShopDetailsState extends State<ShopDetails>
     _tabController.animateTo(value);
   }
 
-  Widget flower(ProductData product, int index, String storename) {
+  Widget flower(SameSubCategoryProducts product, int index, String storename) {
     return InkWell(
         onTap: () {
           showModalBottomSheet<void>(
@@ -497,8 +533,11 @@ class _ShopDetailsState extends State<ShopDetails>
                               // print(total);
 
                               // // total = model.priceAfterDiscount;
-                              HomeCubit()
-                                  .postcart(productID: product.id, quantity: 1);
+                              HomeCubit().postcart(
+                                  productID: product.id,
+                                  quantity: 1,
+                                  scheduler: '',
+                                  time: '');
                               showcart = true;
                               total += int.parse(product.priceAfterDiscount!);
                             });
@@ -549,7 +588,7 @@ class _ShopDetailsState extends State<ShopDetails>
         ));
   }
 
-  Widget productDetailsView(ProductData product, String storename) {
+  Widget productDetailsView(SameSubCategoryProducts product, String storename) {
     return FractionallySizedBox(
       child: SingleChildScrollView(
         child: Container(
@@ -628,38 +667,106 @@ class _ShopDetailsState extends State<ShopDetails>
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 8),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(4),
-                          gradient: quickButton),
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              S.current.quick_order,
-                              style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.white),
+                    product.productQuick != null
+                        ? InkWell(
+                            onTap: () {
+                              Navigator.pushReplacement<void, void>(
+                                context,
+                                MaterialPageRoute<void>(
+                                  builder: (BuildContext context) =>
+                                      QuickScreen(
+                                    quickmodel: product.productQuick,
+                                    isQuick: 'true',
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 8),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(4),
+                                  gradient: quickButton),
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      S.current.quick_order,
+                                      style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.white),
+                                    ),
+                                  ]),
                             ),
-                          ]),
-                    ),
+                          )
+                        : Container(),
                     const SizedBox(
                       width: 12,
                     ),
                     InkWell(
                       onTap: () {
+                        final calendarCarouselNoHeader =
+                            CalendarCarousel<Event>(
+                          // todayBorderColor: Colors.green,
+                          onDayPressed: (date, events) {
+                            this.setState(() => _currentDate2 = date);
+                            events.forEach((event) => print(event.title));
+
+                            print(date);
+                          },
+                          showOnlyCurrentMonthDate: true,
+                          selectedDayTextStyle: const TextStyle(
+                            color: Colors.blue,
+                          ),
+                          selectedDayButtonColor: Colors.transparent,
+                          weekendTextStyle: TextStyle(
+                            color: Colors.black,
+                          ),
+                          thisMonthDayBorderColor: Colors.grey,
+
+                          weekFormat: false,
+                          todayButtonColor: Colors.blue.withOpacity(0.5),
+                          height: 420.0,
+                          selectedDateTime: _currentDate2,
+                          targetDateTime: _targetDateTime,
+                          customGridViewPhysics: NeverScrollableScrollPhysics(),
+                          markedDateCustomShapeBorder: CircleBorder(
+                              side: BorderSide(color: Colors.yellow)),
+
+                          showHeader: false,
+
+                          // minSelectedDate: _currentDate.subtract(Duration(days: 360)),
+                          // maxSelectedDate: _currentDate.add(Duration(days: 360)),
+                          prevDaysTextStyle: TextStyle(
+                            fontSize: 16,
+                            color: Colors.grey,
+                          ),
+                          // inactiveDaysTextStyle: TextStyle(
+                          //   color: Colors.tealAccent,
+                          //   fontSize: 16,
+                          // ),
+                          onCalendarChanged: (DateTime date) {
+                            this.setState(() {
+                              _targetDateTime = date;
+                              _currentMonth =
+                                  DateFormat.yMMM().format(_targetDateTime);
+                            });
+                          },
+                        );
+                        // _navigateAndDisplaySelection(context);
                         showModalBottomSheet<void>(
                             isScrollControlled: true,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0),
                             ),
-                            backgroundColor: Colors.transparent,
+                            // backgroundColor: Colors.transparent,
                             builder: (BuildContext context) {
-                              return FractionallySizedBox(
-                                  heightFactor: 0.7, child: Test());
+                              return StatefulBuilder(
+                                builder: (BuildContext context, setState) =>
+                                    FractionallySizedBox(
+                                        heightFactor: 0.7, child: Test()),
+                              );
                             },
                             context: context);
                       },
@@ -744,15 +851,21 @@ class _ShopDetailsState extends State<ShopDetails>
                 padding: const EdgeInsets.only(left: 28, right: 34),
                 child: InkWell(
                   onTap: () {
-                    setState(() {
-                      HomeCubit().postOrder(
-                          productID: product.id,
-                          quantity: 1,
-                          context: context,
-                          id: widget.id);
-                      // total += int.parse(
-                      //     model.priceAfterDiscount.toString());
-                    });
+                    HomeCubit()
+                        .postcart(
+                            productID: product.id,
+                            quantity: 1,
+                            scheduler: scheduled,
+                            time: am_pm)
+                        .then((value) => Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    AddToCart(id: product.shopId))));
+
+                    print('scaaaaaaaaaaaaaaaaaaaaaaader');
+
+                    print(scheduled);
+                    print(am_pm);
                   },
                   child: Container(
                       height: 45,

@@ -163,7 +163,7 @@ class _MainScreenState extends State<MainScreen> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    const QuickScreen()));
+                                                    QuickScreen()));
                                       },
                                       child: Container(
                                           padding: const EdgeInsets.symmetric(

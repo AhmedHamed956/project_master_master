@@ -26,9 +26,10 @@ class _WebViewPageState extends State<WebViewPage> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-        body: WebView(
-      initialUrl: 'https://biflora.bluecode.sa/reg-representative',
-      javascriptMode: JavascriptMode.unrestricted,
-    ));
+        // body: WebView(
+      // initialUrl: 'https://biflora.bluecode.sa/reg-representative',
+      // javascriptMode: JavascriptMode.unrestricted,
+    // )
+    );
   }
 }

@@ -1,4 +1,4 @@
-package com.example.project_master
+package com.blue_code.biflora
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "101167329909",
+    "project_id": "glass-memento-373419",
+    "storage_bucket": "glass-memento-373419.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:101167329909:android:a853b6d5d9988c4b013e3c",
+        "android_client_info": {
+          "package_name": "com.blue_code.biflora"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "101167329909-56l0pqlcr449qooj34t5brd7e3fdol6n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.blue_code.biflora",
+            "certificate_hash": "efa8d1994bf63bf8be9b2590d8e95878e1eff5e6"
+          }
+        },
+        {
+          "client_id": "101167329909-5lifeoi14na032ivbdoqojlttv6ikvcr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvOEoZehJD0AmfX5nthxsLBq6y0w_rL3U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "101167329909-5lifeoi14na032ivbdoqojlttv6ikvcr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

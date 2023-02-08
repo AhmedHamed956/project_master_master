@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:get/route_manager.dart';
+import 'package:project/generated/l10n.dart';
+import 'package:project/src/ui/Shared/constant.dart';
 import 'package:project/src/ui/components/appar.dart';
 
-import '../../../../generated/l10n.dart';
-import '../../Shared/constant.dart';
+
 
 class ChatScreen extends StatelessWidget {
   const ChatScreen({super.key});
@@ -14,9 +11,7 @@ class ChatScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarWidget(
-        label: S.current.chat,
-      ),
+      appBar: AppBarWidget(label: S.current.chat),
       body: SingleChildScrollView(
         child: Container(
           height: MediaQuery.of(context).size.height - 100,
@@ -37,9 +32,9 @@ class ChatScreen extends StatelessWidget {
                     padding: const EdgeInsets.only(right: 18, left: 22, top: 7),
                     child: Column(
                       children: [
-                        Row(
+                        const Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
+                          children: [
                             Padding(
                               padding: EdgeInsets.only(top: 8),
                               child: Text(
@@ -61,7 +56,7 @@ class ChatScreen extends StatelessWidget {
                           children: [
                             Text(
                               S.current.total_calculted_amount,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: textColor,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w400,
@@ -71,18 +66,18 @@ class ChatScreen extends StatelessWidget {
                               children: [
                                 Text(
                                   S.current.cash,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: button1color,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w400,
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 29,
                                 ),
                                 Text(
                                   '251.00 ${S.current.rs}',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: textColor,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w400,
@@ -92,7 +87,7 @@ class ChatScreen extends StatelessWidget {
                             ),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         Row(
@@ -100,13 +95,13 @@ class ChatScreen extends StatelessWidget {
                           children: [
                             Text(
                               S.current.delivery_date,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: textColor,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w400,
                               ),
                             ),
-                            Text(
+                            const Text(
                               '05/06/2022',
                               style: TextStyle(
                                 color: textColor,
@@ -121,7 +116,7 @@ class ChatScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Expanded(
@@ -148,7 +143,7 @@ class ChatScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         Image.asset(
@@ -156,7 +151,7 @@ class ChatScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 15,
                     ),
                     Row(
@@ -164,7 +159,7 @@ class ChatScreen extends StatelessWidget {
                         Image.asset(
                           'assets/icons/image 9.png',
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         Container(
@@ -184,7 +179,7 @@ class ChatScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 15,
                     ),
                     Row(
@@ -205,7 +200,7 @@ class ChatScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         Image.asset(
@@ -236,14 +231,14 @@ class ChatScreen extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min, // added line
                             children: <Widget>[
                               IconButton(
-                                icon: Icon(
+                                icon: const Icon(
                                   Icons.send,
                                   color: button1color,
                                 ),
                                 onPressed: () {},
                               ),
                               IconButton(
-                                icon: Icon(
+                                icon: const Icon(
                                   Icons.attach_file,
                                   color: button1color,
                                 ),

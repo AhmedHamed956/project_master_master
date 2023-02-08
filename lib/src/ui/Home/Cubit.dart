@@ -258,10 +258,10 @@ class HomeCubit extends Cubit<HomeAppState> {
       token: token,
     ).then((value) {
       getnonReadyQuickModel = GetnonReadyQuickModel.fromJson(value.data);
-      stepper = getnonReadyQuickModel?.data?.first.step;
+      int? stepper = getnonReadyQuickModel?.data?.first.step;
 
       print(value.data);
-      emit(GetNonReadyQuickSuccessStates());
+      emit(GetNonReadyQuickSuccessStates(stepper: stepper ?? 1));
     }).catchError((error) {
       print(error.toString());
       emit(GetNonReadyQuickErrorStates(error.toString()));
@@ -707,7 +707,8 @@ class HomeCubit extends Cubit<HomeAppState> {
     emit(GetClientTrackingLoadingState());
     DioHelper.getdata(url: '$clientTracking/$id', token: token).then((value) {
       clientTrakingOrderModel = ClientTrakingOrderModel.fromJson(value.data);
-      log(value.data);
+      log("getclientTraking ${jsonEncode(value.data)}");
+
       emit(GetClientTrackingSuccessStates());
     }).catchError((error) {
       log(error.toString());
@@ -716,6 +717,7 @@ class HomeCubit extends Cubit<HomeAppState> {
   }
 
   DigitalShopRatingModel? digitalShopRatingModel;
+
   Future<void> digitalShopRating({@required productID}) async {
     emit(GetdigitalShopRatingLoadingState());
     DioHelper.getdata(url: '$digitalshoprating/$productID', token: token)

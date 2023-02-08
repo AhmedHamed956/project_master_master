@@ -47,6 +47,7 @@ String am_pm = '';
 const int currentindex = 0;
 bool ischat = false;
 String? token;
+String? userId;
 String? mylocation;
 String? mycity;
 

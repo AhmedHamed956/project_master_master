@@ -26,7 +26,7 @@ dependencies:
   flutter_bloc: ^8.1.1
   equatable: ^2.0.3
   flutter_secure_storage: ^7.0.1
-  flutter_svg: ^1.0.3
+  flutter_svg: ^2.0.0+1
   flutter_switch: ^0.3.2
   shared_preferences: ^2.0.15
   flutter_calendar_week: ^3.0.0
@@ -48,7 +48,11 @@ dependencies:
   image_pixels: ^3.0.0
   permission_handler: ^10.2.0
   location: ^5.0.0-dev.8
-
+  firebase_core: ^2.4.1
+  firebase_auth: ^4.2.5
+  cloud_firestore: ^4.3.1
+  firebase_messaging: ^14.2.1
+#  firebase_storage: ^10.2.7
 
 
 dev_dependencies:
@@ -78,6 +82,7 @@ flutter:
     - assets/icons/
     - assets/icons/home/
     - assets/icons/delivery/
+    - assets/icons/chat/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

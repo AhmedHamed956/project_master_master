@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -54,11 +57,12 @@ class LoginScreenCubit extends Cubit<LoginAppStates> {
     emit(CheckOtpLoadingState());
 
     DioHelper.postdata(url: check_otp, data: formData).then((value) {
-      print(value.data);
+      log("checkotp ${jsonEncode(value.data)}");
 
       userModel = UserResponse.fromJson(value.data);
 
       emit(CheckOtpSuccessStates(userModel!));
+      CacheHelper.saveData(key: 'userId', value: userModel?.user?.id.toString() );
       CacheHelper.saveData(key: 'token', value: userModel?.token)
           .then((value) => token = CacheHelper.getData(key: 'token'))
           .then((value) => Navigator.push(context,

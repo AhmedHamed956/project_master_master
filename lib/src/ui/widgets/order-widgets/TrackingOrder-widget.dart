@@ -5,6 +5,7 @@ import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:project/Models/ClientTrackingOrder_Model.dart';
 import 'package:project/src/ui/Home/Cubit.dart';
 import 'package:project/src/ui/Home/states.dart';
+import 'package:project/src/ui/navigation_screen/chat/ui/screens/chat_cycle.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../Models/orders_response.dart';
@@ -67,7 +68,7 @@ class _TrackingOrderState extends State<TrackingOrder> {
                 },
                 fallback: ((context) => Container(
                     color: Colors.white,
-                    child: Center(
+                    child: const Center(
                         child: CircularProgressIndicator(
                       color: button2color,
                     )))));
@@ -93,11 +94,12 @@ class _TrackingOrderState extends State<TrackingOrder> {
                         color: shadowColor.withOpacity(0.1),
                         spreadRadius: 0,
                         blurRadius: 8,
-                        offset: Offset(0, -4), // changes position of shadow
+                        offset:
+                            const Offset(0, -4), // changes position of shadow
                       ),
                     ],
                     color: Colors.white,
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(20),
                         topRight: Radius.circular(20))),
                 // width: 360,
@@ -138,15 +140,15 @@ class _TrackingOrderState extends State<TrackingOrder> {
                                               width: 50,
                                               fit: BoxFit.cover,
                                               "${domainlink}${model.data?.shopData?.background}")),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 13,
                                       ),
                                       ConstrainedBox(
                                         constraints:
-                                            BoxConstraints(maxWidth: 150),
+                                            const BoxConstraints(maxWidth: 150),
                                         child: Text(
                                           '${model.data?.shopData?.storeName}',
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             color: textColor,
                                             fontSize: 18,
                                             fontWeight: FontWeight.w700,
@@ -157,7 +159,7 @@ class _TrackingOrderState extends State<TrackingOrder> {
                                   ),
                                   Text(
                                     '#${model.data?.id}',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: textColor,
                                       fontSize: 16,
                                       fontWeight: FontWeight.w400,
@@ -174,7 +176,7 @@ class _TrackingOrderState extends State<TrackingOrder> {
                                 children: [
                                   Text(
                                     S.current.total_calculted_amount,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: textColor,
                                       fontSize: 16,
                                       fontWeight: FontWeight.w400,
@@ -185,13 +187,13 @@ class _TrackingOrderState extends State<TrackingOrder> {
                                       model.data?.orderDetail?.typePay == "cash"
                                           ? Text(
                                               S.current.cash,
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 color: button1color,
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w400,
                                               ),
                                             )
-                                          : Text(
+                                          : const Text(
                                               'visa',
                                               style: TextStyle(
                                                 color: button1color,
@@ -199,12 +201,12 @@ class _TrackingOrderState extends State<TrackingOrder> {
                                                 fontWeight: FontWeight.w400,
                                               ),
                                             ),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 29,
                                       ),
                                       Text(
                                         '${model.data?.totalPrice} ${S.current.rs}',
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           color: textColor,
                                           fontSize: 16,
                                           fontWeight: FontWeight.w400,
@@ -214,7 +216,7 @@ class _TrackingOrderState extends State<TrackingOrder> {
                                   ),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
                               Row(
@@ -223,7 +225,7 @@ class _TrackingOrderState extends State<TrackingOrder> {
                                 children: [
                                   Text(
                                     S.current.delivery_date,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: textColor,
                                       fontSize: 16,
                                       fontWeight: FontWeight.w400,
@@ -231,7 +233,7 @@ class _TrackingOrderState extends State<TrackingOrder> {
                                   ),
                                   Text(
                                     " ${model.message?.dateOrder}",
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: textColor,
                                       fontSize: 16,
                                       fontWeight: FontWeight.w400,
@@ -244,18 +246,18 @@ class _TrackingOrderState extends State<TrackingOrder> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Text(
                       S.current.ordered_items,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: textColor,
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 22,
                     ),
                     // Padding(
@@ -374,12 +376,12 @@ class _TrackingOrderState extends State<TrackingOrder> {
                                             color: trackpointColor,
                                             shape: BoxShape.circle),
                                       ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 28,
                                 ),
                                 Text(
                                   S.current.looking_fo_delivery_man,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: textColor,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w400,
@@ -391,7 +393,8 @@ class _TrackingOrderState extends State<TrackingOrder> {
                               children: [
                                 Container(
                                     height: 10,
-                                    child: VerticalDivider(color: Colors.grey)),
+                                    child: const VerticalDivider(
+                                        color: Colors.grey)),
                               ],
                             ),
                             Row(
@@ -411,12 +414,12 @@ class _TrackingOrderState extends State<TrackingOrder> {
                                             color: trackpointColor,
                                             shape: BoxShape.circle),
                                       ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 28,
                                 ),
                                 Text(
                                   S.current.the_request_is_being_prepared,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: textColor,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w400,
@@ -428,7 +431,8 @@ class _TrackingOrderState extends State<TrackingOrder> {
                               children: [
                                 Container(
                                     height: 10,
-                                    child: VerticalDivider(color: Colors.grey)),
+                                    child: const VerticalDivider(
+                                        color: Colors.grey)),
                               ],
                             ),
                             Row(
@@ -448,12 +452,12 @@ class _TrackingOrderState extends State<TrackingOrder> {
                                             color: trackpointColor,
                                             shape: BoxShape.circle),
                                       ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 28,
                                 ),
                                 Text(
                                   S.current.on_the_way_to_delivery,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: textColor,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w400,
@@ -466,9 +470,9 @@ class _TrackingOrderState extends State<TrackingOrder> {
                                     children: [
                                       Container(
                                           height: 50,
-                                          child: VerticalDivider(
+                                          child: const VerticalDivider(
                                               color: Colors.grey)),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 55,
                                       ),
                                       Column(
@@ -477,13 +481,13 @@ class _TrackingOrderState extends State<TrackingOrder> {
                                         children: [
                                           Text(
                                             '${S.current.delivery_man_information} ${model.message?.deliveryName}',
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               color: textColor,
                                               fontSize: 14,
                                               fontWeight: FontWeight.w400,
                                             ),
                                           ),
-                                          Text(
+                                          const Text(
                                             'سعد ناصر شبرا - روض الفرج',
                                             style: TextStyle(
                                               color: button1color,
@@ -499,7 +503,7 @@ class _TrackingOrderState extends State<TrackingOrder> {
                                     children: [
                                       Container(
                                           height: 10,
-                                          child: VerticalDivider(
+                                          child: const VerticalDivider(
                                               color: Colors.grey)),
                                     ],
                                   ),
@@ -520,13 +524,13 @@ class _TrackingOrderState extends State<TrackingOrder> {
                                             color: trackpointColor,
                                             shape: BoxShape.circle),
                                       ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 28,
                                 ),
                                 Text(
                                   S.current
                                       .your_request_has_been_recieved_safely,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: textColor,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w400,
@@ -538,18 +542,12 @@ class _TrackingOrderState extends State<TrackingOrder> {
                               children: [
                                 Container(
                                     height: 10,
-                                    child: VerticalDivider(color: Colors.grey)),
+                                    child: const VerticalDivider(
+                                        color: Colors.grey)),
                               ],
                             ),
                             Row(
                               children: [
-                                // Container(
-                                //     height: 17,
-                                //     width: 17,
-                                //     decoration: BoxDecoration(
-                                //         gradient: quickButton,
-                                //         shape: BoxShape.circle),
-                                //   )
                                 Container(
                                   height: 17,
                                   width: 17,
@@ -558,15 +556,16 @@ class _TrackingOrderState extends State<TrackingOrder> {
                                       shape: BoxShape.circle),
                                 ),
                                 const SizedBox(width: 28),
-                                Text(
+                                Expanded(
+                                    child: Text(
                                   S.current
                                       .the_request_was_successfully_executed,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: textColor,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w400,
                                   ),
-                                ),
+                                )),
                               ],
                             ),
                           ],
@@ -592,37 +591,30 @@ class _TrackingOrderState extends State<TrackingOrder> {
                                               BorderRadius.circular(4)),
                                       child: Center(
                                           child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            S.current.chat,
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 19,
-                                          ),
-                                          Container(
-                                            height: 24,
-                                            width: 24,
-                                            child: Icon(
-                                              Icons.chat_rounded,
-                                              color: Colors.white,
-                                            ),
-                                          )
-                                        ],
-                                      ))),
-                                  onTap: () async {
-                                    var whatsappUrl =
-                                        "whatsapp://send?phone=${model.data?.orderDetail?.phone}";
-                                    await canLaunch(whatsappUrl)
-                                        ? launch(whatsappUrl)
-                                        : print(
-                                            "open whatsapp app link or do a snackbar with notification that there is no whatsapp installed");
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                            Text(S.current.chat,
+                                                style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 16,
+                                                    fontWeight:
+                                                        FontWeight.w400)),
+                                            const SizedBox(width: 19),
+                                            Container(
+                                                height: 24,
+                                                width: 24,
+                                                child: const Icon(
+                                                    Icons.chat_rounded,
+                                                    color: Colors.white))
+                                          ]))),
+                                  onTap: ()  {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => ChatCycle(
+                                                peerId: "170",
+                                                peerName: "Delivery Boy")));
                                   },
                                 ),
                                 Container(
@@ -638,19 +630,19 @@ class _TrackingOrderState extends State<TrackingOrder> {
                                       children: [
                                         Text(
                                           S.current.call,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             color: Colors.white,
                                             fontSize: 16,
                                             fontWeight: FontWeight.w400,
                                           ),
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           width: 19,
                                         ),
                                         Container(
                                           height: 24,
                                           width: 24,
-                                          child: Icon(
+                                          child: const Icon(
                                             Icons.call,
                                             color: Colors.white,
                                           ),

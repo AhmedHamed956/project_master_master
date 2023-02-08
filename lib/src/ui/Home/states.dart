@@ -285,8 +285,12 @@ class GetCartErrorStates extends HomeAppState {
 
 class GetNonReadyQuickSuccessStates extends HomeAppState {
   // final LoginModel loginModel;
+  int stepper;
 
-  GetNonReadyQuickSuccessStates();
+  GetNonReadyQuickSuccessStates({required this.stepper});
+
+  @override
+  List<Object?> get props => [stepper];
 }
 
 class GetNonReadyQuickLoadingState extends HomeAppState {}

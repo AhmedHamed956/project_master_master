@@ -1,7 +1,8 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:project/src/blocs/global_bloc/global_bloc.dart';
 import 'package:project/src/common/global.dart';
 import 'package:project/src/common/routes.dart';
@@ -13,10 +14,8 @@ import 'package:project/src/ui/Home/Cubit.dart';
 import 'package:project/src/ui/Home/Home.dart';
 import 'package:project/src/ui/Shared/constant.dart';
 import 'package:project/src/ui/delivery_package/navigation_screens/delivery_cycle_screen.dart';
-import 'package:project/src/ui/location/location_permission_screen.dart';
-import 'package:project/src/ui/location/mapping_set.dart';
-import 'package:project/src/ui/navigation_screen/main-screens/quick-screen.dart';
-import 'package:project/src/ui/navigation_screen/settings/profile/gift-card.dart';
+import 'package:project/src/ui/navigation_screen/chat/helper/fire_helper.dart';
+import 'package:project/src/ui/navigation_screen/chat/helper/firebase_options.dart';
 
 import 'generated/l10n.dart';
 
@@ -24,11 +23,22 @@ final gloScaffMessKey = GlobalKey<ScaffoldMessengerState>();
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+      name: "biflora", options: DefaultFirebaseOptions.currentPlatform);
   DioHelper.init();
   await CacheHelper.init();
   Widget widget;
+  // await FireHelper.getFirebaseMessagingToken();
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    print('Got a message whilst in the foreground!');
+    if (message.notification != null) {
+      print('Notification Title: ${message.notification?.title}');
+      print('Notification Body: ${message.notification?.body}');
+    }
+  });
   // CacheHelper.getData(key: 'deliveryApp') == true
   //     ? deliveryApp = true
   //     : deliveryApp = false;
@@ -37,6 +47,7 @@ Future<void> main() async {
   // token = '27|O8ubJ3Dgpp7yQaRoSrH9ItJIYuLZw37TUfTjCmPn';
 
   token = CacheHelper.getData(key: 'token');
+
   // mylocation = CacheHelper.getData(key: 'mylocation');
   myAddress = await storage.read(key: "myAddress");
   myLat_long = await storage.read(key: "myLatLong");
@@ -122,8 +133,17 @@ class _MyAppState extends State<MyApp> {
             supportedLocales: S.delegate.supportedLocales,
             // home: const HomeScreen(),
             home: widget.startwidget,
+            // home:ChatCycle(),
 // home: GiftCardScreen(),
             // home: DeliveryCycleScreen(),
             onGenerateRoute: RouteGenerator.generateRoute));
   }
+}
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  await Firebase.initializeApp();
+
+  print("Handling a background message: ${message.messageId}");
 }

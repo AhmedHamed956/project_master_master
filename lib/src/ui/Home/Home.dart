@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:project/src/ui/navigation_screen/chat/ui/screens/support.dart';
 import 'package:project/src/ui/navigation_screen/settings/profile/settings-Screen.dart';
 import 'package:project/src/ui/widgets/keep_alive.dart' as keep;
 
 import '../../../generated/l10n.dart';
 import '../Shared/constant.dart';
 import '../components/appar.dart';
-import '../navigation_screen/chat/support.dart';
 import '../navigation_screen/main-screens/main_Screen.dart';
 import '../navigation_screen/offers-screen/offers-screen.dart';
 import '../navigation_screen/orders/order-screen.dart';

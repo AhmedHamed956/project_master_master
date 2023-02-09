@@ -2,7 +2,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
-import 'package:project/Models/ClientTrackingOrder_Model.dart';
+import 'package:project/Models/response/ClientTrackingOrderResponse.dart';
 import 'package:project/src/ui/Home/Cubit.dart';
 import 'package:project/src/ui/Home/states.dart';
 import 'package:project/src/ui/navigation_screen/chat/ui/screens/chat_cycle.dart';
@@ -61,10 +61,10 @@ class _TrackingOrderState extends State<TrackingOrder> {
           builder: (context, state) {
             return ConditionalBuilder(
                 condition:
-                    HomeCubit.get(context).clientTrakingOrderModel != null,
+                    HomeCubit.get(context).clientTrackingOrderResponse != null,
                 builder: (context) {
                   return trackingScreen(
-                      HomeCubit.get(context).clientTrakingOrderModel!);
+                      HomeCubit.get(context).clientTrackingOrderResponse!);
                 },
                 fallback: ((context) => Container(
                     color: Colors.white,
@@ -76,7 +76,7 @@ class _TrackingOrderState extends State<TrackingOrder> {
         ));
   }
 
-  Widget trackingScreen(ClientTrakingOrderModel model) => Scaffold(
+  Widget trackingScreen(ClientTrackingOrderResponse model) => Scaffold(
         backgroundColor: mainBackgourndColor,
         appBar: AppBarWidget(label: S.current.order_tracking),
         body: SingleChildScrollView(
@@ -608,7 +608,7 @@ class _TrackingOrderState extends State<TrackingOrder> {
                                                     Icons.chat_rounded,
                                                     color: Colors.white))
                                           ]))),
-                                  onTap: ()  {
+                                  onTap: () {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(

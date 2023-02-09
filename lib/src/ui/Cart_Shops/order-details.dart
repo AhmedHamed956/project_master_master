@@ -268,8 +268,8 @@ class _OrderDetailsState extends State<OrderDetails> {
                                 setState(() {
                                   _gift = value;
                                   typeSend = 'ToMe';
-                                  widget.city = myAddress;
-                                  result = myLat_long;
+                                  // widget.city = myAddress;
+                                  // result = myLat_long;
                                   giftVaildate = false;
                                 });
                               },

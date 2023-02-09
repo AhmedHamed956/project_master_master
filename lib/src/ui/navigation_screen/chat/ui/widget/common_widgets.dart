@@ -27,9 +27,8 @@ Widget chatImage({required String imageSrc, required Function onTap}) {
             if (loadingProgress == null) return child;
             return Container(
                 decoration: BoxDecoration(
-                  color: Colors.grey,
-                  borderRadius: BorderRadius.circular(Sizes.dimen_10),
-                ),
+                    color: Colors.grey,
+                    borderRadius: BorderRadius.circular(Sizes.dimen_10)),
                 width: Sizes.dimen_200,
                 height: Sizes.dimen_200,
                 child: Center(
@@ -46,14 +45,17 @@ Widget chatImage({required String imageSrc, required Function onTap}) {
 
 Widget messageBubble(
     {required String chatContent, Color? color, Color? textColor}) {
-  return Row(mainAxisSize: MainAxisSize.min, children: [
-    Container(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-        margin: const EdgeInsets.symmetric(horizontal: 12),
-        decoration: BoxDecoration(
-            color: color, borderRadius: BorderRadius.circular(Sizes.dimen_12)),
-        child: Flexible(
-            child: Text(chatContent,
-                style: TextStyle(fontSize: Sizes.dimen_16, color: textColor))))
-  ]);
+  return Flexible(
+      child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+          margin: const EdgeInsets.symmetric(horizontal: 12),
+          decoration: BoxDecoration(
+              color: color,
+              borderRadius: BorderRadius.circular(Sizes.dimen_12)),
+          child: Row(mainAxisSize: MainAxisSize.min, children: [
+            Flexible(
+                child: Text(chatContent,
+                    style:
+                        TextStyle(fontSize: Sizes.dimen_16, color: textColor)))
+          ])));
 }

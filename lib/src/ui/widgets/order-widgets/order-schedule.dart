@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/widgets.dart';
+import 'package:project/Models/model/order_model.dart';
 import 'package:project/Models/orders_response.dart';
 
 import '../../../../generated/l10n.dart';
@@ -9,7 +10,8 @@ import '../../../../test.dart';
 import '../../Shared/constant.dart';
 
 class OrderSchedule extends StatefulWidget {
-  Scheduler? model;
+  OrderModel? model;
+
   OrderSchedule({this.model});
 
   @override
@@ -55,7 +57,7 @@ class _OrderScheduleState extends State<OrderSchedule> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  '${widget.model?.shopDatta?.brandName}',
+                  '${widget.model?.shopData?.brandName}',
                   style: TextStyle(
                       color: textColor,
                       fontSize: 18,
@@ -80,8 +82,7 @@ class _OrderScheduleState extends State<OrderSchedule> {
                         showModalBottomSheet<void>(
                             isScrollControlled: true,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
+                                borderRadius: BorderRadius.circular(10.0)),
                             // backgroundColor: Colors.transparent,
                             builder: (BuildContext context) {
                               return StatefulBuilder(

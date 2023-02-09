@@ -19,14 +19,21 @@ class HomeSuccessStates extends HomeAppState {
 
 class HomeShopFilterSuccessStates extends HomeAppState {
   List<ShopData>? items;
+  LocationModel model;
 
-  HomeShopFilterSuccessStates({this.items});
+  HomeShopFilterSuccessStates({this.items, required this.model});
+
+  @override
+  List<Object?> get props => [items, model];
 }
 
 class GetSavedLocationSuccessStates extends HomeAppState {
   LocationModel? model;
 
   GetSavedLocationSuccessStates({this.model});
+
+  @override
+  List<Object?> get props => [model];
 }
 
 class HomeLoadingState extends HomeAppState {}
@@ -66,10 +73,11 @@ class ShopDetailsErrorStates extends HomeAppState {
 }
 
 class GetCountresSuccessStates extends HomeAppState {
-  // final LoginModel loginModel;
   List<LocationModel>? items;
 
   GetCountresSuccessStates({required this.items});
+  @override
+  List<Object?> get props => [items];
 }
 
 class GetLocationsSuccessStates extends HomeAppState {

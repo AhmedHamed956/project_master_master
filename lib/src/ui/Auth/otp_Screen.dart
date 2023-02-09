@@ -3,16 +3,13 @@ import 'dart:async';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
-
 import 'package:pin_code_fields/pin_code_fields.dart';
-
 import 'package:project/src/ui/Shared/constant.dart';
 import 'package:project/src/ui/components/component.dart';
+import 'package:project/src/ui/navigation_screen/chat/helper/fire_helper.dart';
+import 'package:project/src/ui/widgets/widgets.dart';
 
 import '../../../generated/l10n.dart';
-import '../../network/local/cache-helper.dart';
-import '../location/location_permission_screen.dart';
 import 'Cubit/cubit.dart';
 import 'Cubit/states.dart';
 
@@ -25,7 +22,7 @@ class OtpScreen extends StatefulWidget {
 
 class _OtpScreenState extends State<OtpScreen> {
   Timer? countdownTimer;
-  Duration myDuration = Duration(days: 5);
+  Duration myDuration = const Duration(days: 5);
 
   String currentText = "";
   TextEditingController textEditingController = TextEditingController();
@@ -36,17 +33,24 @@ class _OtpScreenState extends State<OtpScreen> {
 
   bool loading = false;
 
+  String? fcmToken;
+
   @override
   void initState() {
     startTimer();
     // _email = "himahamed999@gmail.com";
     errorController = StreamController<ErrorAnimationType>();
+    init();
     super.initState();
+  }
+
+  init() async {
+    fcmToken = await FireHelper.getFirebaseMessagingToken();
   }
 
   void startTimer() {
     countdownTimer =
-        Timer.periodic(Duration(seconds: 1), (_) => setCountDown());
+        Timer.periodic(const Duration(seconds: 1), (_) => setCountDown());
   }
 
   void stopTimer() {
@@ -56,7 +60,7 @@ class _OtpScreenState extends State<OtpScreen> {
   // Step 5
   void resetTimer() {
     stopTimer();
-    setState(() => myDuration = Duration(days: 5));
+    setState(() => myDuration = const Duration(days: 5));
   }
 
   void setCountDown() {
@@ -120,33 +124,23 @@ class _OtpScreenState extends State<OtpScreen> {
                   // mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                      height: 167,
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 69.0, left: 58.0),
-                        child: SizedBox(
-                          width: 300,
-                          height: 136.58,
-                          child: Image.asset(
-                            'assets/images/loginImage.png',
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 50,
-                    ),
+                        height: 167,
+                        child: Padding(
+                            padding:
+                                const EdgeInsets.only(right: 69.0, left: 58.0),
+                            child: SizedBox(
+                                width: 300,
+                                height: 136.58,
+                                child: Image.asset(
+                                    'assets/images/loginImage.png')))),
+                    const SizedBox(height: 50),
                     Center(
-                      child: Text(
-                        S.current.please_enter_the_otp_code,
-                        style: TextStyle(
-                            fontSize: 16,
-                            color: button1color,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 57,
-                    ),
+                        child: Text(S.current.please_enter_the_otp_code,
+                            style: const TextStyle(
+                                fontSize: 16,
+                                color: button1color,
+                                fontWeight: FontWeight.w500))),
+                    const SizedBox(height: 57),
                     Padding(
                       padding: const EdgeInsets.only(right: 34, left: 34),
                       child: Directionality(
@@ -178,12 +172,12 @@ class _OtpScreenState extends State<OtpScreen> {
                               fieldWidth: 60,
                               activeFillColor: Colors.white,
                               inactiveFillColor: Colors.white,
-                              disabledColor: Color(0xffeeeeee),
+                              disabledColor: const Color(0xffeeeeee),
                               inactiveColor: textFieldColor,
                               selectedFillColor: Colors.white,
                               activeColor: textFieldColor),
                           cursorColor: Colors.black,
-                          animationDuration: Duration(milliseconds: 300),
+                          animationDuration: const Duration(milliseconds: 300),
                           enableActiveFill: true,
                           errorAnimationController: errorController,
                           // controller: textEditingController,
@@ -219,35 +213,32 @@ class _OtpScreenState extends State<OtpScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 40,
-                    ),
+                    const SizedBox(height: 40),
                     Padding(
                       padding: const EdgeInsets.only(right: 34, left: 34),
                       child: ConditionalBuilder(
-                        condition: state is! CheckOtpLoadingState,
-                        builder: (context) => ingridentbutton(
-                          text: S.current.continue_,
-                          color2: button2color,
-                          color1: button1color,
-                          width: 360,
-                          height: 56,
-                          function: () {
-                            // if (textEditingController.text.length == 4 &&
-                            //     textEditingController.text != '') {
-                            LoginScreenCubit.get(context).checkotp(
-                                code: textEditingController.text,
-                                context: context);
-                            // } else
-                            //   Null;
-                          },
-                        ),
-                        fallback: (context) => Center(
-                          child: CircularProgressIndicator(
-                            color: button2color,
-                          ),
-                        ),
-                      ),
+                          condition: state is! CheckOtpLoadingState,
+                          builder: (context) => ingridentbutton(
+                              text: S.current.continue_,
+                              color2: button2color,
+                              color1: button1color,
+                              width: 360,
+                              height: 56,
+                              function: () {
+                                // if (textEditingController.text.length == 4 &&
+                                //     textEditingController.text != '') {
+                                if (fcmToken == null) {
+                                  showSnackBar(title: 'Token is empty');
+                                } else {
+                                  LoginScreenCubit.get(context).checkotp(
+                                      code: textEditingController.text,
+                                      fcmToken: fcmToken!,
+                                      context: context);
+                                }
+                              }),
+                          fallback: (context) => const Center(
+                              child: CircularProgressIndicator(
+                                  color: button2color))),
                       //  ingridentbutton(
                       //   color1: button1color,
                       //   color2: button2color,
@@ -268,7 +259,7 @@ class _OtpScreenState extends State<OtpScreen> {
                     Center(
                       child: Text(
                         S.current.you_did_nt_receive_any_code,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 16,
                             color: button1color,
                             fontWeight: FontWeight.w500),
@@ -284,7 +275,7 @@ class _OtpScreenState extends State<OtpScreen> {
                         children: [
                           Text(
                             S.current.resend,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 color: greencolor,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,
@@ -304,7 +295,7 @@ class _OtpScreenState extends State<OtpScreen> {
                               ),
                               Text(
                                 S.current.request_new_otp_code_in + "",
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 16,
                                     color: button1color,
                                     fontWeight: FontWeight.w500),

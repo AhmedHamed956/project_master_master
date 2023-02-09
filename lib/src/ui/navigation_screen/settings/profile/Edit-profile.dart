@@ -17,6 +17,7 @@ import 'package:project/src/ui/components/appar.dart';
 import 'package:project/src/ui/components/component.dart';
 import 'package:project/src/ui/location/mapping_set.dart';
 
+import '../../../../../Models/model/location_model.dart';
 import '../../../../../Models/model/user_model.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../common/global.dart';
@@ -52,6 +53,8 @@ class _EditProfileState extends State<EditProfile> {
 
   File? photo;
   String? uploadImage;
+  LocationModel? _savedLocation;
+  late HomeCubit _homeCubit;
 
   final Shader linearGradient = const LinearGradient(
     colors: <Color>[
@@ -65,6 +68,8 @@ class _EditProfileState extends State<EditProfile> {
 
   @override
   void initState() {
+    _homeCubit = BlocProvider.of<HomeCubit>(context);
+    _homeCubit.getSavedLocation();
     print('laaaaaaaaaat');
     print(widget.location);
     super.initState();
@@ -126,6 +131,9 @@ class _EditProfileState extends State<EditProfile> {
     bool isTextClear = true;
 
     return BlocConsumer<HomeCubit, HomeAppState>(listener: (context, state) {
+      if (state is GetSavedLocationSuccessStates) {
+        _savedLocation = state.model;
+      }
       if (state is PostEditProfileSuccessStates) {
         Navigator.pushReplacement(
             context,
@@ -197,24 +205,6 @@ class _EditProfileState extends State<EditProfile> {
                           ),
                         ),
                       ),
-                      // InkWell(
-                      //   child: Container(
-                      //       child: uploadImage == null
-                      //           ? Container(
-                      //               height: 100,
-                      //               width: 100,
-                      //               child: Image.asset(
-                      //                 'assets/icons/Rectangle 5.png',
-                      //               ),
-                      //             )
-                      //           : Container(
-                      //               height: 100,
-                      //               width: 100,
-                      //               child: Image.file(photo))),
-                      //   onTap: () {
-                      //     pickFromGallery();
-                      //   },
-                      // ),
                       const SizedBox(
                         height: 26,
                       ),
@@ -430,7 +420,8 @@ class _EditProfileState extends State<EditProfile> {
                             Row(children: [
                               Expanded(
                                   child: Text(
-                                      myAddress ?? S.current.enter_Adresss,
+                                      _savedLocation?.name ??
+                                          S.current.enter_Adresss,
                                       style: const TextStyle(
                                           color: textColor,
                                           fontSize: 15,

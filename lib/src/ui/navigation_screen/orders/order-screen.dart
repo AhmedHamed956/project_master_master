@@ -1,6 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:project/Models/model/order_model.dart';
 import 'package:project/Models/orders_response.dart';
 import 'package:project/src/common/global.dart';
 import 'package:project/src/ui/Home/Cubit.dart';
@@ -76,7 +77,7 @@ class _OrderScreenState extends State<OrderScreen>
     );
   }
 
-  Widget screen(OrdersModel model, Progress? progress) => DefaultTabController(
+  Widget screen(OrdersResponse model, OrderModel? progress) => DefaultTabController(
       length: 4,
       child: Scaffold(
           backgroundColor: Colors.white,
@@ -177,7 +178,7 @@ class _OrderScreenState extends State<OrderScreen>
                                           children: [
                                             Expanded(
                                                 child: Text(
-                                                    '${model.data?[1].progress![index].shopDatta?.storeName}',
+                                                    '${model.data?[1].progress![index].shopData?.storeName}',
                                                     style: const TextStyle(
                                                         color: textColor,
                                                         fontSize: 18,
@@ -189,8 +190,8 @@ class _OrderScreenState extends State<OrderScreen>
                                               MainAxisAlignment.spaceBetween,
                                           children: [
                                             Text(
-                                              '${model.data?[1].progress?[index].shopDatta?.createdAt?.split('T').first}',
-                                              style: TextStyle(
+                                              '${model.data?[1].progress?[index].shopData?.createdAt?.split('T').first}',
+                                              style: const TextStyle(
                                                   color: textColor,
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.w400),
@@ -241,7 +242,7 @@ class _OrderScreenState extends State<OrderScreen>
                                                                           .w700))))),
                                               const SizedBox(width: 13),
                                               model.data![1].progress![index]
-                                                          .deliveryDetail !=
+                                                          .orderDetail !=
                                                       null
                                                   ? InkWell(
                                                       onTap: () {
@@ -257,12 +258,12 @@ class _OrderScreenState extends State<OrderScreen>
                                                                         .circular(
                                                                             15.0),
                                                               ),
-                                                              content: Row(
+                                                              content: const Row(
                                                                 mainAxisAlignment:
                                                                     MainAxisAlignment
                                                                         .center,
                                                                 children: [
-                                                                  const Text(
+                                                                  Text(
                                                                     'هل تريد إلغاء الطلب',
                                                                     style: TextStyle(
                                                                         fontSize:
@@ -295,7 +296,7 @@ class _OrderScreenState extends State<OrderScreen>
                                                                         child:
                                                                             Container(
                                                                           child:
-                                                                              Center(
+                                                                              const Center(
                                                                             child:
                                                                                 Text(
                                                                               "نعم",
@@ -325,7 +326,7 @@ class _OrderScreenState extends State<OrderScreen>
                                                                         child:
                                                                             Container(
                                                                           child:
-                                                                              Center(
+                                                                              const Center(
                                                                             child:
                                                                                 Text(
                                                                               "لا",
@@ -558,7 +559,7 @@ class _OrderScreenState extends State<OrderScreen>
                                             ),
                                             Text(
                                               '${model.data?[3].cancle?[index].id} #',
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   color: textColor,
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.w400),
@@ -570,8 +571,8 @@ class _OrderScreenState extends State<OrderScreen>
                                               MainAxisAlignment.start,
                                           children: [
                                             Text(
-                                              '${model.data?[3].cancle?[index].shopDatta?.brandName} ',
-                                              style: TextStyle(
+                                              '${model.data?[3].cancle?[index].shopData?.brandName} ',
+                                              style: const TextStyle(
                                                   color: textColor,
                                                   fontSize: 18,
                                                   fontWeight: FontWeight.w500),
@@ -583,8 +584,8 @@ class _OrderScreenState extends State<OrderScreen>
                                               MainAxisAlignment.start,
                                           children: [
                                             Text(
-                                              '${model.data?[3].cancle?[index].shopDatta?.createdAt?.split('T').first}',
-                                              style: TextStyle(
+                                              '${model.data?[3].cancle?[index].shopData?.createdAt?.split('T').first}',
+                                              style: const TextStyle(
                                                   color: textColor,
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.w400),

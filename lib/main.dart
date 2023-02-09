@@ -49,7 +49,7 @@ Future<void> main() async {
   token = CacheHelper.getData(key: 'token');
 
   // mylocation = CacheHelper.getData(key: 'mylocation');
-  myAddress = await storage.read(key: "myAddress");
+  // myAddress = await storage.read(key: "myAddress");
   myLat_long = await storage.read(key: "myLatLong");
   mycity = CacheHelper.getData(key: 'mycity');
   mystreet = CacheHelper.getData(key: 'mystreet');

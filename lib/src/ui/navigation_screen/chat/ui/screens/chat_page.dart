@@ -94,6 +94,7 @@ class _ChatPageState extends State<ChatPage> {
                       keyboardType: TextInputType.text,
                       textCapitalization: TextCapitalization.sentences,
                       controller: textEditingController,
+                      maxLines: null,
                       onSubmitted: (value) {
                         onSendMessage(
                             textEditingController.text, MessageType.text);
@@ -187,10 +188,9 @@ class _ChatPageState extends State<ChatPage> {
                       top: Sizes.dimen_6,
                       bottom: Sizes.dimen_8),
                   child: Text(
-                      DateFormat('dd MMM yyyy, hh:mm a')
-                          .format(DateTime.fromMillisecondsSinceEpoch(
-                        int.parse(chatMessages.timestamp),
-                      )),
+                      DateFormat('dd MMM yyyy, hh:mm a').format(
+                          DateTime.fromMillisecondsSinceEpoch(
+                              int.parse(chatMessages.timestamp))),
                       style: const TextStyle(
                           color: textColor,
                           fontSize: Sizes.dimen_12,
@@ -214,16 +214,14 @@ class _ChatPageState extends State<ChatPage> {
                     listMessages = snapshot.data!.docs;
                     if (listMessages.isNotEmpty) {
                       return ListView.separated(
-                        padding: const EdgeInsets.all(10),
-                        itemCount: snapshot.data!.docs.length,
-                        reverse: true,
-                        controller: scrollController,
-                        itemBuilder: (context, index) =>
-                            buildItem(index, snapshot.data?.docs[index]),
-                        separatorBuilder: (BuildContext context, int index) {
-                          return const SizedBox(height: 2);
-                        },
-                      );
+                          padding: const EdgeInsets.all(10),
+                          itemCount: snapshot.data!.docs.length,
+                          reverse: true,
+                          controller: scrollController,
+                          itemBuilder: (context, index) =>
+                              buildItem(index, snapshot.data?.docs[index]),
+                          separatorBuilder: (BuildContext context, int index) =>
+                              const SizedBox(height: 2));
                     } else {
                       return const Center(child: Text('No messages...'));
                     }
@@ -266,8 +264,8 @@ class _ChatPageState extends State<ChatPage> {
     } else {
       groupChatId = '${widget.peerId} - $currentUserId';
     }
-    chatProvider.updateFirestoreData(FirestoreConstants.pathUserCollection,
-        currentUserId, {FirestoreConstants.chattingWith: widget.peerId});
+    // chatProvider.updateFirestoreData(FirestoreConstants.pathUserCollection,
+    //     currentUserId, {FirestoreConstants.chattingWith: widget.peerId});
   }
 
   void getSticker() {

@@ -3,6 +3,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:project/Models/model/order_model.dart';
 import 'package:project/Models/orders_response.dart';
 
 import '../../../../generated/l10n.dart';
@@ -11,7 +12,8 @@ import '../../Shared/constant.dart';
 import 'package:project/src/ui/widgets/order-widgets/RatingOrder-widget.dart';
 
 class PastOrder extends StatefulWidget {
-  Delivery? model;
+  OrderModel? model;
+
   PastOrder({this.model});
 
   @override
@@ -46,7 +48,7 @@ class _PastOrderState extends State<PastOrder> {
                                 fontWeight: FontWeight.w400))
                       ]),
                   Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                    Text('${widget.model?.shopDatta?.brandName}',
+                    Text('${widget.model?.shopData?.brandName}',
                         style: TextStyle(
                             color: textColor,
                             fontSize: 18,

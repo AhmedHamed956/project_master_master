@@ -20,18 +20,18 @@ class Products {
     orderId = json['order_id'];
     quantity = json['quantity'];
     productsData = json['products_data'] != null
-        ? new ProductData.fromJson(json['products_data'])
+        ? ProductData.fromJson(json['products_data'])
         : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['product_id'] = this.productId;
-    data['order_id'] = this.orderId;
-    data['quantity'] = this.quantity;
-    if (this.productsData != null) {
-      data['products_data'] = this.productsData!.toJson();
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['id'] = id;
+    data['product_id'] = productId;
+    data['order_id'] = orderId;
+    data['quantity'] = quantity;
+    if (productsData != null) {
+      data['products_data'] = productsData!.toJson();
     }
     return data;
   }

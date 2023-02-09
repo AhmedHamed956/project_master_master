@@ -80,7 +80,9 @@ class _MappingSetState extends State<MappingSet> {
   late HomeCubit _homeCubit;
 
   late GoogleMapController mapController;
-  LocationModel? myLocation;
+
+  LocationModel? searchLocation;
+  LocationModel? mapLocation;
 
   @override
   void initState() {
@@ -213,15 +215,12 @@ class _MappingSetState extends State<MappingSet> {
         counrty = place.country.toString();
         city = place.subAdministrativeArea.toString();
         street = place.street.toString();
-        fullLocation = '$city-$street';
-        mycity = '$city';
-        mystreet = '$street';
-        CacheHelper.saveData(key: 'mylocation', value: fullLocation);
-        CacheHelper.saveData(key: 'mycity', value: mycity);
 
-        CacheHelper.saveData(key: 'mystreet', value: mystreet);
-
-        // mylocation = fullLocation;
+        // searchLocation = null;
+        mapLocation = LocationModel(
+            id: 080900100,
+            name: _currentAddress,
+            latLong: "${latLng.latitude},${latLng.longitude}");
       });
     }).catchError((e) {
       debugPrint(e);
@@ -274,11 +273,11 @@ class _MappingSetState extends State<MappingSet> {
         markers.add(Marker(
             markerId: MarkerId('${latLng.latitude}, ${latLng.longitude}'),
             position: LatLng(latLng.latitude, latLng.longitude)));
-        _currentlat = latLng.latitude;
-        _currentlong = latLng.longitude;
-        latlong = '$_currentlat,$_currentlong';
-        storage.write(key: "myLatLong", value: latlong);
-        _currentPosition = position;
+        // _currentlat = latLng.latitude;
+        // _currentlong = latLng.longitude;
+        // latlong = '$_currentlat,$_currentlong';
+        // storage.write(key: "myLatLong", value: latlong);
+        // _currentPosition = position;
       });
       _getAddressFromLatLng(latLng);
     }).catchError((e) {
@@ -298,7 +297,7 @@ class _MappingSetState extends State<MappingSet> {
         _currentlat = position.latitude;
         _currentlong = position.longitude;
         latlong = '$_currentlat,$_currentlong';
-        storage.write(key: "myLatLong", value: latlong);
+        // storage.write(key: "myLatLong", value: latlong);
       });
       markers.clear();
       markers.add(Marker(
@@ -336,10 +335,10 @@ class _MappingSetState extends State<MappingSet> {
       if (_currentAddress == null) {
         showSnackBar(title: S.current.please_choose_the_address_first);
       } else {
-        if (myLocation == null) {
-          _saveAddress(fullLocation);
-        } else {
-          _saveLocation();
+        if (searchLocation != null) {
+          _saveLocation(searchLocation);
+        } else if (mapLocation != null) {
+          _saveLocation(mapLocation);
         }
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => HomeScreen()));
@@ -365,34 +364,31 @@ class _MappingSetState extends State<MappingSet> {
     }
 
     if (widget.mappingset == 'changelocation') {
-      if (myLocation == null) {
-        _saveAddress(fullLocation);
+      if (_currentAddress == null) {
+        showSnackBar(title: S.current.please_choose_the_address_first);
       } else {
-        _saveLocation();
+        if (searchLocation != null) {
+          _saveLocation(searchLocation);
+        } else if (mapLocation != null) {
+          _saveLocation(mapLocation);
+        }
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => EditProfile(
+                    model: widget.profilemodel,
+                    city: city,
+                    street: street,
+                    country: counrty,
+                    location: latlong)));
       }
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) => EditProfile(
-                  model: widget.profilemodel,
-                  city: city,
-                  street: street,
-                  country: counrty,
-                  location: latlong)));
     }
   }
 
-  _saveLocation() async {
-    if (myLocation != null) {
-      String value = json.encode(myLocation);
+  _saveLocation(LocationModel? location) async {
+    if (location != null) {
+      String value = json.encode(location);
       await storage.write(key: "myLocation", value: value);
-    }
-  }
-
-  _saveAddress(String? address) async {
-    if (address != null) {
-      myAddress = address;
-      await storage.write(key: "myAddress", value: address);
     }
   }
 
@@ -423,8 +419,8 @@ class _MappingSetState extends State<MappingSet> {
           markers.add(Marker(
               markerId: const MarkerId('currentLocation'),
               position: LatLng(latitude, longitude)));
-          myLocation = element;
-          _saveAddress(element.name);
+          searchLocation = element;
+          mapLocation = null;
         }
       }
     });

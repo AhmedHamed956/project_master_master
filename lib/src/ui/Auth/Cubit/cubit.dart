@@ -48,12 +48,9 @@ class LoginScreenCubit extends Cubit<LoginAppStates> {
   UserResponse? userModel;
 
   // UserModel userModel;
-  Future<void> checkotp({@required code, context}) async {
-    FormData formData = FormData.fromMap({
-      "otp": code,
-
-      // "device_token": user.deviceToken
-    });
+  Future<void> checkotp(
+      {@required code, context, required String fcmToken}) async {
+    FormData formData = FormData.fromMap({"otp": code, 'fcm_token': fcmToken});
     emit(CheckOtpLoadingState());
 
     DioHelper.postdata(url: check_otp, data: formData).then((value) {
@@ -62,11 +59,14 @@ class LoginScreenCubit extends Cubit<LoginAppStates> {
       userModel = UserResponse.fromJson(value.data);
 
       emit(CheckOtpSuccessStates(userModel!));
-      CacheHelper.saveData(key: 'userId', value: userModel?.user?.id.toString() );
+      CacheHelper.saveData(
+          key: 'userId', value: userModel?.user?.id.toString());
       CacheHelper.saveData(key: 'token', value: userModel?.token)
           .then((value) => token = CacheHelper.getData(key: 'token'))
-          .then((value) => Navigator.push(context,
-              MaterialPageRoute(builder: (context) => LocationPermissionScreen())));
+          .then((value) => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => LocationPermissionScreen())));
     }).catchError((error) {
       emit(CheckOtpErrorStates(error.toString()));
     });

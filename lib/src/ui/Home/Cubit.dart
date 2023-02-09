@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:project/Models/Ads_Model.dart';
-import 'package:project/Models/ClientTrackingOrder_Model.dart';
 import 'package:project/Models/Home_Model.dart';
 import 'package:project/Models/OrderConfirm_Model.dart';
 import 'package:project/Models/Tabs_Details_Model.dart';
@@ -15,6 +14,7 @@ import 'package:project/Models/location_response.dart';
 import 'package:project/Models/offers_Model.dart';
 import 'package:project/Models/one_offer_Model.dart';
 import 'package:project/Models/orders_response.dart';
+import 'package:project/Models/response/ClientTrackingOrderResponse.dart';
 import 'package:project/Models/response/confirm_digetal_gift_response.dart';
 import 'package:project/Models/shop_details_Model.dart';
 import 'package:project/Models/suggest_search_response.dart';
@@ -58,14 +58,15 @@ class HomeCubit extends Cubit<HomeAppState> {
     });
   }
 
-  Future<void> getHomeFilterProduct(String cityId) async {
-    DioHelper.getdata(url: homeFilterProduct + cityId, token: token)
+  Future<void> getHomeFilterShops(LocationModel model) async {
+    DioHelper.getdata(
+            url: homeFilterProduct + model.id.toString(), token: token)
         .then((value) {
+      log("getHomeFilterProduct ${jsonEncode(value.data)}");
       HomeShopsFilterResponse homeShopsFilterResponse =
           HomeShopsFilterResponse.fromJson(value.data);
-      log("getHomeFilterProduct ${jsonEncode(value.data)}");
       emit(HomeShopFilterSuccessStates(
-          items: homeShopsFilterResponse.data?.shops));
+          items: homeShopsFilterResponse.data?.shops, model: model));
     }).catchError((error, s) {
       log("getHomeFilterProduct $error $s");
       emit(HomeErrorStates(error.toString()));
@@ -426,15 +427,15 @@ class HomeCubit extends Cubit<HomeAppState> {
     });
   }
 
-  OrdersModel? ordersModel;
+  OrdersResponse? ordersModel;
 
   Future<void> ordersScreen() async {
     emit(OrderScreenLoadingState());
     DioHelper.getdata(url: addtoCart, token: token).then((value) {
-      ordersModel = OrdersModel.fromJson(value.data);
+      ordersModel = OrdersResponse.fromJson(value.data);
       log("ordersScreen${jsonEncode(value.data)}");
       emit(OrderScreenSuccessStates());
-      log("${ordersModel?.data?[1].progress?.first.id}");
+      // log("${ordersModel?.data?[1].progress?.first.id}");
     }).catchError((error, s) {
       log("ordersScreenError : $error  $s");
       emit(OrderScreenErrorStates(error.toString()));
@@ -707,12 +708,13 @@ class HomeCubit extends Cubit<HomeAppState> {
     });
   }
 
-  ClientTrakingOrderModel? clientTrakingOrderModel;
+  ClientTrackingOrderResponse? clientTrackingOrderResponse;
 
-  Future<void> getclientTraking({@required id}) async {
+  Future<void> getclientTraking({required id}) async {
     emit(GetClientTrackingLoadingState());
     DioHelper.getdata(url: '$clientTracking/$id', token: token).then((value) {
-      clientTrakingOrderModel = ClientTrakingOrderModel.fromJson(value.data);
+      clientTrackingOrderResponse =
+          ClientTrackingOrderResponse.fromJson(value.data);
       log("getclientTraking ${jsonEncode(value.data)}");
 
       emit(GetClientTrackingSuccessStates());

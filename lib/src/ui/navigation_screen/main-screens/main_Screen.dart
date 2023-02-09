@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:ui';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
@@ -10,18 +9,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:project/Models/Ads_Model.dart';
-import 'package:project/Models/Home_Model.dart';
 import 'package:project/src/common/global.dart';
 import 'package:project/src/ui/Home/Cubit.dart';
 import 'package:project/src/ui/Home/states.dart';
-
 import 'package:project/src/ui/Shared/constant.dart';
 import 'package:project/src/ui/navigation_screen/main-screens/quick-screen.dart';
+
 import '../../../../Models/model/location_model.dart';
 import '../../../../Models/model/shop_model.dart';
 import '../../../../generated/l10n.dart';
 import '../../ShopDetails/shopDateils.dart';
-import '../../widgets/shopItem.dart';
 import '../../widgets/slider-widget.dart';
 import 'digital-Screens/digital-Screen.dart';
 
@@ -65,14 +62,27 @@ class _MainScreenState extends State<MainScreen> {
         _shops.addAll(state.items ?? []);
       }
       if (state is HomeShopFilterSuccessStates) {
-        _shops.clear();
-        _shops.addAll(state.items ?? []);
+        log("HomeShopFilterSuccessStates");
+        setState(() {
+          _savedLocation = state.model;
+          _shops.clear();
+          _shops.addAll(state.items ?? []);
+        });
       }
 
       if (state is GetSavedLocationSuccessStates) {
-        _savedLocation = state.model;
-        if (state.model?.name != null) {
-          myAddress = state.model?.name ?? "";
+        if (state.model != null) {
+          setState(() {
+            _shops.clear();
+            _savedLocation = null;
+            _savedLocation = state.model;
+          });
+
+          if (state.model?.id == 080900100) {
+            _homeCubit.getHomeShops();
+          } else {
+            _homeCubit.getHomeFilterShops(state.model!);
+          }
         }
       }
 
@@ -82,10 +92,10 @@ class _MainScreenState extends State<MainScreen> {
       if (state is GetCountresSuccessStates) {
         locations.addAll(state.items ?? []);
         if (_savedLocation != null) {
-          _homeCubit.getHomeFilterProduct(_savedLocation!.id.toString());
           for (var element in locations) {
             if (element.id == _savedLocation?.id) {
               _locationModel = element;
+              _homeCubit.getHomeFilterShops(element);
             }
           }
         }
@@ -422,11 +432,11 @@ class _MainScreenState extends State<MainScreen> {
   void _onDropDownChange(LocationModel? value) async {
     setState(() {
       _locationModel = value!;
-      _homeCubit.getHomeFilterProduct(value.id.toString());
+      _shops.clear();
+      _savedLocation = null;
+      _homeCubit.getHomeFilterShops(value);
     });
     String model = json.encode(value);
     await storage.write(key: "myLocation", value: model);
-    myAddress = value?.name;
-    await storage.write(key: "myAddress", value: value?.name);
   }
 }

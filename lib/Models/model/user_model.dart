@@ -19,22 +19,22 @@ class UserModel {
 
   UserModel(
       {this.id,
-        this.name,
-        this.email,
-        this.userName,
-        this.phone,
-        this.emailVerifiedAt,
-        this.twoFactorSecret,
-        this.twoFactorRecoveryCodes,
-        this.isAdmin,
-        this.isInvestor,
-        this.isRepresentative,
-        this.isClient,
-        this.isOnline,
-        this.avatar,
-        this.createdAt,
-        this.updatedAt,
-        this.lastActivity});
+      this.name,
+      this.email,
+      this.userName,
+      this.phone,
+      this.emailVerifiedAt,
+      this.twoFactorSecret,
+      this.twoFactorRecoveryCodes,
+      this.isAdmin,
+      this.isInvestor,
+      this.isRepresentative,
+      this.isClient,
+      this.isOnline,
+      this.avatar,
+      this.createdAt,
+      this.updatedAt,
+      this.lastActivity});
 
   UserModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];

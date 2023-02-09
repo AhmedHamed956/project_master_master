@@ -79,7 +79,7 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
                   padding: const EdgeInsets.only(top: 40),
                   child: Container(
                     width: MediaQuery.of(context).size.width,
-                    height: 600,
+                    height: MediaQuery.of(context).size.height,
                     decoration: const BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.only(

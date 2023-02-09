@@ -3,8 +3,6 @@ import 'package:project/generated/l10n.dart';
 import 'package:project/src/ui/Shared/constant.dart';
 import 'package:project/src/ui/components/appar.dart';
 
-
-
 class ChatScreen extends StatelessWidget {
   const ChatScreen({super.key});
 
@@ -32,7 +30,7 @@ class ChatScreen extends StatelessWidget {
                     padding: const EdgeInsets.only(right: 18, left: 22, top: 7),
                     child: Column(
                       children: [
-                        const Row(
+                        Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Padding(

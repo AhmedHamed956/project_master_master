@@ -7,6 +7,7 @@ import 'package:project/src/ui/Home/Cubit.dart';
 import 'package:project/src/ui/Home/states.dart';
 
 import '../../../../../generated/l10n.dart';
+import '../../../Cart_Shops/order-details.dart';
 import '../../../Shared/constant.dart';
 
 class QuickTraking extends StatefulWidget {
@@ -19,6 +20,7 @@ class QuickTraking extends StatefulWidget {
 class _QuickTrakingState extends State<QuickTraking> {
   int stepper = 0;
   late HomeCubit _homeCubit;
+  bool? cancel = false;
 
   @override
   void initState() {
@@ -32,10 +34,77 @@ class _QuickTrakingState extends State<QuickTraking> {
   Widget build(BuildContext context) {
     return BlocConsumer<HomeCubit, HomeAppState>(
       listener: (context, state) {
-        if (state is GetNonReadyQuickSuccessStates) {
-          stepper = state.stepper;
-          // stepper++;
-          log("stepper : $stepper");
+        if (cancel == false) {
+          if (state is GetNonReadyQuickSuccessStates) {
+            stepper = state.stepper;
+            // stepper++;
+            log("stepper : $stepper");
+
+            for (int i = 0;
+                i < HomeCubit.get(context).getnonReadyQuickModel!.data!.length;
+                i++) {
+              if (HomeCubit.get(context)
+                      .getnonReadyQuickModel!
+                      .data![i]
+                      .isAccpet ==
+                  1) {
+                HomeCubit.get(context)
+                    .postQuickOrder(
+                        productID: HomeCubit.get(context)
+                            .getnonReadyQuickModel!
+                            .data![i]
+                            .productId,
+                        quantity: HomeCubit.get(context)
+                            .getnonReadyQuickModel!
+                            .data![i]
+                            .quantity,
+                        isQiuck: 1,
+                        quickid: HomeCubit.get(context)
+                            .getnonReadyQuickModel!
+                            .data![i]
+                            .id)
+                    .then((value) {
+                  var totalPrice = int.parse(HomeCubit.get(context)
+                          .getnonReadyQuickModel!
+                          .data![i]
+                          .productsData!
+                          .priceAfterDiscount
+                          .toString() +
+                      HomeCubit.get(context)
+                          .getnonReadyQuickModel!
+                          .data![i]
+                          .shopData!
+                          .deliveryCost
+                          .toString());
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => OrderDetails(
+                              total: HomeCubit.get(context)
+                                  .getnonReadyQuickModel!
+                                  .data![i]
+                                  .productsData
+                                  ?.priceAfterDiscount,
+                              deliverycost: HomeCubit.get(context)
+                                  .getnonReadyQuickModel!
+                                  .data![i]
+                                  .shopData
+                                  ?.deliveryCost,
+                              totalprice: totalPrice.toString(),
+                              quickProductId: HomeCubit.get(context)
+                                  .getnonReadyQuickModel!
+                                  .data!
+                                  .first
+                                  .productId
+                                  .toString())));
+                });
+
+                setState(() {
+                  cancel = true;
+                });
+              }
+            }
+          }
         }
       },
       builder: (context, state) {
@@ -157,7 +226,8 @@ class _QuickTrakingState extends State<QuickTraking> {
                           )),
                       StreamBuilder(
                         // initialData: model,
-                        stream: _stream(context),
+                        stream: _stream(),
+
                         builder: (context, snapshot) {
                           return Expanded(
                             child: GridView.count(
@@ -175,7 +245,11 @@ class _QuickTrakingState extends State<QuickTraking> {
                               mainAxisSpacing: 12,
                               crossAxisCount: 2,
 
-                              children: List.generate(1, (index) {
+                              children: List.generate(
+                                  HomeCubit.get(context)
+                                      .getnonReadyQuickModel!
+                                      .data!
+                                      .length, (index) {
                                 return Container(
                                   decoration: BoxDecoration(
                                     color: cardcolor,
@@ -212,40 +286,43 @@ class _QuickTrakingState extends State<QuickTraking> {
                           );
                         },
                       ),
-                      Padding(
-                          padding: const EdgeInsets.only(
-                              left: 20, right: 20, bottom: 43),
-                          child: Container(
-                              height: 56,
-                              width: 360,
-                              decoration: BoxDecoration(
-                                  gradient: const LinearGradient(
-                                    begin: Alignment.topLeft,
-                                    end: Alignment.bottomRight,
-                                    colors: [button1color, button2color],
-                                  ),
-                                  borderRadius: BorderRadius.circular(4)),
-                              child: Center(
-                                  child: Text(S.current.accept,
-                                      style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w700)))))
                       // Padding(
-                      //     padding:
-                      //         const EdgeInsets.only(left: 20, right: 20, bottom: 43),
+                      //     padding: const EdgeInsets.only(
+                      //         left: 20, right: 20, bottom: 43),
                       //     child: Container(
                       //         height: 56,
                       //         width: 360,
                       //         decoration: BoxDecoration(
-                      //             color: cancelButtonColor,
+                      //             gradient: const LinearGradient(
+                      //               begin: Alignment.topLeft,
+                      //               end: Alignment.bottomRight,
+                      //               colors: [button1color, button2color],
+                      //             ),
                       //             borderRadius: BorderRadius.circular(4)),
                       //         child: Center(
-                      //             child: Text(S.current.reject_all_suggestions,
-                      //                 style: TextStyle(
+                      //             child: Text(S.current.accept,
+                      //                 style: const TextStyle(
                       //                     color: Colors.white,
                       //                     fontSize: 16,
                       //                     fontWeight: FontWeight.w700)))))
+                      stepper == 2
+                          ? Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 20, right: 20, bottom: 43),
+                              child: Container(
+                                  height: 56,
+                                  width: 360,
+                                  decoration: BoxDecoration(
+                                      color: cancelButtonColor,
+                                      borderRadius: BorderRadius.circular(4)),
+                                  child: Center(
+                                      child: Text(
+                                          S.current.reject_all_suggestions,
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w700)))))
+                          : Container()
                     ])));
           },
           fallback: (BuildContext context) => Container(
@@ -263,8 +340,8 @@ class _QuickTrakingState extends State<QuickTraking> {
 
   final bool _running = true;
 
-  Stream<String> _stream(context) async* {
-    while (_running) {
+  Stream<String> _stream() async* {
+    while (cancel == false) {
       await Future<void>.delayed(const Duration(seconds: 10));
       _homeCubit.getNonReadyQuickData();
     }
@@ -273,7 +350,8 @@ class _QuickTrakingState extends State<QuickTraking> {
 
   @override
   void dispose() {
-    // _stream
+    _stream();
+
     super.dispose();
   }
 }

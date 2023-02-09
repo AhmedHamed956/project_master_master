@@ -29,7 +29,9 @@ class _ChatCycleState extends State<ChatCycle> {
   }
 
   init() async {
+    // userId = '116';
     userId = CacheHelper.getData(key: 'userId');
+    // print('userId $userId');
     prefs = await SharedPreferences.getInstance();
   }
 

@@ -51,8 +51,8 @@ class SupportAgent extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                ChatCycle(peerId: "999999999", peerName: "Support")));
+                            builder: (context) => ChatCycle(
+                                peerId: "999999999", peerName: "Support")));
                   },
                   child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -61,7 +61,7 @@ class SupportAgent extends StatelessWidget {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(4),
                           gradient: maingradientColor),
-                      child: const Row(children: [
+                      child: Row(children: [
                         Icon(Icons.arrow_back_ios, color: Colors.white),
                         SizedBox(width: 18),
                         Text('الاتصال الدردشة الحية',
@@ -71,7 +71,7 @@ class SupportAgent extends StatelessWidget {
                                 color: Colors.white))
                       ]))),
               const SizedBox(height: 28),
-              const Row(children: [
+              Row(children: [
                 Text('الطلبات السابقة',
                     style: TextStyle(
                         fontSize: 18,
@@ -93,7 +93,7 @@ class SupportAgent extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 19, vertical: 18),
                           child: Column(children: [
-                            const Row(
+                            Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
@@ -141,7 +141,7 @@ class SupportAgent extends StatelessWidget {
                             const SizedBox(height: 3),
                             const Divider(),
                             const SizedBox(height: 3),
-                            const Row(children: [
+                            Row(children: [
                               Flexible(
                                 child: Text(
                                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. sed scelerisque urna...'),

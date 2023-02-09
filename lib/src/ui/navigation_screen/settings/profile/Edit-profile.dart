@@ -49,6 +49,7 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController phoneController = TextEditingController();
 
   TextEditingController emailController = TextEditingController();
+
   File? photo;
   String? uploadImage;
 
@@ -480,13 +481,38 @@ class _EditProfileState extends State<EditProfile> {
                               height: 56,
                               child: ingridentbutton(
                                   function: () async {
+                                    // if (widget.model?.avatar == "user.svg" &&
+                                    //     uploadImage == null &&
+                                    //     nameController.text ==
+                                    //         widget.model!.name.toString() &&
+                                    //     phoneController.text ==
+                                    //         widget.model!.phone.toString() &&
+                                    //     emailController.text ==
+                                    //         widget.model!.email.toString()) {
+                                    //   Navigator.pushReplacement(
+                                    //       context,
+                                    //       MaterialPageRoute(
+                                    //           builder: (context) => HomeScreen(
+                                    //                 index: 4,
+                                    //               )));
+                                    // }
+                                    // else {
+                                    // if (uploadImage != null ||
+                                    //     nameController.text != null ||
+                                    //     emailController.text != null ||
+                                    //     phoneController.text != null) {
+
                                     await HomeCubit.get(context).editProfile(
                                         name: nameController.text,
                                         email: emailController.text,
                                         phone: phoneController.text,
                                         avatar: photo?.path,
                                         id: widget.model?.id,
-                                        latlong: widget.location);
+                                        latlong: widget.location,
+                                        nonchange:
+                                            widget.model?.avatar.toString());
+                                    // }
+                                    // }
                                   },
                                   color1: button1color,
                                   color2: button2color,

@@ -21,42 +21,42 @@ class AuthProvider extends ChangeNotifier {
     return userId;
   }
 
-  Future<bool> isLoggedIn() async {
-    bool isLoggedIn = false;
-    // bool isLoggedIn = await googleSignIn.isSignedIn();
-    if (isLoggedIn
-        // && prefs.getString(FirestoreConstants.id)?.isNotEmpty == true
-        ) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+  // Future<bool> isLoggedIn() async {
+  //   bool isLoggedIn = false;
+  //   // bool isLoggedIn = await googleSignIn.isSignedIn();
+  //   if (isLoggedIn
+  //       // && prefs.getString(FirestoreConstants.id)?.isNotEmpty == true
+  //       ) {
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
 
-  Future<bool> handleGoogleSignIn() async {
-    notifyListeners();
+  // Future<bool> handleGoogleSignIn() async {
+  //   notifyListeners();
 
-    User? firebaseUser;
+  //   User? firebaseUser;
 
-    if (firebaseUser != null) {
-      final QuerySnapshot result = await firebaseFirestore
-          .collection(FirestoreConstants.pathUserCollection)
-          .where(FirestoreConstants.id, isEqualTo: firebaseUser.uid)
-          .get();
-      final List<DocumentSnapshot> document = result.docs;
-      if (document.isEmpty) {
-        firebaseFirestore
-            .collection(FirestoreConstants.pathUserCollection)
-            .doc(firebaseUser.uid)
-            .set({
-          FirestoreConstants.displayName: firebaseUser.displayName,
-          FirestoreConstants.photoUrl: firebaseUser.photoURL,
-          FirestoreConstants.id: firebaseUser.uid,
-          "createdAt: ": DateTime.now().millisecondsSinceEpoch.toString(),
-          FirestoreConstants.chattingWith: null
-        });
-      }
-    }
-    return true;
-  }
+  //   if (firebaseUser != null) {
+  //     final QuerySnapshot result = await firebaseFirestore
+  //         .collection(FirestoreConstants.pathUserCollection)
+  //         .where(FirestoreConstants.id, isEqualTo: firebaseUser.uid)
+  //         .get();
+  //     final List<DocumentSnapshot> document = result.docs;
+  //     if (document.isEmpty) {
+  //       firebaseFirestore
+  //           .collection(FirestoreConstants.pathUserCollection)
+  //           .doc(firebaseUser.uid)
+  //           .set({
+  //         FirestoreConstants.displayName: firebaseUser.displayName,
+  //         FirestoreConstants.photoUrl: firebaseUser.photoURL,
+  //         FirestoreConstants.id: firebaseUser.uid,
+  //         "createdAt: ": DateTime.now().millisecondsSinceEpoch.toString(),
+  //         FirestoreConstants.chattingWith: null
+  //       });
+  //     }
+  //   }
+  //   return true;
+  // }
 }

@@ -2,6 +2,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project/Models/orders_response.dart';
+import 'package:project/src/common/global.dart';
 import 'package:project/src/ui/Home/Cubit.dart';
 import 'package:project/src/ui/Home/states.dart';
 
@@ -10,6 +11,7 @@ import '../../Shared/constant.dart';
 import '../../widgets/order-widgets/TrackingOrder-widget.dart';
 import '../../widgets/order-widgets/order-schedule.dart';
 import '../../widgets/order-widgets/pastOrder-widget.dart';
+import '../../widgets/widgets.dart';
 
 class OrderScreen extends StatefulWidget {
   final bool? schadular;
@@ -42,7 +44,14 @@ class _OrderScreenState extends State<OrderScreen>
       create: (context) => HomeCubit()..ordersScreen(),
       child: BlocConsumer<HomeCubit, HomeAppState>(
         listener: (context, state) {
-          if (state is OrderScreenSuccessStates) {}
+          if (state is CancelOrderSuccessStates) {
+            showSnackBar(
+                title:
+                    langKey == 'ar' ? "تم الغاء الطلب" : 'order is cancelled');
+
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => OrderScreen()));
+          }
         },
         builder: (context, state) {
           return ConditionalBuilder(
@@ -179,8 +188,8 @@ class _OrderScreenState extends State<OrderScreen>
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            const Text(
-                                              '05/06/2022',
+                                            Text(
+                                              '${model.data?[1].progress?[index].shopDatta?.createdAt?.split('T').first}',
                                               style: TextStyle(
                                                   color: textColor,
                                                   fontSize: 16,

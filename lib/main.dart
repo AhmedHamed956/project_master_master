@@ -63,7 +63,7 @@ Future<void> main() async {
 
   runApp(MultiBlocProvider(providers: [
     BlocProvider(create: (BuildContext context) => LoginScreenCubit()),
-    BlocProvider(create: (context) => HomeCubit()..ordersScreen()),
+    // BlocProvider(create: (context) => HomeCubit()..ordersScreen()),
     BlocProvider(create: (context) => HomeCubit()),
     BlocProvider(
         create: (context) => GlobalBloc()

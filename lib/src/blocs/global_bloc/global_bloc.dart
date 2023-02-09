@@ -35,7 +35,7 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
     locale = await globalRepository.getLang();
 
     if (locale != null) {
-      emit(StartAppSuccess(locale: locale ?? const Locale('en')));
+      emit(StartAppSuccess(locale: locale ?? const Locale('ar')));
       _appLaunched = true;
     }
   }
@@ -75,11 +75,11 @@ class GlobalBloc extends Bloc<GlobalEvent, GlobalState> {
       langKey = 'en';
       print(langKey);
     } else {
-      locale = const Locale("en");
+      locale = const Locale("ar");
     }
 
     await storage.write(key: "lang", value: locale!.languageCode);
     if (!S.delegate.supportedLocales.contains(locale)) return;
-    emit(ChangeLangSuccess(locale: locale ?? const Locale("en")));
+    emit(ChangeLangSuccess(locale: locale ?? const Locale("ar")));
   }
 }

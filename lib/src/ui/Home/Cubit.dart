@@ -199,9 +199,13 @@ class HomeCubit extends Cubit<HomeAppState> {
   }
 
   Future<void> postQuickOrder(
-      {@required productID, @required quantity, isQiuck}) async {
-    FormData formData = FormData.fromMap(
-        {"product_id": productID, "quantity": quantity, 'is_quick': isQiuck});
+      {@required productID, @required quantity, isQiuck, quickid}) async {
+    FormData formData = FormData.fromMap({
+      "product_id": productID,
+      "quantity": quantity,
+      'is_quick': isQiuck,
+      'quick_id': quickid
+    });
     emit(PosQuickOrderLoadingState());
     // log('done');
     DioHelper.postdata(url: addtoCart, data: formData, token: token)
@@ -608,13 +612,15 @@ class HomeCubit extends Cubit<HomeAppState> {
     });
   }
 
-  Future<void> editProfile(
-      {@required avatar,
-      @required id,
-      @required latlong,
-      @required name,
-      @required email,
-      @required phone}) async {
+  Future<void> editProfile({
+    @required avatar,
+    @required id,
+    @required latlong,
+    @required name,
+    @required email,
+    @required phone,
+    @required nonchange,
+  }) async {
     emit(PostEditProfileLoadingState());
     // FormData formData = FormData.fromMap({
     //   "avatar": avatar,
@@ -632,7 +638,7 @@ class HomeCubit extends Cubit<HomeAppState> {
               filename: '/image',
               contentType: MediaType("image", "png"),
             )
-          : "",
+          : "${nonchange}",
     });
 
     await DioHelper.postdata(

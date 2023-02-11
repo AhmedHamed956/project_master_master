@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -508,37 +510,34 @@ class _TrackingOrderState extends State<TrackingOrder> {
                                               color: Colors.grey)),
                                     ],
                                   ),
-                            Row(
-                              children: [
-                                model.message?.isDone == true
-                                    ? Container(
-                                        height: 17,
-                                        width: 17,
-                                        decoration: BoxDecoration(
-                                            gradient: quickButton,
-                                            shape: BoxShape.circle),
-                                      )
-                                    : Container(
-                                        height: 17,
-                                        width: 17,
-                                        decoration: const BoxDecoration(
-                                            color: trackpointColor,
-                                            shape: BoxShape.circle),
-                                      ),
-                                const SizedBox(
-                                  width: 28,
-                                ),
-                                Text(
+                            Row(children: [
+                              model.message?.isDone == true
+                                  ? Container(
+                                      height: 17,
+                                      width: 17,
+                                      decoration: BoxDecoration(
+                                          gradient: quickButton,
+                                          shape: BoxShape.circle),
+                                    )
+                                  : Container(
+                                      height: 17,
+                                      width: 17,
+                                      decoration: const BoxDecoration(
+                                          color: trackpointColor,
+                                          shape: BoxShape.circle),
+                                    ),
+                              const SizedBox(
+                                width: 28,
+                              ),
+                              Text(
                                   S.current
                                       .your_request_has_been_recieved_safely,
                                   style: const TextStyle(
                                     color: textColor,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                              ],
-                            ),
+                                  ))
+                            ]),
                             Row(
                               children: [
                                 Container(
@@ -611,10 +610,14 @@ class _TrackingOrderState extends State<TrackingOrder> {
                                             ]))),
                                     onTap: () {
                                       List<String> data = [
-                                        model.message?.userIdDelivery ?? "",
-                                        model.message?.deliveryName ?? "",
-                                        model.message?.fcmTokenDelivery ?? ""
+                                        "116",
+                                        // model.message?.userIdDelivery ?? "",
+                                        "رسالة جديدة من العميل",
+                                        "fSaH0rfnRVGrvp6F5entVm:APA91bH7uEY7vvHVfWDgNNx7HLIxuecO9Gg3YXHfo6uI5xYJnv3r4HvKtHDFw19KM9nDt9jgCaaFF97izr7H9zG-l_Gayuw_q2z2rd-DQ9LkdTPgroKbtd5eU6U0GisPjnyPCXMuW_pO‏"
+                                        // model.message?.fcmTokenDelivery ?? ""
                                       ];
+                                      log("dataaaaaaa  $data");
+
                                       Navigator.pushNamed(
                                           context, ChatCycle.routeName,
                                           arguments:

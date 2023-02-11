@@ -576,9 +576,11 @@ class _DeliveryOrdersScreenState extends State<DeliveryOrdersScreen> {
         ) {
       List<String> data = [
         _trackingBloc.orderModel!.clientId!,
-        "Client",
+        "رسالة جديدة من مندوب التوصيل",
         _trackingBloc.orderModel!.clientFcmToken ?? ""
       ];
+      log("dataaaaaaa  $data");
+
       Navigator.pushNamed(context, ChatCycle.routeName,
           arguments: RouteArgument(param: data));
     }

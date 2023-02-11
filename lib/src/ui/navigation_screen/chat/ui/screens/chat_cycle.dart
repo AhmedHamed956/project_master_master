@@ -37,11 +37,14 @@ class _ChatCycleState extends State<ChatCycle> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(providers: [
-      Provider<ChatProvider>(
-          create: (_) => ChatProvider(
-              firebaseFirestore: firebaseFirestore,
-              firebaseStorage: firebaseStorage))
-    ], child: ChatPage(peerNickname: peerName ?? "", peerId: peerId));
+    return MultiProvider(
+        providers: [
+          Provider<ChatProvider>(
+              create: (_) => ChatProvider(
+                  firebaseFirestore: firebaseFirestore,
+                  firebaseStorage: firebaseStorage))
+        ],
+        child: ChatPage(
+            peerNickname: peerName ?? "", peerId: peerId, fcmToken: fcmToken));
   }
 }

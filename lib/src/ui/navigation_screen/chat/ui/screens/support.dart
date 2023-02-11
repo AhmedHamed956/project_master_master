@@ -49,7 +49,7 @@ class SupportAgent extends StatelessWidget {
               const SizedBox(height: 60),
               InkWell(
                   onTap: () {
-                    List<String> data = ["999999999", "Support", ''];
+                    List<String> data = ["999999999",     "رسالة جديدة من الدعم", ''];
                     Navigator.pushNamed(context, ChatCycle.routeName,
                         arguments: RouteArgument(param: data));
                   },

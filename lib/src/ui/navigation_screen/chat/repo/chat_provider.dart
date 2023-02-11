@@ -40,7 +40,7 @@ class ChatProvider {
   }
 
   void sendChatMessage(String content, int type, String groupChatId,
-      String currentUserId, String peerId) {
+      String currentUserId, String peerId, String peerName, String? fcmToken) {
     DocumentReference documentReference = firebaseFirestore
         .collection(FirestoreConstants.pathMessageCollection)
         .doc(groupChatId)
@@ -57,10 +57,7 @@ class ChatProvider {
       transaction.set(documentReference, chatMessages.toJson());
       if (fcmToken != null) {
         sendFcmMessage(
-            peerId: peerId,
-            fcmToken: fcmToken!,
-            title: 'New Message',
-            body: content);
+            peerId: peerId, fcmToken: fcmToken, title: peerName, body: content);
       }
     });
   }

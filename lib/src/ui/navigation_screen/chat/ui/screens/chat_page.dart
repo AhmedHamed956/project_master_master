@@ -21,13 +21,18 @@ import 'package:provider/provider.dart';
 class ChatPage extends StatefulWidget {
   final String peerId;
   final String peerNickname;
+  String? fcmToken;
 
-  const ChatPage({Key? key, required this.peerNickname, required this.peerId})
+  ChatPage(
+      {Key? key,
+      required this.peerNickname,
+      required this.peerId,
+      this.fcmToken})
       : super(key: key);
 
   @override
   State<ChatPage> createState() => _ChatPageState();
-}//01016118790
+} //01016118790
 
 class _ChatPageState extends State<ChatPage> {
   late String currentUserId;
@@ -264,7 +269,7 @@ class _ChatPageState extends State<ChatPage> {
     }
   }
 
-  void readLocal() async{
+  void readLocal() async {
     currentUserId = await CacheHelper.getData(key: 'userId');
 
     if (currentUserId.compareTo(widget.peerId) > 0) {
@@ -272,9 +277,7 @@ class _ChatPageState extends State<ChatPage> {
     } else {
       groupChatId = '${widget.peerId} - $currentUserId';
     }
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   void getSticker() {
@@ -299,8 +302,8 @@ class _ChatPageState extends State<ChatPage> {
   void onSendMessage(String content, int type) {
     if (content.trim().isNotEmpty) {
       textEditingController.clear();
-      chatProvider.sendChatMessage(
-          content, type, groupChatId, currentUserId, widget.peerId);
+      chatProvider.sendChatMessage(content, type, groupChatId, currentUserId,
+          widget.peerId, widget.peerNickname, widget.fcmToken);
       scrollController.animateTo(0,
           duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
     } else {

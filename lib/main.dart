@@ -77,7 +77,11 @@ Future<void> main() async {
 
   token = CacheHelper.getData(key: 'token');
   fcmToken = CacheHelper.getData(key: 'fcm_token');
+  userId = CacheHelper.getData(key: 'userId');
+
   print("fcmToken $fcmToken");
+  print("userId $userId");
+
   print(token);
   if (token != null) {
     widget = HomeScreen();

@@ -79,7 +79,7 @@ class ChatProvider {
         "click_action": "FLUTTER_NOTIFICATION_CLICK",
         "notification_foreground": "true",
         "notification_android_sound": "default",
-        "id": peerId
+        "id": userId
       }
     };
     Dio dio = Dio();

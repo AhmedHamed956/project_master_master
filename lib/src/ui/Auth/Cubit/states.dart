@@ -14,19 +14,22 @@ class ShopLoginLoadingState extends LoginAppStates {}
 
 class ShopLoginErrorStates extends LoginAppStates {
   final String error;
+
   ShopLoginErrorStates(this.error);
 }
 
 class CheckOtpSuccessStates extends LoginAppStates {
-  final UserResponse userModel;
+  final UserResponse user;
+  int? type;
 
-  CheckOtpSuccessStates(this.userModel);
+  CheckOtpSuccessStates({required this.user, required this.type});
 }
 
 class CheckOtpLoadingState extends LoginAppStates {}
 
 class CheckOtpErrorStates extends LoginAppStates {
   final String error;
+
   CheckOtpErrorStates(this.error);
 }
 

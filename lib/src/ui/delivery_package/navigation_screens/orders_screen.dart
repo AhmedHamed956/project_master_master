@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:project/src/common/route_argument.dart';
 import 'package:project/src/ui/delivery_package/cubits/tracking/tracking_cubit.dart';
 import 'package:project/src/ui/delivery_package/data/model/tracking/order_status_model.dart';
+import 'package:project/src/ui/navigation_screen/chat/ui/screens/chat_cycle.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../Shared/constant.dart';
@@ -38,6 +40,8 @@ class _DeliveryOrdersScreenState extends State<DeliveryOrdersScreen> {
   @override
   void initState() {
     _trackingBloc = BlocProvider.of<TrackingCubit>(context);
+    // if(){
+    // }
     _trackingBloc.getTrackingOrder();
 
     // _trackingBloc.orderModel = AcceptOrderModel(orderNumber: 0);
@@ -60,6 +64,8 @@ class _DeliveryOrdersScreenState extends State<DeliveryOrdersScreen> {
               }
 
               if (state is RateOrderSuccess) {
+                log("RateOrderSuccess");
+
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                     content: Text('Your rate send Successfuly')));
                 _orderStatusModel!.isRatingShop = 1;
@@ -565,15 +571,16 @@ class _DeliveryOrdersScreenState extends State<DeliveryOrdersScreen> {
 
   Future<void> _goToWhatsApp() async {
     if (_trackingBloc.orderModel != null &&
-        _trackingBloc.orderModel!.whatsApp != null &&
-        _trackingBloc.orderModel!.typeSend == "ToPersone") {
-      await canLaunchUrl(Uri.parse(
-              "https://wa.me/+2${_trackingBloc.orderModel!.whatsApp}"))
-          ? launchUrl(
-              Uri.parse(
-                  "https://wa.me/+2${_trackingBloc.orderModel!.whatsApp}"),
-              mode: LaunchMode.externalApplication)
-          : log("cannot launch");
+            _trackingBloc.orderModel!.whatsApp != null
+        // && _trackingBloc.orderModel!.typeSend == "ToPersone"
+        ) {
+      List<String> data = [
+        _trackingBloc.orderModel!.clientId!,
+        "Client",
+        _trackingBloc.orderModel!.clientFcmToken ?? ""
+      ];
+      Navigator.pushNamed(context, ChatCycle.routeName,
+          arguments: RouteArgument(param: data));
     }
   }
 

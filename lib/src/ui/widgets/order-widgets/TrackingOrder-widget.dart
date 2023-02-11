@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:project/Models/response/ClientTrackingOrderResponse.dart';
+import 'package:project/src/common/route_argument.dart';
 import 'package:project/src/ui/Home/Cubit.dart';
 import 'package:project/src/ui/Home/states.dart';
 import 'package:project/src/ui/navigation_screen/chat/ui/screens/chat_cycle.dart';
@@ -582,41 +583,43 @@ class _TrackingOrderState extends State<TrackingOrder> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 InkWell(
-                                  child: Container(
-                                      width: 150,
-                                      height: 40,
-                                      decoration: BoxDecoration(
-                                          gradient: maingradientColor,
-                                          borderRadius:
-                                              BorderRadius.circular(4)),
-                                      child: Center(
-                                          child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                            Text(S.current.chat,
-                                                style: const TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 16,
-                                                    fontWeight:
-                                                        FontWeight.w400)),
-                                            const SizedBox(width: 19),
-                                            Container(
-                                                height: 24,
-                                                width: 24,
-                                                child: const Icon(
-                                                    Icons.chat_rounded,
-                                                    color: Colors.white))
-                                          ]))),
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => ChatCycle(
-                                                peerId: "170",
-                                                peerName: "Delivery Boy")));
-                                  },
-                                ),
+                                    child: Container(
+                                        width: 150,
+                                        height: 40,
+                                        decoration: BoxDecoration(
+                                            gradient: maingradientColor,
+                                            borderRadius:
+                                                BorderRadius.circular(4)),
+                                        child: Center(
+                                            child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                              Text(S.current.chat,
+                                                  style: const TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.w400)),
+                                              const SizedBox(width: 19),
+                                              Container(
+                                                  height: 24,
+                                                  width: 24,
+                                                  child: const Icon(
+                                                      Icons.chat_rounded,
+                                                      color: Colors.white))
+                                            ]))),
+                                    onTap: () {
+                                      List<String> data = [
+                                        model.message?.userIdDelivery ?? "",
+                                        model.message?.deliveryName ?? "",
+                                        model.message?.fcmTokenDelivery ?? ""
+                                      ];
+                                      Navigator.pushNamed(
+                                          context, ChatCycle.routeName,
+                                          arguments:
+                                              RouteArgument(param: data));
+                                    }),
                                 Container(
                                     width: 150,
                                     height: 40,

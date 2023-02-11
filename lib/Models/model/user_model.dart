@@ -36,7 +36,7 @@ class UserModel {
       this.updatedAt,
       this.lastActivity});
 
-  UserModel.fromJson(Map<String, dynamic> json) {
+  UserModel.fromJson(dynamic json) {
     id = json['id'];
     name = json['name'];
     email = json['email'];
@@ -58,23 +58,23 @@ class UserModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['email'] = this.email;
-    data['user_name'] = this.userName;
-    data['phone'] = this.phone;
-    data['email_verified_at'] = this.emailVerifiedAt;
-    data['two_factor_secret'] = this.twoFactorSecret;
-    data['two_factor_recovery_codes'] = this.twoFactorRecoveryCodes;
-    data['is_admin'] = this.isAdmin;
-    data['is_investor'] = this.isInvestor;
-    data['is_representative'] = this.isRepresentative;
-    data['is_client'] = this.isClient;
-    data['is_online'] = this.isOnline;
-    data['avatar'] = this.avatar;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['last_activity'] = this.lastActivity;
+    data['id'] = id;
+    data['name'] = name;
+    data['email'] = email;
+    data['user_name'] = userName;
+    data['phone'] = phone;
+    data['email_verified_at'] = emailVerifiedAt;
+    data['two_factor_secret'] = twoFactorSecret;
+    data['two_factor_recovery_codes'] = twoFactorRecoveryCodes;
+    data['is_admin'] = isAdmin;
+    data['is_investor'] = isInvestor;
+    data['is_representative'] = isRepresentative;
+    data['is_client'] = isClient;
+    data['is_online'] = isOnline;
+    data['avatar'] = avatar;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['last_activity'] = lastActivity;
     return data;
   }
 }

@@ -45,29 +45,39 @@ class LoginScreenCubit extends Cubit<LoginAppStates> {
     });
   }
 
-  UserResponse? userModel;
+  UserResponse? userResponse;
 
   // UserModel userModel;
-  Future<void> checkotp(
+  Future<void> checkOtp(
       {@required code, context, required String fcmToken}) async {
     FormData formData = FormData.fromMap({"otp": code, 'fcm_token': fcmToken});
     emit(CheckOtpLoadingState());
 
     DioHelper.postdata(url: check_otp, data: formData).then((value) {
-      log("checkotp ${jsonEncode(value.data)}");
+      log("checkOtp ${jsonEncode(value.data)}");
 
-      userModel = UserResponse.fromJson(value.data);
+      userResponse = UserResponse.fromJson(value.data);
+      DioHelper.getdata(url: checkIsRep, token: userResponse!.token)
+          .then((check) {
+        log("checkIsRepresentative ${jsonEncode(check.data)}");
 
-      emit(CheckOtpSuccessStates(userModel!));
-      CacheHelper.saveData(
-          key: 'userId', value: userModel?.user?.id.toString());
-      CacheHelper.saveData(key: 'token', value: userModel?.token)
-          .then((value) => token = CacheHelper.getData(key: 'token'))
-          .then((value) => Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => LocationPermissionScreen())));
-    }).catchError((error) {
+        CheckIsRepresentativeModel checkRepresentative =
+            CheckIsRepresentativeModel.fromJson(check.data);
+
+        emit(CheckOtpSuccessStates(
+            user: userResponse!,
+            type: checkRepresentative.data?.isRepresentative));
+        CacheHelper.saveData(key: 'fcm_token', value: fcmToken);
+        CacheHelper.saveData(
+            key: 'userId', value: userResponse?.user?.id.toString());
+        CacheHelper.saveData(key: 'token', value: userResponse?.token)
+            .then((value) => token = CacheHelper.getData(key: 'token'));
+      }).catchError((error, s) {
+        log("checkOtp $error $s");
+        emit(CheckOtpErrorStates(error.toString()));
+      });
+    }).catchError((error, s) {
+      log("checkOtp $error $s");
       emit(CheckOtpErrorStates(error.toString()));
     });
   }

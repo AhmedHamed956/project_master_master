@@ -790,8 +790,8 @@ class HomeCubit extends Cubit<HomeAppState> {
       log("getclientTraking ${jsonEncode(value.data)}");
 
       emit(GetClientTrackingSuccessStates());
-    }).catchError((error) {
-      log(error.toString());
+    }).catchError((error, t) {
+      log("getclientTraking $error , $t");
       emit(GetClientTrackingErrorStates(error.toString()));
     });
   }

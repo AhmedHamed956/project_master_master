@@ -9,10 +9,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:project/Models/Ads_Model.dart';
+import 'package:project/main.dart';
 import 'package:project/src/common/global.dart';
 import 'package:project/src/ui/Home/Cubit.dart';
 import 'package:project/src/ui/Home/states.dart';
 import 'package:project/src/ui/Shared/constant.dart';
+import 'package:project/src/ui/navigation_screen/chat/helper/noti.dart';
 import 'package:project/src/ui/navigation_screen/main-screens/quick-screen.dart';
 
 import '../../../../Models/model/location_model.dart';
@@ -102,179 +104,194 @@ class _MainScreenState extends State<MainScreen> {
       }
     }, builder: (context, state) {
       return Scaffold(
-          body: ListView(
-              // crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-            Container(
-                height: 55,
-                width: double.maxFinite,
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                color: appbarcolor,
-                child: Row(children: [
-                  Flexible(
-                      child: Row(children: [
-                    Image.asset('assets/icons/location.png', color: textColor),
+        body: ListView(
+            // crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Container(
+                  height: 55,
+                  width: double.maxFinite,
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  color: appbarcolor,
+                  child: Row(children: [
                     Flexible(
-                        child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: DropdownButtonHideUnderline(
-                                child: DropdownButton<LocationModel>(
-                                    value: _locationModel,
-                                    // selectedItemBuilder: _selectedItemBuilder,
-                                    icon: const Icon(
-                                        Icons.arrow_drop_down_outlined),
-                                    elevation: 16,
-                                    onChanged: _onDropDownChange,
-                                    isExpanded: true,
-                                    items: locations
-                                        .map<DropdownMenuItem<LocationModel>>(
-                                            (value) {
-                                      return DropdownMenuItem<LocationModel>(
-                                          value: value,
-                                          child: Text(value.name.toString(),
-                                              maxLines: 1,
-                                              style: const TextStyle(
-                                                overflow: TextOverflow.ellipsis,
-                                                color: Colors.deepPurple,
-                                                // color: textColor
-                                              )));
-                                    }).toList()))))
+                        child: Row(children: [
+                      Image.asset('assets/icons/location.png',
+                          color: textColor),
+                      Flexible(
+                          child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
+                              child: DropdownButtonHideUnderline(
+                                  child: DropdownButton<LocationModel>(
+                                      value: _locationModel,
+                                      // selectedItemBuilder: _selectedItemBuilder,
+                                      icon: const Icon(
+                                          Icons.arrow_drop_down_outlined),
+                                      elevation: 16,
+                                      onChanged: _onDropDownChange,
+                                      isExpanded: true,
+                                      items: locations
+                                          .map<DropdownMenuItem<LocationModel>>(
+                                              (value) {
+                                        return DropdownMenuItem<LocationModel>(
+                                            value: value,
+                                            child: Text(value.name.toString(),
+                                                maxLines: 1,
+                                                style: const TextStyle(
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  color: Colors.deepPurple,
+                                                  // color: textColor
+                                                )));
+                                      }).toList()))))
+                    ])),
+                    // const Spacer(),
+                    Image.asset('assets/icons/bell-ring.png'),
                   ])),
-                  // const Spacer(),
-                  Image.asset('assets/icons/bell-ring.png'),
-                ])),
-            Container(
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                          color: shadowColor.withOpacity(0.1),
-                          spreadRadius: 0,
-                          blurRadius: 8,
-                          offset: const Offset(0, -4))
-                    ],
-                    color: Colors.white,
-                    borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        topRight: Radius.circular(20))),
-                child: Column(children: [
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(right: 16, left: 16, top: 15),
-                    child: SizedBox(
-                        height: 130,
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                  child: InkWell(
-                                      onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    QuickScreen()));
-                                      },
+              Container(
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                            color: shadowColor.withOpacity(0.1),
+                            spreadRadius: 0,
+                            blurRadius: 8,
+                            offset: const Offset(0, -4))
+                      ],
+                      color: Colors.white,
+                      borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20))),
+                  child: Column(children: [
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(right: 16, left: 16, top: 15),
+                      child: SizedBox(
+                          height: 130,
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                    child: InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      QuickScreen()));
+                                        },
+                                        child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 16, vertical: 16),
+                                            decoration: BoxDecoration(
+                                                color: quickcolor,
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        10.0)),
+                                            child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Expanded(
+                                                      child: Image.asset(
+                                                          'assets/icons/quickCar.png')),
+                                                  const SizedBox(height: 8),
+                                                  Row(children: [
+                                                    Text(S.current.quick_orders,
+                                                        style: const TextStyle(
+                                                            fontSize: 14.0,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            color:
+                                                                button1color))
+                                                  ])
+                                                ])))),
+                                const SizedBox(width: 16),
+                                Expanded(
+                                    child: InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const DigtalScreen()));
+                                        },
+                                        child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 16, vertical: 16),
+                                            decoration: BoxDecoration(
+                                                color: buttonLightcolor,
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        10.0)),
+                                            child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Expanded(
+                                                      child: Image.asset(
+                                                          'assets/icons/gift.png')),
+                                                  const SizedBox(height: 8),
+                                                  Row(children: [
+                                                    Text(
+                                                        S.current.digital_gifts,
+                                                        style: const TextStyle(
+                                                            fontSize: 14.0,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            color:
+                                                                button1color))
+                                                  ])
+                                                ]))))
+                              ])),
+                    ),
+                    ConditionalBuilder(
+                        condition: HomeCubit.get(context).adsModel != null &&
+                            _shops.isNotEmpty,
+                        builder: (context) => Column(children: [
+                              HomeCubit.get(context).adsModel?.data != null
+                                  ? adsScreen(HomeCubit.get(context).adsModel!)
+                                  : Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 5, horizontal: 10),
                                       child: Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 16, vertical: 16),
                                           decoration: BoxDecoration(
-                                              color: quickcolor,
+                                              color: Colors.grey.shade300,
                                               borderRadius:
-                                                  BorderRadius.circular(10.0)),
-                                          child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                Expanded(
-                                                    child: Image.asset(
-                                                        'assets/icons/quickCar.png')),
-                                                const SizedBox(height: 8),
-                                                Row(children: [
-                                                  Text(S.current.quick_orders,
-                                                      style: const TextStyle(
-                                                          fontSize: 14.0,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          color: button1color))
-                                                ])
-                                              ])))),
-                              const SizedBox(width: 16),
-                              Expanded(
-                                  child: InkWell(
-                                      onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const DigtalScreen()));
-                                      },
-                                      child: Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 16, vertical: 16),
-                                          decoration: BoxDecoration(
-                                              color: buttonLightcolor,
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0)),
-                                          child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                Expanded(
-                                                    child: Image.asset(
-                                                        'assets/icons/gift.png')),
-                                                const SizedBox(height: 8),
-                                                Row(children: [
-                                                  Text(S.current.digital_gifts,
-                                                      style: const TextStyle(
-                                                          fontSize: 14.0,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          color: button1color))
-                                                ])
-                                              ]))))
-                            ])),
-                  ),
-                  ConditionalBuilder(
-                      condition: HomeCubit.get(context).adsModel != null &&
-                          _shops.isNotEmpty,
-                      builder: (context) => Column(children: [
-                            HomeCubit.get(context).adsModel?.data != null
-                                ? adsScreen(HomeCubit.get(context).adsModel!)
-                                : Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 5, horizontal: 10),
-                                    child: Container(
-                                        decoration: BoxDecoration(
-                                            color: Colors.grey.shade300,
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        height: 115,
-                                        child: const Center(
-                                            child: Text("No Ads ")))),
-                            ListView.separated(
-                                padding:
-                                    const EdgeInsets.fromLTRB(16, 0, 16, 80),
-                                physics: const NeverScrollableScrollPhysics(),
-                                scrollDirection: Axis.vertical,
-                                shrinkWrap: true,
-                                itemBuilder: (context, index) =>
-                                    ShopItem(_shops[index], index),
-                                separatorBuilder: (context, index) =>
-                                    const SizedBox(height: 12),
-                                itemCount: _shops.length)
-                          ]),
-                      fallback: (context) => const Center(
-                          child:
-                              CircularProgressIndicator(color: button2color)))
-                ]))
-          ]));
+                                                  BorderRadius.circular(10)),
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          height: 115,
+                                          child: const Center(
+                                              child: Text("No Ads ")))),
+                              ListView.separated(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(16, 0, 16, 80),
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  scrollDirection: Axis.vertical,
+                                  shrinkWrap: true,
+                                  itemBuilder: (context, index) =>
+                                      ShopItem(_shops[index], index),
+                                  separatorBuilder: (context, index) =>
+                                      const SizedBox(height: 12),
+                                  itemCount: _shops.length)
+                            ]),
+                        fallback: (context) => const Center(
+                            child:
+                                CircularProgressIndicator(color: button2color)))
+                  ]))
+            ]),
+        // floatingActionButton: FloatingActionButton(onPressed: () {
+        //   Noti.showBigTextNotification(
+        //       title: "New message title",
+        //       body: "Your long body",
+        //       fln: flnp);
+        // }),
+      );
     });
   }
 

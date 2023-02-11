@@ -66,19 +66,17 @@ class TrackingCubit extends Cubit<TrackingState> {
   }
 
   Future<void> rateOrder({required int orderId, required double rate}) async {
+    Dio dio = Dio();
+    dio.options.headers["Authorization"] = "Bearer $deliveryToken";
+    dio.options.headers["Accept"] = "application/json";
+
     FormData formData = FormData.fromMap({"rating": rate});
+    Response response = await dio.post(
+        "https://biflora.bluecode.sa/api/v1/Rep/gave_feedBack/$orderId",
+        data: formData);
 
-    DioHelper.postdata(
-            url: APIDATA.rateOrder + orderId.toString(),
-            data: formData,
-            token: deliveryToken)
-        .then((value) {
-      // print("rateOrder : ${value.data}");
+      emit(RateOrderSuccess(response: RateOrderResponse.fromJson(response.data)));
 
-      emit(RateOrderSuccess(response: RateOrderResponse.fromJson(value.data)));
-    }).catchError((error) {
-      emit(GlobalError(error.toString()));
-    });
   }
 
   Future<void> saveSteps({required OrderStatusModel model}) async {
@@ -100,6 +98,7 @@ class TrackingCubit extends Cubit<TrackingState> {
       Response response = await dio.post(
           "https://biflora.bluecode.sa/api/v1/Rep/save_steps/${model.orderId}",
           data: formData);
+      log("saveSteps ${response.data}");
       emit(SaveStepsSuccess(
           response: OrderStatusResponse.fromJson(response.data)));
     } on DioError catch (e, s) {

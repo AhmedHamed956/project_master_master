@@ -1,12 +1,14 @@
-import 'dart:io';
+import 'dart:developer';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:project/src/blocs/global_bloc/global_bloc.dart';
 import 'package:project/src/common/global.dart';
+import 'package:project/src/common/route_argument.dart';
 import 'package:project/src/common/routes.dart';
 import 'package:project/src/network/local/cache-helper.dart';
 import 'package:project/src/network/remote/Dio_helper.dart';
@@ -16,13 +18,16 @@ import 'package:project/src/ui/Home/Cubit.dart';
 import 'package:project/src/ui/Home/Home.dart';
 import 'package:project/src/ui/Shared/constant.dart';
 import 'package:project/src/ui/delivery_package/navigation_screens/delivery_cycle_screen.dart';
-import 'package:project/src/ui/navigation_screen/chat/helper/fire_helper.dart';
 import 'package:project/src/ui/navigation_screen/chat/helper/firebase_options.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:project/src/ui/navigation_screen/chat/helper/local_notification_service.dart';
+import 'package:project/src/ui/navigation_screen/chat/ui/screens/chat_cycle.dart';
 
 import 'generated/l10n.dart';
+import 'src/ui/navigation_screen/chat/helper/navigation_service.dart';
+import 'src/ui/navigation_screen/chat/helper/noti.dart';
 
 final gloScaffMessKey = GlobalKey<ScaffoldMessengerState>();
+FlutterLocalNotificationsPlugin flnp = FlutterLocalNotificationsPlugin();
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,17 +36,38 @@ Future<void> main() async {
   DioHelper.init();
   await CacheHelper.init();
   Widget widget;
-  // await FireHelper.getFirebaseMessagingToken();
-  FirebaseMessaging messaging = FirebaseMessaging.instance;
+  FirebaseMessaging _firebaseMessaging= FirebaseMessaging.instance;
+  _firebaseMessaging.requestPermission();
+
+  FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+      alert: true, badge: true, sound: true);
+
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+
+  LocalNotificationService.initialize(flnp).then((_) {
+    debugPrint('setupPlugin: setup success');
+  }).catchError((Object error) {
+    debugPrint('Error: $error');
+  });
 
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     print('Got a message whilst in the foreground!');
     if (message.notification != null) {
-      print('Notification Title: ${message.notification?.title}');
-      print('Notification Body: ${message.notification?.body}');
+      log("Message data payload: ${message.data}");
+
+      flnp.show(
+          message.hashCode,
+          message.notification!.title,
+          message.notification!.body,
+          NotificationDetails(
+              android:
+                  LocalNotificationService.androidPlatformChannelSpecifics),
+          payload: message.data.toString());
     }
   });
+  FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+
   // CacheHelper.getData(key: 'deliveryApp') == true
   //     ? deliveryApp = true
   //     : deliveryApp = false;
@@ -50,13 +76,8 @@ Future<void> main() async {
   // token = '27|O8ubJ3Dgpp7yQaRoSrH9ItJIYuLZw37TUfTjCmPn';
 
   token = CacheHelper.getData(key: 'token');
-
-  // mylocation = CacheHelper.getData(key: 'mylocation');
-  myAddress = await storage.read(key: "myAddress");
-  myLat_long = await storage.read(key: "myLatLong");
-  mycity = CacheHelper.getData(key: 'mycity');
-  mystreet = CacheHelper.getData(key: 'mystreet');
-
+  fcmToken = CacheHelper.getData(key: 'fcm_token');
+  print("fcmToken $fcmToken");
   print(token);
   if (token != null) {
     widget = HomeScreen();
@@ -118,6 +139,7 @@ class _MyAppState extends State<MyApp> {
         child: MaterialApp(
             title: 'BIFLORA',
             debugShowCheckedModeBanner: false,
+            navigatorKey: NavigationService.navigationKey,
             locale: _locale,
             theme: ThemeData(
                 primarySwatch: Colors.blue,
@@ -136,11 +158,7 @@ class _MyAppState extends State<MyApp> {
             supportedLocales: S.delegate.supportedLocales,
             // home: const HomeScreen(),
             home: widget.startwidget,
-            //  Payment(),
-            // widget.startwidget,
-            // Payment(),
-
-            // Payment(),
+            // home: ChatCycle(peerName: '', peerId: '60', fcmToken: ''),
             // home:ChatCycle(),
 // home: GiftCardScreen(),
             // home: DeliveryCycleScreen(),
@@ -149,9 +167,21 @@ class _MyAppState extends State<MyApp> {
 }
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  // If you're going to use other Firebase services in the background, such as Firestore,
-  // make sure you call `initializeApp` before using other Firebase services.
   await Firebase.initializeApp();
-
+  // flnp.show(
+  //     message.hashCode,
+  //     message.notification!.title,
+  //     message.notification!.body,
+  //     NotificationDetails(
+  //         android:
+  //         LocalNotificationService.androidPlatformChannelSpecifics),
+  //     payload: message.data.toString());
   print("Handling a background message: ${message.messageId}");
+}
+
+void _handleMessage(RemoteMessage message) {
+  List<String> data0 = [message.data['id'], "Support", ''];
+  NavigationService.navigationKey.currentState!
+      .pushNamed(ChatCycle.routeName, arguments: RouteArgument(param: data0));
+
 }

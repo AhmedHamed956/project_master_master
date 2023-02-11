@@ -13,6 +13,7 @@ import '../widgets/card-widget.dart';
 
 class AddToCart extends StatefulWidget {
   final id;
+
   const AddToCart({super.key, this.id});
 
   @override
@@ -21,6 +22,7 @@ class AddToCart extends StatefulWidget {
 
 class _AddToCartState extends State<AddToCart> {
   late var idd;
+
   @override
   void initState() {
     idd = widget.id;
@@ -44,7 +46,7 @@ class _AddToCartState extends State<AddToCart> {
               },
               fallback: ((context) => Container(
                   color: Colors.white,
-                  child: Center(
+                  child: const Center(
                       child: CircularProgressIndicator(
                     color: button2color,
                   )))));
@@ -57,10 +59,7 @@ class _AddToCartState extends State<AddToCart> {
 
   Widget getcartScreen(CartData model, GetCartModel model2) => Scaffold(
         backgroundColor: mainBackgourndColor,
-        appBar: AddToCardAppBar(
-          label: S.current.basket,
-          id: widget.id,
-        ),
+        appBar: AddToCardAppBar(label: S.current.basket, id: widget.id),
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -84,17 +83,17 @@ class _AddToCartState extends State<AddToCart> {
                                         "${domainlink}${model.shopData!.background}"),
                                     backgroundColor: Colors.transparent,
                                   )),
-                              SizedBox(
+                              const SizedBox(
                                 width: 12,
                               ),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   ConstrainedBox(
-                                    constraints: BoxConstraints(maxWidth: 200),
+                                    constraints: const BoxConstraints(maxWidth: 200),
                                     child: Text(
                                       model.shopData!.storeName.toString(),
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         color: textColor,
                                         fontSize: 18,
                                         fontWeight: FontWeight.w700,
@@ -103,7 +102,7 @@ class _AddToCartState extends State<AddToCart> {
                                   ),
                                   Text(
                                     S.current.gifts,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: textColor,
                                       fontSize: 14,
                                       fontWeight: FontWeight.w500,

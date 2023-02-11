@@ -215,13 +215,11 @@ class _SettingScreenState extends State<SettingScreen> {
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        S.current.language,
-                        style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
-                            color: textColor),
-                      ),
+                      Text(S.current.language,
+                          style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w700,
+                              color: textColor)),
                       InkWell(
                           onTap: _changeLang,
                           child: Container(
@@ -262,13 +260,11 @@ class _SettingScreenState extends State<SettingScreen> {
                 ),
                 const SizedBox(height: 60),
                 Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                  Text(
-                    "${S.current.app_version}V2.00",
-                    style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: textColor),
-                  )
+                  Text("${S.current.app_version}V2.00",
+                      style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: textColor))
                 ]),
                 const SizedBox(height: 30),
               ])),

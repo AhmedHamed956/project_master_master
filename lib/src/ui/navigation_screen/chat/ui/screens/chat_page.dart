@@ -1,38 +1,33 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:project/generated/l10n.dart';
+import 'package:project/src/network/local/cache-helper.dart';
 import 'package:project/src/ui/Shared/constant.dart';
 import 'package:project/src/ui/components/appar.dart';
 import 'package:project/src/ui/navigation_screen/chat/constants/firestore_constants.dart';
 import 'package:project/src/ui/navigation_screen/chat/constants/size_constants.dart';
 import 'package:project/src/ui/navigation_screen/chat/model/chat_messages.dart';
-import 'package:project/src/ui/navigation_screen/chat/repo/auth_provider.dart';
 import 'package:project/src/ui/navigation_screen/chat/repo/chat_provider.dart';
+import 'package:project/src/ui/navigation_screen/chat/ui/screens/full_image_view.dart';
 import 'package:project/src/ui/navigation_screen/chat/ui/widget/common_widgets.dart';
 import 'package:project/src/ui/widgets/widgets.dart';
 import 'package:provider/provider.dart';
 
 class ChatPage extends StatefulWidget {
   final String peerId;
-  final String peerAvatar;
   final String peerNickname;
-  final String userAvatar;
 
-  const ChatPage(
-      {Key? key,
-      required this.peerNickname,
-      required this.peerAvatar,
-      required this.peerId,
-      required this.userAvatar})
+  const ChatPage({Key? key, required this.peerNickname, required this.peerId})
       : super(key: key);
 
   @override
   State<ChatPage> createState() => _ChatPageState();
-}
+}//01016118790
 
 class _ChatPageState extends State<ChatPage> {
   late String currentUserId;
@@ -53,13 +48,11 @@ class _ChatPageState extends State<ChatPage> {
   final FocusNode focusNode = FocusNode();
 
   late ChatProvider chatProvider;
-  late AuthProvider authProvider;
 
   @override
   void initState() {
     super.initState();
     chatProvider = context.read<ChatProvider>();
-    authProvider = context.read<AuthProvider>();
 
     focusNode.addListener(onFocusChanged);
     scrollController.addListener(_scrollListener);
@@ -116,7 +109,7 @@ class _ChatPageState extends State<ChatPage> {
                                 IconButton(
                                     icon: const Icon(Icons.attach_file,
                                         color: button1color),
-                                    onPressed: () {})
+                                    onPressed: () => getImage())
                               ]))))),
         ]));
   }
@@ -136,9 +129,19 @@ class _ChatPageState extends State<ChatPage> {
                 : chatMessages.type == MessageType.image
                     ? Container(
                         margin: const EdgeInsets.only(
-                            right: Sizes.dimen_10, top: Sizes.dimen_10),
+                            right: Sizes.dimen_10,
+                            top: Sizes.dimen_8,
+                            bottom: Sizes.dimen_8),
                         child: chatImage(
-                            imageSrc: chatMessages.content, onTap: () {}))
+                            imageSrc: chatMessages.content,
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => FullImageView(
+                                            url: chatMessages.content,
+                                          )));
+                            }))
                     : const SizedBox.shrink(),
             isMessageSent(index)
                 ? Image.asset('assets/icons/chat/chat_ic.png',
@@ -176,9 +179,19 @@ class _ChatPageState extends State<ChatPage> {
                 : chatMessages.type == MessageType.image
                     ? Container(
                         margin: const EdgeInsets.only(
-                            left: Sizes.dimen_10, top: Sizes.dimen_10),
+                            left: Sizes.dimen_10,
+                            top: Sizes.dimen_8,
+                            bottom: Sizes.dimen_8),
                         child: chatImage(
-                            imageSrc: chatMessages.content, onTap: () {}))
+                            imageSrc: chatMessages.content,
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => FullImageView(
+                                            url: chatMessages.content,
+                                          )));
+                            }))
                     : const SizedBox.shrink()
           ]),
           isMessageReceived(index)
@@ -251,21 +264,17 @@ class _ChatPageState extends State<ChatPage> {
     }
   }
 
-  void readLocal() {
-    if (authProvider.getFirebaseUserId()?.isNotEmpty == true) {
-      currentUserId = authProvider.getFirebaseUserId()!;
-    } else {
-      // Navigator.of(context).pushAndRemoveUntil(
-      //     MaterialPageRoute(builder: (context) => const LoginPage()),
-      //     (Route<dynamic> route) => false);
-    }
+  void readLocal() async{
+    currentUserId = await CacheHelper.getData(key: 'userId');
+
     if (currentUserId.compareTo(widget.peerId) > 0) {
       groupChatId = '$currentUserId - ${widget.peerId}';
     } else {
       groupChatId = '${widget.peerId} - $currentUserId';
     }
-    // chatProvider.updateFirestoreData(FirestoreConstants.pathUserCollection,
-    //     currentUserId, {FirestoreConstants.chattingWith: widget.peerId});
+    setState(() {
+
+    });
   }
 
   void getSticker() {
@@ -320,6 +329,39 @@ class _ChatPageState extends State<ChatPage> {
       return true;
     } else {
       return false;
+    }
+  }
+
+  Future getImage() async {
+    ImagePicker imagePicker = ImagePicker();
+    XFile? pickedFile;
+    pickedFile = await imagePicker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      imageFile = File(pickedFile.path);
+      if (imageFile != null) {
+        setState(() {
+          isLoading = true;
+        });
+        uploadImageFile();
+      }
+    }
+  }
+
+  void uploadImageFile() async {
+    String fileName = DateTime.now().millisecondsSinceEpoch.toString();
+    UploadTask uploadTask = chatProvider.uploadImageFile(imageFile!, fileName);
+    try {
+      TaskSnapshot snapshot = await uploadTask;
+      imageUrl = await snapshot.ref.getDownloadURL();
+      setState(() {
+        isLoading = false;
+        onSendMessage(imageUrl, MessageType.image);
+      });
+    } on FirebaseException catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+      showSnackBar(title: e.message ?? e.toString());
     }
   }
 }

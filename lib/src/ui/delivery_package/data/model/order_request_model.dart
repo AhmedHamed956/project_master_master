@@ -23,7 +23,7 @@ class OrderRequestModel {
 
   OrderRequestModel.fromJson(dynamic json) {
     _id = json['id'];
-    _orderId = json['order_id'];
+    // _orderId = json['order_id'];
 
     _userId = json['user_id'];
     _deliveryOrderId = json['delivery_order_id'];

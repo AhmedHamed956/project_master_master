@@ -70,7 +70,7 @@ class Message {
 
   Message.fromJson(dynamic json) {
     _fcmTokenDelivery = json['fcm_token_Delivery'];
-    _userIdDelivery = json['user_id_Delivery'];
+    _userIdDelivery = json['user_id_Delivery'].toString();
     _dateOrder = json['date_order'];
     _searchDelivery = json['search_Delivery'];
     _orderProgress = json['order_progress'];

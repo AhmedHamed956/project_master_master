@@ -273,11 +273,6 @@ class _MappingSetState extends State<MappingSet> {
         markers.add(Marker(
             markerId: MarkerId('${latLng.latitude}, ${latLng.longitude}'),
             position: LatLng(latLng.latitude, latLng.longitude)));
-        // _currentlat = latLng.latitude;
-        // _currentlong = latLng.longitude;
-        // latlong = '$_currentlat,$_currentlong';
-        // storage.write(key: "myLatLong", value: latlong);
-        // _currentPosition = position;
       });
       _getAddressFromLatLng(latLng);
     }).catchError((e) {
@@ -345,22 +340,27 @@ class _MappingSetState extends State<MappingSet> {
       }
     }
     if (widget.mappingset == 'completeOrder') {
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) => OrderDetails(
-                    model: widget.cartmodel,
-                    city: city,
-                    street: street,
-                    counrty: counrty,
-                    location: latlong,
-                    payment: widget.payment,
-                    gift: widget.gift,
-                    quickProductId: widget.quickproductId,
-                    totalprice: widget.totalprice,
-                    total: widget.total,
-                    deliverycost: widget.deliverycost,
-                  )));
+      if (_currentAddress == null) {
+        showSnackBar(title: S.current.please_choose_the_address_first);
+      } else {
+        if (searchLocation != null) {
+          _saveLocation(searchLocation);
+        } else if (mapLocation != null) {
+          _saveLocation(mapLocation);
+        }
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => OrderDetails(
+                      model: widget.cartmodel,
+                      payment: widget.payment,
+                      gift: widget.gift,
+                      quickProductId: widget.quickproductId,
+                      totalprice: widget.totalprice,
+                      total: widget.total,
+                      deliverycost: widget.deliverycost,
+                    )));
+      }
     }
 
     if (widget.mappingset == 'changelocation') {

@@ -9,14 +9,14 @@ class CheckIsRepresentativeModel {
     status = json['status'];
     message = json['message'];
     data = json['data'] != null
-        ? new CheckIsRepresentativeData.fromJson(json['data'])
+        ? CheckIsRepresentativeData.fromJson(json['data'])
         : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -34,8 +34,8 @@ class CheckIsRepresentativeData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['is_representative'] = this.isRepresentative;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['is_representative'] = isRepresentative;
     return data;
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:project/src/common/route_argument.dart';
 import 'package:project/src/ui/Shared/constant.dart';
 import 'package:project/src/ui/components/component.dart';
 import 'package:project/src/ui/navigation_screen/chat/ui/screens/chat_cycle.dart';
@@ -48,11 +49,9 @@ class SupportAgent extends StatelessWidget {
               const SizedBox(height: 60),
               InkWell(
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ChatCycle(
-                                peerId: "999999999", peerName: "Support")));
+                    List<String> data = ["999999999", "Support", ''];
+                    Navigator.pushNamed(context, ChatCycle.routeName,
+                        arguments: RouteArgument(param: data));
                   },
                   child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 16),

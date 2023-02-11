@@ -67,11 +67,11 @@ class _CardWidgetState extends State<CardWidget> {
                         color: shadowColor.withOpacity(0.1),
                         spreadRadius: 0,
                         blurRadius: 8,
-                        offset: Offset(0, -4), // changes position of shadow
+                        offset: const Offset(0, -4), // changes position of shadow
                       ),
                     ],
                     color: Colors.white,
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(20),
                         topRight: Radius.circular(20))),
                 // width: 360,
@@ -119,12 +119,12 @@ class _CardWidgetState extends State<CardWidget> {
                                                                       .circular(
                                                                           15.0),
                                                             ),
-                                                            content: Row(
+                                                            content: const Row(
                                                               mainAxisAlignment:
                                                                   MainAxisAlignment
                                                                       .center,
                                                               children: [
-                                                                const Text(
+                                                                Text(
                                                                   'هل تريد مسح العنصر من السلة',
                                                                   style: TextStyle(
                                                                       fontSize:
@@ -157,7 +157,7 @@ class _CardWidgetState extends State<CardWidget> {
                                                                       child:
                                                                           Container(
                                                                         child:
-                                                                            Center(
+                                                                            const Center(
                                                                           child:
                                                                               Text(
                                                                             "نعم",
@@ -195,7 +195,7 @@ class _CardWidgetState extends State<CardWidget> {
                                                                       child:
                                                                           Container(
                                                                         child:
-                                                                            Center(
+                                                                            const Center(
                                                                           child:
                                                                               Text(
                                                                             "لا",
@@ -224,7 +224,7 @@ class _CardWidgetState extends State<CardWidget> {
                                                                   BoxFit.fill)),
                                                     ),
                                                   ),
-                                                  SizedBox(
+                                                  const SizedBox(
                                                     width: 7,
                                                   ),
                                                   Container(
@@ -238,13 +238,13 @@ class _CardWidgetState extends State<CardWidget> {
                                                   )
                                                 ],
                                               ),
-                                              SizedBox(
+                                              const SizedBox(
                                                 height: 10,
                                               ),
                                               Container(
                                                   child: Text(
                                                 '${widget.model.products![index].productsData!.priceAfterDiscount} ${S.current.rs}',
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     fontSize: 16,
                                                     fontWeight: FontWeight.w700,
                                                     color: textColor),
@@ -260,7 +260,7 @@ class _CardWidgetState extends State<CardWidget> {
                                                   langKey == 'ar'
                                                       ? Text(
                                                           '${widget.model.products![index].productsData!.translations!.first.name}',
-                                                          style: TextStyle(
+                                                          style: const TextStyle(
                                                             color: textColor,
                                                             fontSize: 16,
                                                             fontWeight:
@@ -269,14 +269,14 @@ class _CardWidgetState extends State<CardWidget> {
                                                         )
                                                       : Text(
                                                           '${widget.model.products![index].productsData!.translations!.last.name}',
-                                                          style: TextStyle(
+                                                          style: const TextStyle(
                                                             color: textColor,
                                                             fontSize: 16,
                                                             fontWeight:
                                                                 FontWeight.w700,
                                                           ),
                                                         ),
-                                                  SizedBox(
+                                                  const SizedBox(
                                                     height: 10,
                                                   ),
                                                   Row(
@@ -445,7 +445,7 @@ class _CardWidgetState extends State<CardWidget> {
                                                                       .circular(
                                                                           4.0),
                                                             ),
-                                                            child: Center(
+                                                            child: const Center(
                                                                 child: Text(
                                                               "+",
                                                               style: TextStyle(
@@ -461,7 +461,7 @@ class _CardWidgetState extends State<CardWidget> {
                                                   ),
                                                 ],
                                               ),
-                                              SizedBox(
+                                              const SizedBox(
                                                 width: 13,
                                               ),
                                               // Container(
@@ -490,9 +490,9 @@ class _CardWidgetState extends State<CardWidget> {
                             },
                             itemCount: widget.model.products!.length,
                             separatorBuilder:
-                                (BuildContext context, int index) => Padding(
+                                (BuildContext context, int index) => const Padding(
                               padding:
-                                  const EdgeInsets.only(right: 25, left: 22),
+                                  EdgeInsets.only(right: 25, left: 22),
                               child: SizedBox(
                                 // height: 22,
                                 child: Divider(
@@ -503,12 +503,12 @@ class _CardWidgetState extends State<CardWidget> {
                             ),
                           );
                         },
-                        fallback: (context) => CircularProgressIndicator(
+                        fallback: (context) => const CircularProgressIndicator(
                           color: button2color,
                         ),
                       )
                     : Container(
-                        child: Center(
+                        child:  Center(
                             child: Text(
                           langKey == 'ar' ? "السلة فارغه" : "Basket is Empty",
                           style: TextStyle(
@@ -555,7 +555,7 @@ class _CardWidgetState extends State<CardWidget> {
                                   children: [
                                     Text(
                                       '${totalcart} ${S.current.rs}',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         color: textColor,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w700,
@@ -563,7 +563,7 @@ class _CardWidgetState extends State<CardWidget> {
                                     ),
                                     Text(
                                       S.current.total_amount,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         color: textColor,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w400,
@@ -577,7 +577,7 @@ class _CardWidgetState extends State<CardWidget> {
                                   children: [
                                     Text(
                                       '${widget.model.deliveryCost} ${S.current.rs}',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         color: textColor,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w700,
@@ -590,17 +590,17 @@ class _CardWidgetState extends State<CardWidget> {
                                           style: const TextStyle(
                                               fontSize: 10,
                                               fontWeight: FontWeight.w400),
-                                          gradient: LinearGradient(colors: [
+                                          gradient: const LinearGradient(colors: [
                                             Color(0xAFF59B81E),
                                             Color(0xAFFB0C81F),
                                           ]),
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           width: 15,
                                         ),
                                         Text(
                                           S.current.delivery_price,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             color: textColor,
                                             fontSize: 16,
                                             fontWeight: FontWeight.w400,
@@ -610,8 +610,8 @@ class _CardWidgetState extends State<CardWidget> {
                                     ),
                                   ],
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
+                                const Padding(
+                                  padding: EdgeInsets.only(
                                       right: 10.99, left: 16),
                                   child: Divider(
                                     color: Colors.grey,
@@ -623,7 +623,7 @@ class _CardWidgetState extends State<CardWidget> {
                                   children: [
                                     Text(
                                       '${totalprice} ${S.current.rs}',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         color: button1color,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w700,
@@ -631,7 +631,7 @@ class _CardWidgetState extends State<CardWidget> {
                                     ),
                                     Text(
                                       S.current.total,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         color: button1color,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w400,
@@ -645,137 +645,9 @@ class _CardWidgetState extends State<CardWidget> {
                     ),
                   )
                 : Container(),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
-            ///////////////////////////// gadwala
-            // Container(
-            //   // height: 131,
-            //   color: Colors.white,
-            //   width: double.infinity,
-            //   // decoration: BoxDecoration(
-            //   //   color: Colors.white,
-            //   //   border: Border.all(
-            //   //     // color: textColor,
-            //   //     width: 1,
-            //   //   ),
-            //   //   borderRadius: BorderRadius.circular(4.0),
-            //   // ),
-            //   child: Padding(
-            //     padding: const EdgeInsets.only(right: 14, left: 9),
-            //     child: Container(
-            //         decoration: BoxDecoration(
-            //           color: Colors.white,
-            //           border: Border.all(
-            //             color: buttonLightcolor,
-            //             width: 1,
-            //           ),
-            //           borderRadius: BorderRadius.circular(10.0),
-            //         ),
-            //         child: Padding(
-            //           padding: const EdgeInsets.only(
-            //               right: 21, left: 21, top: 15, bottom: 20),
-            //           child: Column(
-            //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //             children: [
-            //               Row(
-            //                 mainAxisAlignment:
-            //                     MainAxisAlignment.spaceBetween,
-            //                 children: [
-            //                   Text(
-            //                     '82.00 ${S.current.rs}',
-            //                     style: TextStyle(
-            //                       color: textColor,
-            //                       fontSize: 16,
-            //                       fontWeight: FontWeight.w700,
-            //                     ),
-            //                   ),
-            //                   Text(
-            //                     S.current.total_amount,
-            //                     style: TextStyle(
-            //                       color: textColor,
-            //                       fontSize: 16,
-            //                       fontWeight: FontWeight.w400,
-            //                     ),
-            //                   ),
-            //                 ],
-            //               ),
-            //               Row(
-            //                 mainAxisAlignment:
-            //                     MainAxisAlignment.spaceBetween,
-            //                 children: [
-            //                   Text(
-            //                     '10.00 ${S.current.rs}',
-            //                     style: TextStyle(
-            //                       color: textColor,
-            //                       fontSize: 16,
-            //                       fontWeight: FontWeight.w700,
-            //                     ),
-            //                   ),
-            //                   Row(
-            //                     children: [
-            //                       GradientText(
-            //                         '15/04/22 - 11:30',
-            //                         style: TextStyle(
-            //                             fontSize: 14,
-            //                             fontWeight: FontWeight.w400),
-            //                         gradient: LinearGradient(colors: [
-            //                           Color(0xAFF59B81E),
-            //                           Color(0xAFFB0C81F),
-            //                         ]),
-            //                       ),
-            //                       SizedBox(
-            //                         width: 15,
-            //                       ),
-            //                       Text(
-            //                         S.current.delivery_price,
-            //                         style: TextStyle(
-            //                           color: textColor,
-            //                           fontSize: 16,
-            //                           fontWeight: FontWeight.w400,
-            //                         ),
-            //                       ),
-            //                     ],
-            //                   ),
-            //                 ],
-            //               ),
-            //               Padding(
-            //                 padding: const EdgeInsets.only(
-            //                     right: 10.99, left: 16),
-            //                 child: Divider(
-            //                   color: Colors.grey,
-            //                 ),
-            //               ),
-            //               Row(
-            //                 mainAxisAlignment:
-            //                     MainAxisAlignment.spaceBetween,
-            //                 children: [
-            //                   Text(
-            //                     '92,00 ${S.current.rs}',
-            //                     style: TextStyle(
-            //                       color: button1color,
-            //                       fontSize: 16,
-            //                       fontWeight: FontWeight.w700,
-            //                     ),
-            //                   ),
-            //                   Text(
-            //                     S.current.rs,
-            //                     style: TextStyle(
-            //                       color: button1color,
-            //                       fontSize: 16,
-            //                       fontWeight: FontWeight.w400,
-            //                     ),
-            //                   ),
-            //                 ],
-            //               ),
-            //             ],
-            //           ),
-            //         )),
-            //   ),
-            // ),
-            // SizedBox(
-            //   height: 10,
-            // ),
             totalcart != 0
                 ? Container(
                     child: Padding(
@@ -801,7 +673,7 @@ class _CardWidgetState extends State<CardWidget> {
                                 children: [
                                   Text(
                                     '${totalprice} ${S.current.rs}',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: button1color,
                                       fontSize: 16,
                                       fontWeight: FontWeight.w700,
@@ -809,7 +681,7 @@ class _CardWidgetState extends State<CardWidget> {
                                   ),
                                   Text(
                                     S.current.total_calculted_amount,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: button1color,
                                       fontSize: 18,
                                       fontWeight: FontWeight.w400,
@@ -820,7 +692,7 @@ class _CardWidgetState extends State<CardWidget> {
                             ))),
                   )
                 : Container(),
-            SizedBox(
+            const SizedBox(
               height: 26,
             ),
             totalcart != 0

@@ -4,8 +4,11 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:project/src/ui/Home/Home.dart';
 import 'package:project/src/ui/Shared/constant.dart';
 import 'package:project/src/ui/components/component.dart';
+import 'package:project/src/ui/delivery_package/navigation_screens/delivery_cycle_screen.dart';
+import 'package:project/src/ui/location/location_permission_screen.dart';
 import 'package:project/src/ui/navigation_screen/chat/helper/fire_helper.dart';
 import 'package:project/src/ui/widgets/widgets.dart';
 
@@ -87,17 +90,17 @@ class _OtpScreenState extends State<OtpScreen> {
         child: BlocConsumer<LoginScreenCubit, LoginAppStates>(
           listener: (context, state) {
             if (state is CheckOtpSuccessStates) {
-              // if (state.loginModel.status) {
-              //   print(state.loginModel.message);
-              //   print(state.loginModel.data.token);
-              //   CacheHelper.saveData(
-              //           key: 'token', value: state.loginModel.data.token)
-              //       .then((value) {
-              //     Navigator.pushReplacementNamed(context, "/home");
-              //   });
-              // } else
-              //   print(state.loginModel.message);
-              // showtoast(state.loginModel.message, toaststate.ERROR);
+              if (state.type == 0) {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => LocationPermissionScreen()));
+              } else {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => DeliveryCycleScreen()));
+              }
             }
 
             if (state is CheckOtpErrorStates) {
@@ -230,7 +233,7 @@ class _OtpScreenState extends State<OtpScreen> {
                                 if (fcmToken == null) {
                                   showSnackBar(title: 'Token is empty');
                                 } else {
-                                  LoginScreenCubit.get(context).checkotp(
+                                  LoginScreenCubit.get(context).checkOtp(
                                       code: textEditingController.text,
                                       fcmToken: fcmToken!,
                                       context: context);

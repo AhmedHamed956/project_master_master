@@ -43,10 +43,12 @@ bool? cartIseEmpty;
 String scheduled = '';
 String time = '';
 String am_pm = '';
- int? stepp ;
+int? stepp;
+
 const int currentindex = 0;
 bool ischat = false;
 String? token;
+String? fcmToken;
 String? userId;
 String? mylocation;
 String? mycity;

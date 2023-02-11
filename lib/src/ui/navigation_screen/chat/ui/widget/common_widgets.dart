@@ -17,7 +17,7 @@ Widget errorContainer() {
 
 Widget chatImage({required String imageSrc, required Function onTap}) {
   return OutlinedButton(
-      onPressed: onTap(),
+      onPressed: () => onTap(),
       child: Image.network(imageSrc,
           width: Sizes.dimen_200,
           height: Sizes.dimen_200,

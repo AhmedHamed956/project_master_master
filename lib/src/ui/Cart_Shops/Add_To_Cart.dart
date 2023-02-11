@@ -1,7 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:project/Models/GetCartData_Model.dart';
+import 'package:project/Models/GetCartData_response.dart';
 import 'package:project/src/ui/Home/Cubit.dart';
 import 'package:project/src/ui/Home/states.dart';
 
@@ -32,9 +32,11 @@ class _AddToCartState extends State<AddToCart> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (BuildContext context) => HomeCubit()..getCartData(id: idd),
-      child: BlocConsumer<HomeCubit, HomeAppState>(
+    return
+    //   BlocProvider(
+    //   create: (BuildContext context) => HomeCubit()..getCartData(id: idd),
+    //   child:
+    BlocConsumer<HomeCubit, HomeAppState>(
         listener: (context, state) {},
         builder: (context, state) {
           return ConditionalBuilder(
@@ -51,13 +53,13 @@ class _AddToCartState extends State<AddToCart> {
                     color: button2color,
                   )))));
         },
-      ),
+      // ),
     );
 
     // create: (context) => HomeCubit()..getCartData(id: idd),
   }
 
-  Widget getcartScreen(CartData model, GetCartModel model2) => Scaffold(
+  Widget getcartScreen(CartModel model, GetCartResponse model2) => Scaffold(
         backgroundColor: mainBackgourndColor,
         appBar: AddToCardAppBar(label: S.current.basket, id: widget.id),
         body: SingleChildScrollView(
@@ -90,7 +92,8 @@ class _AddToCartState extends State<AddToCart> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   ConstrainedBox(
-                                    constraints: const BoxConstraints(maxWidth: 200),
+                                    constraints:
+                                        const BoxConstraints(maxWidth: 200),
                                     child: Text(
                                       model.shopData!.storeName.toString(),
                                       style: const TextStyle(
@@ -118,9 +121,30 @@ class _AddToCartState extends State<AddToCart> {
                   ),
                 ],
               ),
-              CardWidget(model: model, model2: model2),
+              CardWidget( shopId: widget.id),
             ],
           ),
         ),
       );
+
+// incrementCart(CartModel cart) {
+//   if (cart.quantity! <= 99) {
+//     setState(() {
+//       cart.quantity = (cart.quantity! + 1);
+//     });
+//     cartBloc.add(UpdateCartEvent(cartModel: cart));
+//     calculateSubTotal();
+//   }
+// }
+//
+// decrementCart(CartModel cart) {
+//   if (cart.quantity! > 1) {
+//     setState(() {
+//       cart.quantity = (cart.quantity! - 1);
+//     });
+//
+//     cartBloc.add(UpdateCartEvent(cartModel: cart));
+//     calculateSubTotal();
+//   }
+// }
 }

@@ -11,6 +11,7 @@ import 'package:project/src/common/global.dart';
 import 'package:project/src/ui/Home/Home.dart';
 import 'package:project/src/ui/Shared/constant.dart';
 import 'package:project/src/ui/navigation_screen/main-screens/quick-screen.dart';
+import 'package:project/src/ui/widgets/card-widget.dart';
 import 'package:project/test.dart';
 
 import '../../../Models/model/product_data.dart';
@@ -38,7 +39,7 @@ class ShopDetails extends StatefulWidget {
 
 class _ShopDetailsState extends State<ShopDetails>
     with TickerProviderStateMixin {
-  late TabController _tabController;
+  late TabController _tabController = TabController(length: 1, vsync: this);
 
   // final date = DateTime.now();
 
@@ -54,12 +55,17 @@ class _ShopDetailsState extends State<ShopDetails>
   String? time;
   bool? am;
   bool? pm;
+  late HomeCubit _homeCubit;
 
   // var total;
   void initState() {
     hoursController.text = '01';
     minController.text = '00';
-
+    _homeCubit = BlocProvider.of<HomeCubit>(context);
+    _homeCubit
+      ..shopDetails(id: widget.id)
+      ..tabdetails(id: widget.id)
+      ..getCartData(id: widget.id);
     am = true;
     // selected = null;
     print(langKey);
@@ -88,59 +94,53 @@ class _ShopDetailsState extends State<ShopDetails>
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => HomeCubit()
-        ..shopDetails(id: widget.id)
-        ..tabdetails(id: widget.id)
-        ..getCartData(id: widget.id),
-      child: BlocConsumer<HomeCubit, HomeAppState>(
-        listener: (context, state) {
-          if (state is ShopDetailsSuccessStates) {}
-          if (state is GetCartSuccessStates) {
-            if (HomeCubit.get(context).getCartModel!.data!.isEmpty) {
-              total = 0;
-              setState(() {
-                selected = null;
-              });
-            } else {
-              setState(() {
-                total = HomeCubit.get(context)
-                    .getCartModel!
-                    .data!
-                    .first
-                    .total!
-                    .toInt();
+    return BlocConsumer<HomeCubit, HomeAppState>(
+      listener: (context, state) {
+        if (state is ShopDetailsSuccessStates) {}
+        if (state is GetCartSuccessStates) {
+          if (HomeCubit.get(context).getCartModel!.data!.isEmpty) {
+            total = 0;
+            setState(() {
+              selected = null;
+            });
+          } else {
+            setState(() {
+              total = HomeCubit.get(context)
+                  .getCartModel!
+                  .data!
+                  .first
+                  .total!
+                  .toInt();
 
-                print(total);
-              });
-            }
+              print(total);
+            });
           }
-          if (state is TabDetailsSuccessStates) {
-            _tabController = TabController(
-                length: HomeCubit.get(context).tabsDetailsModel!.data!.length,
-                vsync: this);
-          }
-          if (state is PostOrderSuccessStates) {}
-        },
-        builder: (context, state) {
-          var model = HomeCubit.get(context).shopDetailsModel;
-          var model2 = HomeCubit.get(context).tabsDetailsModel;
+        }
+        if (state is TabDetailsSuccessStates) {
+          _tabController = TabController(
+              length: HomeCubit.get(context).tabsDetailsModel!.data!.length,
+              vsync: this);
+        }
+        if (state is PostOrderSuccessStates) {}
+      },
+      builder: (context, state) {
+        var model = HomeCubit.get(context).shopDetailsModel;
+        var model2 = HomeCubit.get(context).tabsDetailsModel;
 
-          return ConditionalBuilder(
-              condition: HomeCubit.get(context).tabsDetailsModel != null &&
-                  HomeCubit.get(context).shopDetailsModel != null,
-              builder: ((context) =>
-                  shopDetailScreen(model!, model2!, widget.id)),
-              fallback: (context) => Container(
-                    color: Colors.white,
-                    child: const Center(
-                      child: CircularProgressIndicator(
-                        color: button2color,
-                      ),
+        return ConditionalBuilder(
+            condition: HomeCubit.get(context).tabsDetailsModel != null &&
+                HomeCubit.get(context).shopDetailsModel != null,
+            builder: ((context) =>
+                shopDetailScreen(model!, model2!, widget.id)),
+            fallback: (context) => Container(
+                  color: Colors.white,
+                  child: const Center(
+                    child: CircularProgressIndicator(
+                      color: button2color,
                     ),
-                  ));
-        },
-      ),
+                  ),
+                ));
+      },
     );
   }
 
@@ -377,7 +377,8 @@ class _ShopDetailsState extends State<ShopDetails>
                           print('aaaa');
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) =>
-                                  AddToCart(id: model.data!.id)));
+                                  // AddToCart(id: model.data!.id)
+                                  CardWidget(shopId: model.data!.id!)));
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -881,7 +882,9 @@ class _ShopDetailsState extends State<ShopDetails>
                                 .then((value) => Navigator.of(context).push(
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            AddToCart(id: product.shopId))));
+                                            // AddToCart(id: product.shopId)
+                                        CardWidget(shopId: product.shopId!)
+                                    )));
 
                             print('scaaaaaaaaaaaaaaaaaaaaaaader');
 

@@ -36,14 +36,13 @@ Future<void> main() async {
   DioHelper.init();
   await CacheHelper.init();
   Widget widget;
-  FirebaseMessaging _firebaseMessaging= FirebaseMessaging.instance;
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   _firebaseMessaging.requestPermission();
 
   FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
       alert: true, badge: true, sound: true);
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
 
   LocalNotificationService.initialize(flnp).then((_) {
     debugPrint('setupPlugin: setup success');
@@ -187,5 +186,4 @@ void _handleMessage(RemoteMessage message) {
   List<String> data0 = [message.data['id'], "Support", ''];
   NavigationService.navigationKey.currentState!
       .pushNamed(ChatCycle.routeName, arguments: RouteArgument(param: data0));
-
 }

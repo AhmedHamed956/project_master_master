@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:project/Models/GetCartData_Model.dart';
+import 'package:project/Models/GetCartData_response.dart';
 import 'package:project/Models/model/location_model.dart';
 import 'package:project/src/common/global.dart';
 import 'package:project/src/ui/Home/Cubit.dart';
@@ -33,7 +33,7 @@ class OrderDetails extends StatefulWidget {
   String? payment;
   String? gift;
   String? quickProductId;
-  CartData? model;
+  CartModel? model;
 
   OrderDetails(
       {super.key,

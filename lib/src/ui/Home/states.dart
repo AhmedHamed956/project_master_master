@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
+import 'package:project/Models/GetCartData_response.dart';
 import 'package:project/Models/User_response.dart';
+import 'package:project/Models/model/cart_data.dart';
 import 'package:project/Models/model/location_model.dart';
 
 import '../../../Models/model/shop_model.dart';
@@ -88,6 +90,7 @@ class GetCountresSuccessStates extends HomeAppState {
   List<LocationModel>? items;
 
   GetCountresSuccessStates({required this.items});
+
   @override
   List<Object?> get props => [items];
 }
@@ -196,6 +199,16 @@ class PostCartSuccessStates extends HomeAppState {
   PostCartSuccessStates();
 }
 
+class UpdateCartSuccessStates extends HomeAppState {
+  // final LoginModel loginModel;
+  int quantity;
+
+  UpdateCartSuccessStates({required this.quantity});
+
+  @override
+  List<Object?> get props => [quantity];
+}
+
 class PostCartLoadingState extends HomeAppState {}
 
 class PostCartErrorStates extends HomeAppState {
@@ -290,9 +303,12 @@ class QuickSuggestionErrorStates extends HomeAppState {
 }
 
 class GetCartSuccessStates extends HomeAppState {
-  // final LoginModel loginModel;
+  CartModel? model;
 
-  GetCartSuccessStates();
+  GetCartSuccessStates(this.model);
+
+  @override
+  List<Object?> get props => [model];
 }
 
 class GetCartLoadingState extends HomeAppState {}

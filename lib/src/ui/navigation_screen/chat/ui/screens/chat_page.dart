@@ -304,8 +304,10 @@ class _ChatPageState extends State<ChatPage> {
       textEditingController.clear();
       chatProvider.sendChatMessage(content, type, groupChatId, currentUserId,
           widget.peerId, widget.peerNickname, widget.fcmToken);
-      scrollController.animateTo(0,
-          duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
+      if (scrollController.hasClients) {
+        scrollController.animateTo(0,
+            duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
+      }
     } else {
       showSnackBar(title: 'Nothing to send');
     }

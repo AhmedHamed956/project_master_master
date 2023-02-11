@@ -32,7 +32,7 @@ class MappingSet extends StatefulWidget {
   String? quickproductId;
   String? gift;
 
-  CartData? cartmodel;
+  CartModel? cartmodel;
   UserModel? profilemodel;
 
   bool? getLocation = false;

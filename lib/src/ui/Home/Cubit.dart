@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:project/Models/Ads_Model.dart';
+
 // import 'package:project/Models/ClientTrackingOrder_Model.dart';
 import 'package:project/Models/Home_Model.dart';
 import 'package:project/Models/OrderConfirm_Model.dart';
@@ -15,6 +16,7 @@ import 'package:project/Models/location_response.dart';
 import 'package:project/Models/offers_Model.dart';
 import 'package:project/Models/one_offer_Model.dart';
 import 'package:project/Models/orders_response.dart';
+import 'package:project/Models/response/HomeShopFilter.dart';
 import 'package:project/Models/response/confirm_digetal_gift_response.dart';
 import 'package:project/Models/shop_details_Model.dart';
 import 'package:project/Models/suggest_search_response.dart';
@@ -23,9 +25,10 @@ import 'package:project/src/ui/Home/states.dart';
 import 'package:project/src/ui/Shared/constant.dart';
 import 'package:project/src/ui/navigation_screen/main-screens/Quick-Screens/Quick-Tracking.dart';
 import 'package:project/src/ui/navigation_screen/settings/profile/gift-card-rating.dart';
+import 'package:project/src/ui/widgets/card-widget.dart';
 import 'package:project/src/ui/widgets/widgets.dart';
 
-import '../../../Models/GetCartData_Model.dart';
+import '../../../Models/GetCartData_response.dart';
 import '../../../Models/GetDigitalData_model.dart';
 import '../../../Models/getNonReadyQuick.dart';
 import '../../../Models/getProfile_Model.dart';
@@ -79,10 +82,10 @@ class HomeCubit extends Cubit<HomeAppState> {
             url: homeFilterProduct + model.id.toString(), token: token)
         .then((value) {
       log("getHomeFilterProduct ${jsonEncode(value.data)}");
-      HomeShopsFilterResponse homeShopsFilterResponse =
-          HomeShopsFilterResponse.fromJson(value.data);
+      HomeShopFilter homeShopsFilterResponse =
+          HomeShopFilter.fromJson(value.data);
       emit(HomeShopFilterSuccessStates(
-          items: homeShopsFilterResponse.data?.shops, model: model));
+          items: homeShopsFilterResponse.data?[0].shops, model: model));
     }).catchError((error, s) {
       log("getHomeFilterProduct $error $s");
       emit(HomeErrorStates(error.toString()));
@@ -324,21 +327,45 @@ class HomeCubit extends Cubit<HomeAppState> {
 
       emit(PostCartSuccessStates());
       HomeCubit().getCartData(
-        id: 1,
+        id: id,
       );
     }).catchError((error) {
       emit(PostCartErrorStates(error.toString()));
     });
   }
 
-  GetCartModel? getCartModel;
+  Future<void> updateCart(
+      {required productID, required quantity, scheduler, time, context,id}) async {
+    FormData formData = FormData.fromMap({
+      "product_id": productID,
+      "quantity": quantity,
+      'scheduler': scheduler,
+      'time': time
+    });
+    log('done');
+    DioHelper.postdata(url: addtoCart, data: formData, token: token)
+        .then((value) {
+      log("updateCart ${value.data}");
+      HomeCubit().getCartData(id: id);
+      emit(UpdateCartSuccessStates(quantity: quantity));
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) =>
+          // AddToCart(id: model.data!.id)
+          CardWidget(shopId: id!)
+      ));
+    }).catchError((error) {
+      emit(PostCartErrorStates(error.toString()));
+    });
+  }
+
+  GetCartResponse? getCartModel;
 
   Future<void> getCartData({required id}) async {
     emit(GetCartLoadingState());
     DioHelper.getdata(url: '$addtoCart/$id', token: token).then((value) {
-      getCartModel = GetCartModel.fromJson(value.data);
+      getCartModel = GetCartResponse.fromJson(value.data);
       log("getCartData ${jsonEncode(value.data)}");
-      emit(GetCartSuccessStates());
+      emit(GetCartSuccessStates(getCartModel?.data?.first));
     }).catchError((error, s) {
       log("getCartData $error $s");
       emit(GetCartErrorStates(error.toString()));

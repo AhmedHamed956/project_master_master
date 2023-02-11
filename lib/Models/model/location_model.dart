@@ -22,7 +22,8 @@ class LocationModel {
   }
 
   LocationModel.fromJson(dynamic json) {
-    _id = json['id'] is String ? int.parse(json['id']) : json['id'];
+    _id = json['id'];
+    // _id = json['id'] is String ? int.parse(json['id']) : json['id'];
     _name = json['name'];
     _govId = json['gov_id'];
     _latLong = json['lat_long'];

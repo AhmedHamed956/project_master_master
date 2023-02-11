@@ -3,7 +3,7 @@ import 'package:project/Models/model/shop_model.dart';
 
 import '../orders_response.dart';
 
-class CartData {
+class CartModel {
   int? id;
   int? userId;
   int? shopId;
@@ -16,7 +16,7 @@ class CartData {
   ShopData? shopData;
   List<Products>? products;
 
-  CartData(
+  CartModel(
       {this.id,
         this.userId,
         this.shopId,
@@ -29,7 +29,7 @@ class CartData {
         this.shopData,
         this.products});
 
-  CartData.fromJson(Map<String, dynamic> json) {
+  CartModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     userId = json['user_id'];
     shopId = json['shop_id'];

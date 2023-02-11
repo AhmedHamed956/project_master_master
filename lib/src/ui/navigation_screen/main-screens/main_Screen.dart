@@ -366,9 +366,11 @@ class _MainScreenState extends State<MainScreen> {
                             fontWeight: FontWeight.w500,
                             color: textColor)),
                     RatingBarIndicator(
-                        rating: model.ratings!.isNotEmpty
-                            ? model.ratings?.first.averageRating ?? 0.0
-                            : 0.0,
+                        rating: model.ratings == null
+                            ? 0
+                            : model.ratings!.isNotEmpty
+                                ? model.ratings?.first.averageRating ?? 0.0
+                                : 0.0,
                         // double.tryParse(model.commissionRate ?? '0.0') ??
                         //     0.0,
                         unratedColor: Colors.grey.shade300,

@@ -1,19 +1,19 @@
 import 'model/cart_data.dart';
 
-class GetCartModel {
+class GetCartResponse {
   String? status;
   String? message;
-  List<CartData>? data;
+  List<CartModel>? data;
 
-  GetCartModel({this.status, this.message, this.data});
+  GetCartResponse({this.status, this.message, this.data});
 
-  GetCartModel.fromJson(Map<String, dynamic> json) {
+  GetCartResponse.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
     if (json['data'] != null) {
-      data = <CartData>[];
+      data = <CartModel>[];
       json['data'].forEach((v) {
-        data!.add(new CartData.fromJson(v));
+        data!.add(new CartModel.fromJson(v));
       });
     }
   }

@@ -48,7 +48,9 @@ class _GiftCardScreenState extends State<GiftCardScreen> {
           fallback: (context) => Container(
               color: Colors.white,
               child: const Center(
-                  child: CircularProgressIndicator(color: button2color))));
+                  child: CircularProgressIndicator(
+                color: button2color,
+              ))));
     });
   }
 
@@ -72,15 +74,28 @@ class _GiftCardScreenState extends State<GiftCardScreen> {
                     borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(20),
                         topRight: Radius.circular(20))),
-                child: Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
-                    child: ListView.separated(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) => GiftCardWidget(
-                            model: model.data![index], homeCubit: homeCubit),
-                        separatorBuilder: (context, index) =>
-                            const SizedBox(height: 20),
-                        itemCount: model.data!.length)))
+                child: model.data!.isNotEmpty
+                    ? Padding(
+                        padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
+                        child: ListView.separated(
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) => GiftCardWidget(
+                                model: model.data![index],
+                                homeCubit: homeCubit),
+                            separatorBuilder: (context, index) =>
+                                const SizedBox(height: 20),
+                            itemCount: model.data!.length))
+                    : Container(
+                        color: Colors.white,
+                        child: Center(
+                          child: Text(
+                            S.current.youdonthaveGiftCard,
+                            style: const TextStyle(
+                                color: textColor,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w700),
+                          ),
+                        )))
           ]));
 }

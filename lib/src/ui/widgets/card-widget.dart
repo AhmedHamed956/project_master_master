@@ -18,7 +18,8 @@ import '../components/component.dart';
 
 class CardWidget extends StatefulWidget {
   CartData model;
-  CardWidget({super.key, required this.model});
+  GetCartModel model2;
+  CardWidget({super.key, required this.model, required this.model2});
 
   @override
   State<CardWidget> createState() => _CardWidgetState();
@@ -81,6 +82,7 @@ class _CardWidgetState extends State<CardWidget> {
                     ? ConditionalBuilder(
                         condition: state is! GetCartLoadingState,
                         builder: (context) {
+                          // for (int i = 0; i < widget.model2.data!.length; i++)
                           return ListView.separated(
                             scrollDirection: Axis.vertical,
                             shrinkWrap: true,
@@ -171,6 +173,8 @@ class _CardWidgetState extends State<CardWidget> {
                                                                             shopID: widget.model.shopId);
                                                                         setState(
                                                                             () {
+                                                                          totalprice =
+                                                                              (totalprice - (widget.model.products![index].quantity!.toInt() * int.parse(widget.model.products![index].productsData!.priceAfterDiscount.toString())));
                                                                           totalcart =
                                                                               (totalcart! - (widget.model.products![index].quantity!.toInt() * int.parse(widget.model.products![index].productsData!.priceAfterDiscount.toString())));
                                                                           widget
@@ -506,7 +510,7 @@ class _CardWidgetState extends State<CardWidget> {
                     : Container(
                         child: Center(
                             child: Text(
-                          "السلة فارغه",
+                          langKey == 'ar' ? "السلة فارغه" : "Basket is Empty",
                           style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w700,

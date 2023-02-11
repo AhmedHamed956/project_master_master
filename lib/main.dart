@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +18,7 @@ import 'package:project/src/ui/Shared/constant.dart';
 import 'package:project/src/ui/delivery_package/navigation_screens/delivery_cycle_screen.dart';
 import 'package:project/src/ui/navigation_screen/chat/helper/fire_helper.dart';
 import 'package:project/src/ui/navigation_screen/chat/helper/firebase_options.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'generated/l10n.dart';
 
@@ -49,7 +52,7 @@ Future<void> main() async {
   token = CacheHelper.getData(key: 'token');
 
   // mylocation = CacheHelper.getData(key: 'mylocation');
-  // myAddress = await storage.read(key: "myAddress");
+  myAddress = await storage.read(key: "myAddress");
   myLat_long = await storage.read(key: "myLatLong");
   mycity = CacheHelper.getData(key: 'mycity');
   mystreet = CacheHelper.getData(key: 'mystreet');
@@ -133,6 +136,11 @@ class _MyAppState extends State<MyApp> {
             supportedLocales: S.delegate.supportedLocales,
             // home: const HomeScreen(),
             home: widget.startwidget,
+            //  Payment(),
+            // widget.startwidget,
+            // Payment(),
+
+            // Payment(),
             // home:ChatCycle(),
 // home: GiftCardScreen(),
             // home: DeliveryCycleScreen(),

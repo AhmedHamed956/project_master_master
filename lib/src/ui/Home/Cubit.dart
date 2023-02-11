@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:project/Models/Ads_Model.dart';
+// import 'package:project/Models/ClientTrackingOrder_Model.dart';
 import 'package:project/Models/Home_Model.dart';
 import 'package:project/Models/OrderConfirm_Model.dart';
 import 'package:project/Models/Tabs_Details_Model.dart';
@@ -14,7 +15,6 @@ import 'package:project/Models/location_response.dart';
 import 'package:project/Models/offers_Model.dart';
 import 'package:project/Models/one_offer_Model.dart';
 import 'package:project/Models/orders_response.dart';
-import 'package:project/Models/response/ClientTrackingOrderResponse.dart';
 import 'package:project/Models/response/confirm_digetal_gift_response.dart';
 import 'package:project/Models/shop_details_Model.dart';
 import 'package:project/Models/suggest_search_response.dart';
@@ -35,6 +35,8 @@ import '../../../Models/model/location_model.dart';
 import '../../../Models/model/quick_suggestion_model.dart';
 import '../../../Models/performance_Model.dart';
 import '../../../Models/profile_Gift_Model.dart';
+import '../../../Models/response/ClientTrackingOrderResponse.dart';
+import '../../../Models/suggestionHomeProduct.dart';
 import '../../common/global.dart';
 import '../../network/remote/Dio_helper.dart';
 import '../../network/remote/endPoint.dart';
@@ -57,6 +59,20 @@ class HomeCubit extends Cubit<HomeAppState> {
       emit(HomeErrorStates(error.toString()));
     });
   }
+
+  // Future<void> getHomeFilterProduct(String cityId) async {
+  //   DioHelper.getdata(url: homeFilterProduct + cityId, token: token)
+  //       .then((value) {
+  //     HomeShopsFilterResponse homeShopsFilterResponse =
+  //         HomeShopsFilterResponse.fromJson(value.data);
+  //     log("getHomeFilterProduct ${jsonEncode(value.data)}");
+  //     emit(HomeShopFilterSuccessStates(
+  //         items: homeShopsFilterResponse.data?.shops));
+  //   }).catchError((error, s) {
+  //     log("getHomeFilterProduct $error $s");
+  //     emit(HomeErrorStates(error.toString()));
+  //   });
+  // }
 
   Future<void> getHomeFilterShops(LocationModel model) async {
     DioHelper.getdata(
@@ -134,6 +150,20 @@ class HomeCubit extends Cubit<HomeAppState> {
     }).catchError((error, s) {
       log("shopDetails $error $s");
       emit(ShopDetailsErrorStates(error.toString()));
+    });
+  }
+
+  SuggestionHomeProductModel? suggestionHomeProductModel;
+
+  Future<void> getSuggestionHomeShop({@required id}) async {
+    DioHelper.getdata(url: '$suggestionHome/$id', token: token).then((value) {
+      suggestionHomeProductModel =
+          SuggestionHomeProductModel.fromJson(value.data);
+
+      emit(ShopSuggestionSuccessStates());
+    }).catchError((error, s) {
+      log("shopDetails $error $s");
+      emit(ShopSuggestionErrorStates(error.toString()));
     });
   }
 
@@ -396,7 +426,11 @@ class HomeCubit extends Cubit<HomeAppState> {
 
       ConfirmDigitalGiftResponse confirmDigitalGiftResponse =
           ConfirmDigitalGiftResponse.fromJson(value.data);
-      showSnackBar(title: confirmDigitalGiftResponse.message ?? "");
+      showSnackBar(
+          title:
+              langKey == 'ar' ? "تم ارسال الهدية" : "The gift has been sent");
+
+      // showSnackBar(title: confirmDigitalGiftResponse.message ?? "");
       emit(PostDigitalOrderSuccessStates());
     }).catchError((error, s) {
       log("postdigitalorder $error $s");
@@ -418,6 +452,10 @@ class HomeCubit extends Cubit<HomeAppState> {
           context,
           MaterialPageRoute(
               builder: (context) => HomeScreen(index: 3, schadular: true)));
+      showSnackBar(
+          title: langKey == 'ar'
+              ? "تم جدولة الطلب"
+              : "the order has been scheduled");
       // Navigator.pop(
       //   context,
       // );
@@ -427,11 +465,26 @@ class HomeCubit extends Cubit<HomeAppState> {
     });
   }
 
+  // OrdersModel? ordersModel;
+
+  // Future<void> ordersScreen() async {
+  //   emit(OrderScreenLoadingState());
+  //   DioHelper.getdata(url: addtoCart, token: token).then((value) {
+  //     ordersModel = OrdersModel.fromJson(value.data);
+  //     log("ordersScreen${jsonEncode(value.data)}");
+  //     emit(OrderScreenSuccessStates());
+  //     log("${ordersModel?.data?[1].progress?.first.id}");
+  //   }).catchError((error, s) {
+  //     log("ordersScreenError : $error  $s");
+  //     emit(OrderScreenErrorStates(error.toString()));
+  //   });
+  // }
+
   OrdersResponse? ordersModel;
 
   Future<void> ordersScreen() async {
     emit(OrderScreenLoadingState());
-    DioHelper.getdata(url: addtoCart, token: token).then((value) {
+    await DioHelper.getdata(url: addtoCart, token: token).then((value) {
       ordersModel = OrdersResponse.fromJson(value.data);
       log("ordersScreen${jsonEncode(value.data)}");
       emit(OrderScreenSuccessStates());
@@ -454,6 +507,10 @@ class HomeCubit extends Cubit<HomeAppState> {
       print(value.data);
 
       emit(CancelOrderSuccessStates());
+      showSnackBar(
+          title: langKey == 'ar'
+              ? "تم إلغاء الطلب"
+              : "the request has been canceled");
     }).catchError((error) {
       emit(CancelOrderErrorStates(error.toString()));
     });
@@ -707,6 +764,21 @@ class HomeCubit extends Cubit<HomeAppState> {
       emit(GetPerformaceErrorStates(error.toString()));
     });
   }
+
+  // ClientTrakingOrderModel? clientTrakingOrderModel;
+
+  // Future<void> getclientTraking({@required id}) async {
+  //   emit(GetClientTrackingLoadingState());
+  //   DioHelper.getdata(url: '$clientTracking/$id', token: token).then((value) {
+  //     clientTrakingOrderModel = ClientTrakingOrderModel.fromJson(value.data);
+  //     log("getclientTraking ${jsonEncode(value.data)}");
+
+  //     emit(GetClientTrackingSuccessStates());
+  //   }).catchError((error) {
+  //     log(error.toString());
+  //     emit(GetClientTrackingErrorStates(error.toString()));
+  //   });
+  // }
 
   ClientTrackingOrderResponse? clientTrackingOrderResponse;
 

@@ -1500,6 +1500,25 @@ class S {
     );
   }
 
+  /// `shops`
+  String get youdonthaveorders {
+    return Intl.message(
+      'You dont have orders',
+      name: 'youdonthaveorders',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get youdonthaveGiftCard {
+    return Intl.message(
+      'You dont have Gift Card',
+      name: 'youdonthaveGiftCard',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `show cart`
   String get show_cart {
     return Intl.message(

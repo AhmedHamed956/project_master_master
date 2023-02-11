@@ -1,6 +1,7 @@
 const Login = 'register';
 const check_otp = 'check_otp';
 const home = 'home';
+const suggestionHome = 'productSuggestShop';
 const homeFilterProduct = 'city/';
 const countres = 'cities';
 const checkIsRep = 'Client/check_is_representative';

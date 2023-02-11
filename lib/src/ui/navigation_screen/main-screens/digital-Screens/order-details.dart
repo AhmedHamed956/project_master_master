@@ -58,7 +58,7 @@ class _DigtalOrdersState extends State<DigtalOrders> {
       appBar: AppBarWidget(label: S.current.order_details),
       body: SingleChildScrollView(
         child: Container(
-            height: 600,
+            height: MediaQuery.of(context).size.height,
             width: double.infinity,
             decoration: BoxDecoration(
                 boxShadow: [
@@ -379,38 +379,40 @@ class _DigtalOrdersState extends State<DigtalOrders> {
                         ),
                       ),
                     ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 15,
+                        vertical: 25,
+                      ),
+                      child: Container(
+                        width: 378,
+                        height: 56,
+                        child: ingridentbutton(
+                            function: () {
+                              HomeCubit()
+                                  .postdigitalorder(
+                                      name: widget.namecontroller.text,
+                                      phone: widget.phonecontroller.text,
+                                      productID: widget.productID,
+                                      price: widget.price)
+                                  .then((value) =>
+                                      Navigator.pushReplacement<void, void>(
+                                          context,
+                                          MaterialPageRoute<void>(
+                                            builder: (BuildContext context) =>
+                                                const DigtalScreen(),
+                                          )));
+                            },
+                            color1: button1color,
+                            color2: button2color,
+                            text: S.current.complete_order),
+                      ),
+                    )
                   ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: 25,
-                    right: 25,
-                    bottom: 30,
-                  ),
-                  child: Container(
-                    width: 378,
-                    height: 56,
-                    child: ingridentbutton(
-                        function: () {
-                          HomeCubit()
-                              .postdigitalorder(
-                                  name: widget.namecontroller.text,
-                                  phone: widget.phonecontroller.text,
-                                  productID: widget.productID,
-                                  price: widget.price)
-                              .then((value) =>
-                                  Navigator.pushReplacement<void, void>(
-                                      context,
-                                      MaterialPageRoute<void>(
-                                        builder: (BuildContext context) =>
-                                            const DigtalScreen(),
-                                      )));
-                        },
-                        color1: button1color,
-                        color2: button2color,
-                        text: S.current.complete_order),
-                  ),
-                )
               ],
             )),
       ),

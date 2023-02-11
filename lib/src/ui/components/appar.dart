@@ -145,14 +145,15 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: appbarcolor,
       leading: InkWell(
         onTap: () {
-          type == "gift_card"
-              ? Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => HomeScreen(
-                            index: 4,
-                          )))
-              : Navigator.pop(context);
+          // type == "gift_card"
+          //     ? Navigator.pushReplacement(
+          //         context,
+          //         MaterialPageRoute(
+          //             builder: (context) => HomeScreen(
+          //                   index: 4,
+          //                 )))
+          // :
+          Navigator.pop(context);
         },
         child: Container(
           height: 40,
@@ -396,7 +397,7 @@ class DigitalAppBarWidget extends StatelessWidget
 //       backgroundColor: appbarcolor,
 //       leading: InkWell(
 //         onTap: () {
-        
+
 //         },
 //         child: Container(
 //           height: 40,

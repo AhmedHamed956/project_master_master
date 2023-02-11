@@ -226,6 +226,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "working_hours": MessageLookupByLibrary.simpleMessage("working hours"),
         "you_did_nt_receive_any_code": MessageLookupByLibrary.simpleMessage(
             "You didn`t receive any code? "),
+        "youdonthaveorders":
+            MessageLookupByLibrary.simpleMessage("You don't have orders"),
+        "youdonthaveGiftCard":
+            MessageLookupByLibrary.simpleMessage("You don't have Gift Card"),
         "your_information":
             MessageLookupByLibrary.simpleMessage("Your information"),
         "your_request_has_been_recieved_safely":

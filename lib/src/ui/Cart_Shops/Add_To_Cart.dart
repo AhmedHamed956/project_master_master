@@ -119,7 +119,7 @@ class _AddToCartState extends State<AddToCart> {
                   ),
                 ],
               ),
-              CardWidget(model: model),
+              CardWidget(model: model, model2: model2),
             ],
           ),
         ),

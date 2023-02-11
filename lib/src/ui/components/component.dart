@@ -47,7 +47,7 @@ class CommonBtn extends StatelessWidget {
             gradient: const LinearGradient(
                 begin: Alignment.topRight,
                 end: Alignment.bottomLeft,
-                colors: [Color(0xff701EB8), Color(0xffA10CA4)])),
+                colors: [button2color, button1color])),
         child: MaterialButton(
             onPressed: () => onTap!(),
             child: Text(text,

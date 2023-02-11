@@ -51,8 +51,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "closed": MessageLookupByLibrary.simpleMessage("مغلق"),
         "common_cycle": MessageLookupByLibrary.simpleMessage(
             "----------------------------------------------"),
-        "complete_order":
-            MessageLookupByLibrary.simpleMessage("Complete Order"),
+        "complete_order": MessageLookupByLibrary.simpleMessage("إتمام الطلب"),
         "confirm_payment": MessageLookupByLibrary.simpleMessage("تأكيد الدفع"),
         "contact_us": MessageLookupByLibrary.simpleMessage("اتصل بنا"),
         "continue_": MessageLookupByLibrary.simpleMessage("متابعة"),
@@ -195,6 +194,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "who_the_gift_for": MessageLookupByLibrary.simpleMessage("لمن الهدية؟"),
         "you_did_nt_receive_any_code":
             MessageLookupByLibrary.simpleMessage("ألم يصلك أي كود؟"),
+        "youdonthaveorders":
+            MessageLookupByLibrary.simpleMessage("ليس لديك طلبات"),
+        "youdonthaveGiftCard":
+            MessageLookupByLibrary.simpleMessage("ليس لديك بطاقات هدايا"),
         "your_information": MessageLookupByLibrary.simpleMessage("معلوماتك"),
         "your_request_has_been_recieved_safely":
             MessageLookupByLibrary.simpleMessage("تم استلام طلبك بأمان"),

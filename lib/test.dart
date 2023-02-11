@@ -293,7 +293,7 @@ class _TestState extends State<Test> {
                             id: widget.id,
                             schedule: scheduled,
                             context: context);
-                      }
+                      } else {}
                     },
                     color1: button1color,
                     color2: button2color,

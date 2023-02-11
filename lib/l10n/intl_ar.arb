@@ -53,7 +53,7 @@
   "search": "بحث",
   "find_a_shop": "البحث عن متجر",
   "reject_all_suggestions": "ارفض كل الاقتراحات",
-  "complete_order": "Complete Order",
+  "complete_order":  "إتمام الطلب",
   "delivery_date": "تاريخ التسليم او الوصول",
   "send_rate": "تقييم",
   "order_tracking": "تتبع الطلب",
@@ -124,4 +124,7 @@
   "no_similar_results_found": "لا توجد نتائج مماثلة",
   "please_choose_the_address_first": "الرجاء اختيار العنوان أولا",
   "please_turn_on_the_gps_location_service_to_continue": "يرجى فتح خدمة تحديد الموقع GPS ، للمتابعة"
+  "You_don't_have_orders":"ليس لديك طلبات"
+  "youdonthaveGiftCard":"ليس لديك بطاقات هدايا"
+
 }

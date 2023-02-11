@@ -33,6 +33,7 @@ class QuickScreen extends StatefulWidget {
 class _QuickScreenState extends State<QuickScreen> {
   int? totalprice;
   int? deliveycost;
+  late HomeCubit _homeCubit;
   var counter;
   TextEditingController quickController = TextEditingController();
 
@@ -40,8 +41,11 @@ class _QuickScreenState extends State<QuickScreen> {
   void initState() {
     super.initState();
     if (widget.isQuick == 'true') {
+      _homeCubit = BlocProvider.of<HomeCubit>(context);
+      _homeCubit.quickSuggestion(id: widget.quickmodel?.id);
       counter = 1;
       totalprice = int.parse(widget.quickmodel!.priceAfterDiscount.toString());
+
       Future.delayed(Duration.zero, () {
         widget.isQuick == 'true'
             ? showModalBottomSheet<void>(
@@ -303,68 +307,154 @@ class _QuickScreenState extends State<QuickScreen> {
                               thickness: 1.5,
                             ),
                             const SizedBox(height: 15.92),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 5, left: 6),
-                              child: Container(
-                                  height: 100,
-                                  child: ListView.separated(
-                                      scrollDirection: Axis.horizontal,
-                                      shrinkWrap: true,
-                                      itemBuilder: (context, index) => Stack(
-                                            children: [
-                                              Container(
-                                                width: 130,
-                                                height: 98,
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10)),
-                                                child: Image.asset(
-                                                    'assets/icons/Rectangle 7888.png'),
-                                              ),
-                                              Align(
-                                                alignment:
-                                                    Alignment.bottomCenter,
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          bottom: 4, left: 30),
-                                                  child: Container(
-                                                    width: 63,
-                                                    height: 20,
-                                                    decoration: BoxDecoration(
-                                                        color: Colors
-                                                            .transparent
-                                                            .withOpacity(0.4),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10)),
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Text(
-                                                          '30 ${S.current.rs}',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.white),
-                                                        ),
-                                                      ],
+                            ConditionalBuilder(
+                              condition:
+                                  HomeCubit.get(context).suggestionModel !=
+                                      null,
+                              builder: (context) {
+                                return Padding(
+                                  padding:
+                                      const EdgeInsets.only(right: 5, left: 6),
+                                  child: Container(
+                                      height: 100,
+                                      child: ListView.separated(
+                                          scrollDirection: Axis.horizontal,
+                                          shrinkWrap: true,
+                                          itemBuilder: (context, index) =>
+                                              Stack(
+                                                children: [
+                                                  Container(
+                                                    width: 100,
+                                                    height: 98,
+                                                    child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      child: Image.network(
+                                                        '${domainlink}${HomeCubit.get(context).suggestionModel?.data![index].masterImage}',
+                                                        fit: BoxFit.fill,
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
+                                                  Align(
+                                                    alignment:
+                                                        Alignment.bottomCenter,
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              bottom: 4,
+                                                              left: 30),
+                                                      child: Container(
+                                                        // width: 63,
+                                                        // height: 20,
+                                                        decoration: BoxDecoration(
+                                                            color: Colors
+                                                                .transparent
+                                                                .withOpacity(
+                                                                    0.4),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10)),
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Text(
+                                                              '${HomeCubit.get(context).suggestionModel?.data![index].priceAfterDiscount} ${S.current.rs}',
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .white),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
                                               ),
-                                            ],
-                                          ),
-                                      separatorBuilder: (context, index) =>
-                                          SizedBox(
-                                            width: 12,
-                                          ),
-                                      itemCount: 2)),
+                                          separatorBuilder: (context, index) =>
+                                              SizedBox(
+                                                width: 12,
+                                              ),
+                                          itemCount: HomeCubit.get(context)
+                                              .suggestionModel!
+                                              .data!
+                                              .length)),
+                                );
+                              },
+                              fallback: (context) => Container(
+                                color: Colors.white,
+                                child: Center(
+                                  child: CircularProgressIndicator(
+                                    color: button2color,
+                                  ),
+                                ),
+                              ),
                             ),
+                            // Padding(
+                            //   padding: const EdgeInsets.only(right: 5, left: 6),
+                            //   child: Container(
+                            //       height: 100,
+                            //       child: ListView.separated(
+                            //           scrollDirection: Axis.horizontal,
+                            //           shrinkWrap: true,
+                            //           itemBuilder: (context, index) => Stack(
+                            //                 children: [
+                            //                   Container(
+                            //                     width: 130,
+                            //                     height: 98,
+                            //                     decoration: BoxDecoration(
+                            //                         borderRadius:
+                            //                             BorderRadius.circular(
+                            //                                 10)),
+                            //                     child: Image.asset(
+                            //                         'assets/icons/Rectangle 7888.png'),
+                            //                   ),
+                            //                   Align(
+                            //                     alignment:
+                            //                         Alignment.bottomCenter,
+                            //                     child: Padding(
+                            //                       padding:
+                            //                           const EdgeInsets.only(
+                            //                               bottom: 4, left: 30),
+                            //                       child: Container(
+                            //                         width: 63,
+                            //                         height: 20,
+                            //                         decoration: BoxDecoration(
+                            //                             color: Colors
+                            //                                 .transparent
+                            //                                 .withOpacity(0.4),
+                            //                             borderRadius:
+                            //                                 BorderRadius
+                            //                                     .circular(10)),
+                            //                         child: Row(
+                            //                           mainAxisAlignment:
+                            //                               MainAxisAlignment
+                            //                                   .center,
+                            //                           children: [
+                            //                             Text(
+                            //                               '30 ${S.current.rs}',
+                            //                               style: TextStyle(
+                            //                                   color:
+                            //                                       Colors.white),
+                            //                             ),
+                            //                           ],
+                            //                         ),
+                            //                       ),
+                            //                     ),
+                            //                   ),
+                            //                 ],
+                            //               ),
+                            //           separatorBuilder: (context, index) =>
+                            //               SizedBox(
+                            //                 width: 12,
+                            //               ),
+                            //           itemCount: 2)),
+                            // ),
                             SizedBox(
-                              height: 40,
+                              height: 20,
                             ),
                             Padding(
                               padding: const EdgeInsets.only(

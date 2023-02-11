@@ -72,6 +72,18 @@ class ShopDetailsErrorStates extends HomeAppState {
   ShopDetailsErrorStates(this.error);
 }
 
+class ShopSuggestionSuccessStates extends HomeAppState {
+  // final LoginModel loginModel;
+
+  ShopSuggestionSuccessStates();
+}
+
+class ShopSuggestionErrorStates extends HomeAppState {
+  final String error;
+
+  ShopSuggestionErrorStates(this.error);
+}
+
 class GetCountresSuccessStates extends HomeAppState {
   List<LocationModel>? items;
 

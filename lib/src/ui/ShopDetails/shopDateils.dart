@@ -240,17 +240,21 @@ class _ShopDetailsState extends State<ShopDetails>
                                           color: textColor),
                                     ),
                                     Row(children: [
-                                      const Text('(4.8)',
-                                          style: TextStyle(
-                                              color: textColor,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w400)),
+                                      // const Text('(4.8)',
+                                      //     style: TextStyle(
+                                      //         color: textColor,
+                                      //         fontSize: 14,
+                                      //         fontWeight: FontWeight.w400)),
                                       RatingBarIndicator(
-                                          rating: double.tryParse(
-                                                  model.data?.commissionRate ??
-                                                      '0.0') ??
-                                              0.0,
-                                          unratedColor: Colors.grey,
+                                          rating:
+                                              model.data!.ratings!.isNotEmpty
+                                                  ? model.data!.ratings?.first
+                                                          .averageRating ??
+                                                      0.0
+                                                  : 0.0,
+                                          // double.tryParse(model.commissionRate ?? '0.0') ??
+                                          //     0.0,
+                                          unratedColor: Colors.grey.shade300,
                                           itemCount: 5,
                                           itemSize: 14,
                                           itemBuilder: (BuildContext context,
@@ -589,343 +593,453 @@ class _ShopDetailsState extends State<ShopDetails>
   }
 
   Widget productDetailsView(SameSubCategoryProducts product, String storename) {
-    return FractionallySizedBox(
-      child: SingleChildScrollView(
-        child: Container(
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(10), topRight: Radius.circular(10)),
-            color: Colors.white,
-          ),
-          child: Column(
-            children: [
-              Container(
-                height: 220,
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(10),
-                      topRight: Radius.circular(10)),
-                  color: Colors.grey,
-                  image: DecorationImage(
-                    fit: BoxFit.fill,
-                    image: NetworkImage("$domainlink${product.masterImage}"),
+    return BlocProvider(
+        create: (context) =>
+            HomeCubit()..getSuggestionHomeShop(id: product.id.toString()),
+        child: BlocConsumer<HomeCubit, HomeAppState>(
+          listener: (context, state) {},
+          builder: (context, state) {
+            return FractionallySizedBox(
+              child: SingleChildScrollView(
+                child: Container(
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10),
+                        topRight: Radius.circular(10)),
+                    color: Colors.white,
                   ),
-                ),
-                // child:
-                //     Image.asset('assets/icons/Rectangle 7863-2 2.png'),
-              ),
-              Padding(
-                  padding: const EdgeInsets.only(top: 25, left: 23, right: 23),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                            child: Text(
-                          product.name.toString(),
-                          style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700,
-                              color: textColor),
-                          // maxLines: 1,
-                        )),
-                        Text(
-                          '${product.priceAfterDiscount} ${S.current.rs}',
-                          style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                              color: indicatorColor),
-                        ),
-                      ])),
-              Padding(
-                  padding: const EdgeInsets.only(left: 30, right: 23),
-                  child: Row(children: [
-                    Text('${product.price} ${S.current.rs}',
-                        style: const TextStyle(
-                            decoration: TextDecoration.lineThrough,
-                            fontSize: 11,
-                            fontWeight: FontWeight.w400,
-                            color: textColor))
-                  ])),
-              const SizedBox(height: 9),
-              Padding(
-                padding: const EdgeInsets.only(left: 23, right: 23),
-                child: SizedBox(
-                  height: 50,
-                  width: 377,
-                  child: Text(
-                    '${product.dis}',
-                    style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: textColor),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    product.productQuick != null
-                        ? InkWell(
-                            onTap: () {
-                              Navigator.pushReplacement<void, void>(
-                                context,
-                                MaterialPageRoute<void>(
-                                  builder: (BuildContext context) =>
-                                      QuickScreen(
-                                    quickmodel: product.productQuick,
-                                    isQuick: 'true',
-                                  ),
-                                ),
-                              );
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 8, vertical: 8),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(4),
-                                  gradient: quickButton),
-                              child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      S.current.quick_order,
-                                      style: const TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.white),
-                                    ),
-                                  ]),
-                            ),
-                          )
-                        : Container(),
-                    const SizedBox(
-                      width: 12,
-                    ),
-                    InkWell(
-                      onTap: () {
-                        final calendarCarouselNoHeader =
-                            CalendarCarousel<Event>(
-                          // todayBorderColor: Colors.green,
-                          onDayPressed: (date, events) {
-                            this.setState(() => _currentDate2 = date);
-                            events.forEach((event) => print(event.title));
-
-                            print(date);
-                          },
-                          showOnlyCurrentMonthDate: true,
-                          selectedDayTextStyle: const TextStyle(
-                            color: Colors.blue,
-                          ),
-                          selectedDayButtonColor: Colors.transparent,
-                          weekendTextStyle: TextStyle(
-                            color: Colors.black,
-                          ),
-                          thisMonthDayBorderColor: Colors.grey,
-
-                          weekFormat: false,
-                          todayButtonColor: Colors.blue.withOpacity(0.5),
-                          height: 420.0,
-                          selectedDateTime: _currentDate2,
-                          targetDateTime: _targetDateTime,
-                          customGridViewPhysics: NeverScrollableScrollPhysics(),
-                          markedDateCustomShapeBorder: CircleBorder(
-                              side: BorderSide(color: Colors.yellow)),
-
-                          showHeader: false,
-
-                          // minSelectedDate: _currentDate.subtract(Duration(days: 360)),
-                          // maxSelectedDate: _currentDate.add(Duration(days: 360)),
-                          prevDaysTextStyle: TextStyle(
-                            fontSize: 16,
-                            color: Colors.grey,
-                          ),
-                          // inactiveDaysTextStyle: TextStyle(
-                          //   color: Colors.tealAccent,
-                          //   fontSize: 16,
-                          // ),
-                          onCalendarChanged: (DateTime date) {
-                            this.setState(() {
-                              _targetDateTime = date;
-                              _currentMonth =
-                                  DateFormat.yMMM().format(_targetDateTime);
-                            });
-                          },
-                        );
-                        // _navigateAndDisplaySelection(context);
-                        showModalBottomSheet<void>(
-                            isScrollControlled: true,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            // backgroundColor: Colors.transparent,
-                            builder: (BuildContext context) {
-                              return StatefulBuilder(
-                                builder: (BuildContext context, setState) =>
-                                    FractionallySizedBox(
-                                        heightFactor: 0.7, child: Test()),
-                              );
-                            },
-                            context: context);
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 8),
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 220,
+                        width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(4),
-                            gradient: const LinearGradient(
-                                begin: Alignment.topRight,
-                                end: Alignment.bottomLeft,
-                                colors: [button2color, button1color])),
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                // height: 20,
-                                // width: 20,
-                                child: SvgPicture.asset(
-                                  'assets/icons/home/Vector-4.svg',
-                                  height: 20,
-                                  width: 20,
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              Text(
-                                S.current.schedule_an_order,
-                                style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.white),
-                              ),
-                            ]),
+                          borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(10),
+                              topRight: Radius.circular(10)),
+                          color: Colors.grey,
+                          image: DecorationImage(
+                            fit: BoxFit.fill,
+                            image: NetworkImage(
+                                "$domainlink${product.masterImage}"),
+                          ),
+                        ),
+                        // child:
+                        //     Image.asset('assets/icons/Rectangle 7863-2 2.png'),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 21),
-              Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 16),
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  height: 40,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(4),
-                      border: Border.all(color: lighttextColor, width: 1)),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Flexible(
-                            child: Text(storename,
-                                maxLines: 1,
-                                style: const TextStyle(
-                                    color: textColor,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400))),
-                        Row(
-                            // mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              const Text(
-                                '(4.8)',
-                                style: TextStyle(
-                                    color: textColor,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400),
-                              ),
-                              const SizedBox(width: 9),
-                              RatingBarIndicator(
-                                  rating: 4.0,
-                                  unratedColor: Colors.grey,
-                                  itemCount: 5,
-                                  itemSize: 12,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return const Icon(Icons.star,
-                                        color: Colors.amber);
-                                  }),
-                            ])
-                      ])),
-              const SizedBox(height: 30),
-              Padding(
-                padding: const EdgeInsets.only(left: 28, right: 34),
-                child: InkWell(
-                  onTap: () {
-                    HomeCubit()
-                        .postcart(
-                            productID: product.id,
-                            quantity: 1,
-                            scheduler: scheduled,
-                            time: am_pm)
-                        .then((value) => Navigator.of(context).push(
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    AddToCart(id: product.shopId))));
-
-                    print('scaaaaaaaaaaaaaaaaaaaaaaader');
-
-                    print(scheduled);
-                    print(am_pm);
-                  },
-                  child: Container(
-                      height: 45,
-                      width: 366,
-                      decoration: const BoxDecoration(
-                          gradient: LinearGradient(
-                              begin: Alignment.topRight,
-                              end: Alignment.bottomLeft,
-                              colors: [button2color, button1color])),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 12, right: 12),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
+                      Padding(
+                          padding: const EdgeInsets.only(
+                              top: 25, left: 23, right: 23),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                SvgPicture.asset(
-                                  'assets/icons/home/cart_ic.svg',
-                                  height: 15.0,
-                                  width: 26.0,
-                                  // allowDrawingOutsideViewBox: true,
-                                ),
-                                // Container(
-                                //     height: 15,
-                                //     width: 26,
-                                //     child: Image.asset(
-                                //         'assets/icons/Vector-6.png')),
-                                const SizedBox(
-                                  width: 5,
-                                ),
+                                Expanded(
+                                    child: Text(
+                                  product.name.toString(),
+                                  style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w700,
+                                      color: textColor),
+                                  // maxLines: 1,
+                                )),
                                 Text(
-                                  S.current.add_to_basket,
+                                  '${product.priceAfterDiscount} ${S.current.rs}',
                                   style: const TextStyle(
                                       fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.white),
+                                      fontWeight: FontWeight.w700,
+                                      color: indicatorColor),
                                 ),
-                              ],
+                              ])),
+                      Padding(
+                          padding: const EdgeInsets.only(left: 30, right: 23),
+                          child: Row(children: [
+                            Text('${product.price} ${S.current.rs}',
+                                style: const TextStyle(
+                                    decoration: TextDecoration.lineThrough,
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w400,
+                                    color: textColor))
+                          ])),
+                      const SizedBox(height: 9),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 23, right: 23),
+                        child: SizedBox(
+                          height: 50,
+                          width: 377,
+                          child: Text(
+                            '${product.dis}',
+                            style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: textColor),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            product.productQuick != null
+                                ? InkWell(
+                                    onTap: () {
+                                      Navigator.pushReplacement<void, void>(
+                                        context,
+                                        MaterialPageRoute<void>(
+                                          builder: (BuildContext context) =>
+                                              QuickScreen(
+                                            quickmodel: product.productQuick,
+                                            isQuick: 'true',
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8, vertical: 8),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(4),
+                                          gradient: quickButton),
+                                      child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              S.current.quick_order,
+                                              style: const TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Colors.white),
+                                            ),
+                                          ]),
+                                    ),
+                                  )
+                                : Container(),
+                            const SizedBox(
+                              width: 12,
                             ),
-                            Text(
-                              '${product.priceAfterDiscount} ${S.current.rs}',
-                              style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.white),
+                            InkWell(
+                              onTap: () {
+                                final calendarCarouselNoHeader =
+                                    CalendarCarousel<Event>(
+                                  // todayBorderColor: Colors.green,
+                                  onDayPressed: (date, events) {
+                                    this.setState(() => _currentDate2 = date);
+                                    events
+                                        .forEach((event) => print(event.title));
+
+                                    print(date);
+                                  },
+                                  showOnlyCurrentMonthDate: true,
+                                  selectedDayTextStyle: const TextStyle(
+                                    color: Colors.blue,
+                                  ),
+                                  selectedDayButtonColor: Colors.transparent,
+                                  weekendTextStyle: TextStyle(
+                                    color: Colors.black,
+                                  ),
+                                  thisMonthDayBorderColor: Colors.grey,
+
+                                  weekFormat: false,
+                                  todayButtonColor:
+                                      Colors.blue.withOpacity(0.5),
+                                  height: 420.0,
+                                  selectedDateTime: _currentDate2,
+                                  targetDateTime: _targetDateTime,
+                                  customGridViewPhysics:
+                                      NeverScrollableScrollPhysics(),
+                                  markedDateCustomShapeBorder: CircleBorder(
+                                      side: BorderSide(color: Colors.yellow)),
+
+                                  showHeader: false,
+
+                                  // minSelectedDate: _currentDate.subtract(Duration(days: 360)),
+                                  // maxSelectedDate: _currentDate.add(Duration(days: 360)),
+                                  prevDaysTextStyle: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.grey,
+                                  ),
+                                  // inactiveDaysTextStyle: TextStyle(
+                                  //   color: Colors.tealAccent,
+                                  //   fontSize: 16,
+                                  // ),
+                                  onCalendarChanged: (DateTime date) {
+                                    this.setState(() {
+                                      _targetDateTime = date;
+                                      _currentMonth = DateFormat.yMMM()
+                                          .format(_targetDateTime);
+                                    });
+                                  },
+                                );
+                                // _navigateAndDisplaySelection(context);
+                                showModalBottomSheet<void>(
+                                    isScrollControlled: true,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    // backgroundColor: Colors.transparent,
+                                    builder: (BuildContext context) {
+                                      return StatefulBuilder(
+                                        builder: (BuildContext context,
+                                                setState) =>
+                                            FractionallySizedBox(
+                                                heightFactor: 0.7,
+                                                child: Test()),
+                                      );
+                                    },
+                                    context: context);
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 8),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(4),
+                                    gradient: const LinearGradient(
+                                        begin: Alignment.topRight,
+                                        end: Alignment.bottomLeft,
+                                        colors: [button2color, button1color])),
+                                child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        // height: 20,
+                                        // width: 20,
+                                        child: SvgPicture.asset(
+                                          'assets/icons/home/Vector-4.svg',
+                                          height: 20,
+                                          width: 20,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Text(
+                                        S.current.schedule_an_order,
+                                        style: const TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w400,
+                                            color: Colors.white),
+                                      ),
+                                    ]),
+                              ),
                             ),
                           ],
                         ),
-                      )),
+                      ),
+                      const SizedBox(height: 21),
+                      Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 16),
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          height: 40,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(4),
+                              border:
+                                  Border.all(color: lighttextColor, width: 1)),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Flexible(
+                                    child: Text(storename,
+                                        maxLines: 1,
+                                        style: const TextStyle(
+                                            color: textColor,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w400))),
+                                Row(
+                                    // mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      const Text(
+                                        '(4.8)',
+                                        style: TextStyle(
+                                            color: textColor,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                      const SizedBox(width: 9),
+                                      RatingBarIndicator(
+                                          rating: 4.0,
+                                          unratedColor: Colors.grey,
+                                          itemCount: 5,
+                                          itemSize: 12,
+                                          itemBuilder: (BuildContext context,
+                                              int index) {
+                                            return const Icon(Icons.star,
+                                                color: Colors.amber);
+                                          }),
+                                    ])
+                              ])),
+                      const SizedBox(height: 30),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 28, right: 34),
+                        child: InkWell(
+                          onTap: () {
+                            HomeCubit()
+                                .postcart(
+                                    productID: product.id,
+                                    quantity: 1,
+                                    scheduler: scheduled,
+                                    time: am_pm)
+                                .then((value) => Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            AddToCart(id: product.shopId))));
+
+                            print('scaaaaaaaaaaaaaaaaaaaaaaader');
+
+                            print(scheduled);
+                            print(am_pm);
+                          },
+                          child: Container(
+                              height: 45,
+                              width: 366,
+                              decoration: const BoxDecoration(
+                                  gradient: LinearGradient(
+                                      begin: Alignment.topRight,
+                                      end: Alignment.bottomLeft,
+                                      colors: [button2color, button1color])),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 12, right: 12),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        SvgPicture.asset(
+                                          'assets/icons/home/cart_ic.svg',
+                                          height: 15.0,
+                                          width: 26.0,
+                                          // allowDrawingOutsideViewBox: true,
+                                        ),
+                                        // Container(
+                                        //     height: 15,
+                                        //     width: 26,
+                                        //     child: Image.asset(
+                                        //         'assets/icons/Vector-6.png')),
+                                        const SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text(
+                                          S.current.add_to_basket,
+                                          style: const TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.white),
+                                        ),
+                                      ],
+                                    ),
+                                    Text(
+                                      '${product.priceAfterDiscount} ${S.current.rs}',
+                                      style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.white),
+                                    ),
+                                  ],
+                                ),
+                              )),
+                        ),
+                      ),
+                      const SizedBox(height: 15),
+                      Divider(
+                        color: dividerColor,
+                        thickness: 1.5,
+                      ),
+                      Text(
+                        S.current.similar_items,
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: textColor),
+                      ),
+                      Divider(
+                        color: dividerColor,
+                        thickness: 1.5,
+                      ),
+                      ConditionalBuilder(
+                        condition:
+                            HomeCubit.get(context).suggestionHomeProductModel !=
+                                null,
+                        builder: (context) {
+                          return Padding(
+                            padding: const EdgeInsets.only(
+                                right: 5, left: 6, bottom: 5),
+                            child: Container(
+                                height: 100,
+                                child: ListView.separated(
+                                    scrollDirection: Axis.horizontal,
+                                    shrinkWrap: true,
+                                    itemBuilder: (context, index) => Stack(
+                                          children: [
+                                            Container(
+                                              width: 100,
+                                              height: 98,
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                child: Image.network(
+                                                  '${domainlink}${HomeCubit.get(context).suggestionHomeProductModel?.data![index].masterImage}',
+                                                  fit: BoxFit.fill,
+                                                ),
+                                              ),
+                                            ),
+                                            Align(
+                                              alignment: Alignment.bottomCenter,
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    bottom: 4, left: 30),
+                                                child: Container(
+                                                  // width: 63,
+                                                  // height: 20,
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.transparent
+                                                          .withOpacity(0.4),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10)),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Text(
+                                                        '${HomeCubit.get(context).suggestionHomeProductModel?.data![index].priceAfterDiscount} ${S.current.rs}',
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.white),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                    separatorBuilder: (context, index) =>
+                                        SizedBox(
+                                          width: 12,
+                                        ),
+                                    itemCount: HomeCubit.get(context)
+                                        .suggestionHomeProductModel!
+                                        .data!
+                                        .length)),
+                          );
+                        },
+                        fallback: (context) => Container(
+                          color: Colors.white,
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              color: button2color,
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
-              const SizedBox(height: 15),
-              const Padding(
-                padding: EdgeInsets.only(left: 24, right: 25.99),
-                child: Divider(),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+            );
+          },
+        ));
   }
 }

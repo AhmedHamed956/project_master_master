@@ -151,4 +151,7 @@
   "no_similar_results_found": "no similar results found",
   "please_choose_the_address_first": "Please choose the address first",
   "please_turn_on_the_gps_location_service_to_continue": "Please turn on the GPS location service, to continue"
+  "You_don't_have_orders":"You don't have orders"
+  "youdonthaveGiftCard":"You don't have Gift Card"
+
 }

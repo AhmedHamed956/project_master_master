@@ -7,12 +7,14 @@ import 'package:project/Models/orders_response.dart';
 
 import '../../../../generated/l10n.dart';
 import '../../../../test.dart';
+import '../../Home/Cubit.dart';
+import '../../Home/Home.dart';
 import '../../Shared/constant.dart';
 
 class OrderSchedule extends StatefulWidget {
   OrderModel? model;
-
-  OrderSchedule({this.model});
+  final int? index;
+  OrderSchedule({this.model, this.index});
 
   @override
   State<OrderSchedule> createState() => _OrderScheduleState();
@@ -115,19 +117,109 @@ class _OrderScheduleState extends State<OrderSchedule> {
                       ),
                     ),
                     const SizedBox(width: 13),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 8),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(4),
-                          color: cancelButtonColor),
-                      child: Center(
-                        child: Text(
-                          S.of(context).cancel,
-                          style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400),
+                    InkWell(
+                      onTap: () {
+                        showDialog<void>(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0),
+                              ),
+                              content: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'هل تريد إلغاء الطلب',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400,
+                                        color: textColor),
+                                  ),
+                                ],
+                              ),
+                              // content: const Text(
+                              //     'A dialog is a type of modal window that\n'
+                              //     'appears in front of app content to\n'
+                              //     'provide critical information, or prompt\n'
+                              //     'for a decision to be made.'),
+                              actions: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      InkWell(
+                                        child: Container(
+                                          child: const Center(
+                                            child: Text(
+                                              "نعم",
+                                              style: TextStyle(
+                                                  color: button2color),
+                                            ),
+                                          ),
+                                        ),
+                                        onTap: () {
+                                          HomeCubit().cancelOrder(
+                                            id: widget.model?.id,
+                                          );
+                                          setState(() {
+                                            // widget.model?.scheduler
+                                            //     ?.removeAt(widget.index);
+                                            // widget.model.
+                                            // widget.model.id
+                                            // OrderScreen();
+                                          });
+
+                                          Navigator.pop(context);
+                                          Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder:
+                                                      (BuildContext context) =>
+                                                          HomeScreen(
+                                                            index: 3,
+                                                            schadular: true,
+                                                          )));
+                                        },
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Container(
+                                          child: const Center(
+                                            child: Text(
+                                              "لا",
+                                              style: TextStyle(
+                                                  color: button2color),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            );
+                          },
+                        );
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 8),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(4),
+                            color: cancelButtonColor),
+                        child: Center(
+                          child: Text(
+                            S.of(context).cancel,
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400),
+                          ),
                         ),
                       ),
                     ),

@@ -349,10 +349,12 @@ class _MainScreenState extends State<MainScreen> {
                             fontWeight: FontWeight.w500,
                             color: textColor)),
                     RatingBarIndicator(
-                        rating:
-                            double.tryParse(model.commissionRate ?? '0.0') ??
-                                0.0,
-                        unratedColor: Colors.grey,
+                        rating: model.ratings!.isNotEmpty
+                            ? model.ratings?.first.averageRating ?? 0.0
+                            : 0.0,
+                        // double.tryParse(model.commissionRate ?? '0.0') ??
+                        //     0.0,
+                        unratedColor: Colors.grey.shade300,
                         itemCount: 5,
                         itemSize: 14,
                         itemBuilder: (BuildContext context, int index) {

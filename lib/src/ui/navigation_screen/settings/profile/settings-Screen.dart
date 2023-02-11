@@ -239,10 +239,11 @@ class _SettingScreenState extends State<SettingScreen> {
                   child: ingridentbutton(
                     text: S.of(context).delivery_mode,
                     function: () {
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const WebViewPage()));
+                      _launchURL();
+                      // Navigator.pushReplacement(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => const WebViewPage()));
 
                       // deliveryApp = true;
                       // CacheHelper.saveData(

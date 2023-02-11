@@ -36,6 +36,7 @@ class ShopData {
   String? commercialRegisterFile;
   String? createdAt;
   String? updatedAt;
+  List<Ratings>? ratings;
   CategoryData? categoryData;
 
   ShopData(
@@ -73,6 +74,7 @@ class ShopData {
       this.commercialRegisterFile,
       this.createdAt,
       this.updatedAt,
+      this.ratings,
       this.categoryData});
 
   ShopData.fromJson(Map<String, dynamic> json) {
@@ -111,6 +113,12 @@ class ShopData {
     commercialRegisterFile = json['commercial_register_file'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    if (json['ratings'] != null) {
+      ratings = <Ratings>[];
+      json['ratings'].forEach((v) {
+        ratings!.add(new Ratings.fromJson(v));
+      });
+    }
     categoryData = json['category_data'] != null
         ? new CategoryData.fromJson(json['category_data'])
         : null;
@@ -153,9 +161,31 @@ class ShopData {
     data['commercial_register_file'] = commercialRegisterFile;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
+    if (this.ratings != null) {
+      data['ratings'] = this.ratings!.map((v) => v.toJson()).toList();
+    }
     if (categoryData != null) {
       data['category_data'] = categoryData!.toJson();
     }
+    return data;
+  }
+}
+
+class Ratings {
+  int? shopId;
+  double? averageRating;
+
+  Ratings({this.shopId, this.averageRating});
+
+  Ratings.fromJson(Map<String, dynamic> json) {
+    shopId = json['shop_id'];
+    averageRating = json['average_rating'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['shop_id'] = this.shopId;
+    data['average_rating'] = this.averageRating;
     return data;
   }
 }
